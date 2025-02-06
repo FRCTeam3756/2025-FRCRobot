@@ -28,7 +28,8 @@ public class RobotContainer {
     private boolean turboActive = false;
 
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
-            .withDeadband(SwerveConstants.MAX_SPEED * (turboActive ? SwerveConstants.TURBO_DRIVE_MULTIPLIER : SwerveConstants.STANDARD_DRIVE_MULTIPLIER)).withRotationalDeadband(SwerveConstants.MAX_ANGULAR_RATE * ControllerConstants.DEADZONE)
+            .withDeadband(SwerveConstants.MAX_SPEED * (turboActive ? SwerveConstants.TURBO_DRIVE_MULTIPLIER : SwerveConstants.STANDARD_DRIVE_MULTIPLIER))
+            .withRotationalDeadband(SwerveConstants.MAX_ANGULAR_RATE * ControllerConstants.DEADZONE)
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
 
     public final SwerveSubsystem drivetrain = SwerveConstants.createDrivetrain();
@@ -51,11 +52,15 @@ public class RobotContainer {
     private void configureDrivetrain() {
         drivetrain.setDefaultCommand(
             drivetrain.applyRequest(() ->
-                drive.withVelocityX(joystick.getLeftY() * SwerveConstants.MAX_SPEED * (turboActive ? SwerveConstants.TURBO_DRIVE_MULTIPLIER : SwerveConstants.STANDARD_DRIVE_MULTIPLIER))
-                    .withVelocityY(-joystick.getLeftX() * SwerveConstants.MAX_SPEED * (turboActive ? SwerveConstants.TURBO_DRIVE_MULTIPLIER : SwerveConstants.STANDARD_DRIVE_MULTIPLIER))
+                drive.withVelocityX(calculateVelocity(joystick.getLeftY()))
+                    .withVelocityY(calculateVelocity(-joystick.getLeftX()))
                     .withRotationalRate(-joystick.getRightX() * SwerveConstants.MAX_ANGULAR_RATE)
             )
         );
+    }
+
+    private double calculateVelocity(double input) {
+        return input * SwerveConstants.MAX_SPEED * (turboActive ? SwerveConstants.TURBO_DRIVE_MULTIPLIER : SwerveConstants.STANDARD_DRIVE_MULTIPLIER);
     }
 
     private void configureButtonBindings() {
