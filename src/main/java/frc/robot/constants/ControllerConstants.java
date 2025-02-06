@@ -18,13 +18,12 @@ public class ControllerConstants {
     public static final Trigger climbDownButton = controller.povDown();
     public static final Trigger intakeButton = controller.rightBumper();
     public static final Trigger shootProcessorButton = controller.leftBumper();
-    public static final Trigger shootBargeButton = controller.leftStick();
     public static final Trigger shootCoralButton = controller.rightTrigger();
-    public static final Trigger ampButton = controller.leftTrigger();
+    public static final Trigger shootBargeButton = controller.leftTrigger();
     public static final Trigger autoIntakeButton = controller.a();
     public static final Trigger autoSpeakerButton = controller.b();
-    public static final Trigger autoClimbButton = controller.x();
     public static final Trigger autoAmpButton = controller.y();
+    public static final Trigger driveFieldCentricButton = controller.x();
     public static final Trigger driveTurboButton = controller.leftStick();
 
     public static final double DEADZONE = 0.05;

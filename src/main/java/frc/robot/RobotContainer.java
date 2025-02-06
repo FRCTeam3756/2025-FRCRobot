@@ -12,11 +12,12 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
-
-import frc.robot.subsystems.*;
-import frc.robot.constants.*;
-import frc.robot.commands.*;
+import frc.robot.commands.ClimbDown;
+import frc.robot.commands.ClimbUp;
+import frc.robot.constants.ControllerConstants;
+import frc.robot.constants.SwerveConstants;
+import frc.robot.subsystems.ClimbingSubsystem;
+import frc.robot.subsystems.SwerveSubsystem;
 
 public class RobotContainer {
     private final ClimbingSubsystem climbSubsystem = new ClimbingSubsystem();
@@ -24,7 +25,6 @@ public class RobotContainer {
     // private final AlgaeSubsystem algaeSubsystem = new AlgaeSubsystem();
     // private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
     private final CommandXboxController joystick = new CommandXboxController(ControllerConstants.DRIVER_CONTROLLER_PORT);
-    private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
     private boolean turboActive = false;
 
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
@@ -41,8 +41,14 @@ public class RobotContainer {
     public final Trigger elevatorUpButton = ControllerConstants.elevatorUpButton;
     public final Trigger elevatorDownButton = ControllerConstants.elevatorDownButton;
     public final Trigger driveTurboButton = ControllerConstants.driveTurboButton;
+    public final Trigger driveFieldCentricButton = ControllerConstants.driveFieldCentricButton;
 
     public RobotContainer() {
+        configureDrivetrain();
+        configureButtonBindings();
+    }
+
+    private void configureDrivetrain() {
         drivetrain.setDefaultCommand(
             drivetrain.applyRequest(() ->
                 drive.withVelocityX(joystick.getLeftY() * SwerveConstants.MAX_SPEED * (turboActive ? SwerveConstants.TURBO_DRIVE_MULTIPLIER : SwerveConstants.STANDARD_DRIVE_MULTIPLIER)) // Drive forward with negative Y (forward)
@@ -50,16 +56,10 @@ public class RobotContainer {
                     .withRotationalRate(-joystick.getRightX() * SwerveConstants.MAX_ANGULAR_RATE) // Drive counterclockwise with negative X (left)
             )
         );
+    }
 
-        
-        joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
-
-        joystick.back().and(joystick.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
-        joystick.back().and(joystick.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
-        joystick.start().and(joystick.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
-        joystick.start().and(joystick.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
-
-        joystick.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
+    private void configureButtonBindings() {
+        driveFieldCentricButton.onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
         
         // elevatorUpButton.whileTrue(new ElevatorUp(elevatorSubsystem));
         // elevatorDownButton.whileTrue(new ElevatorDown(elevatorSubsystem));
