@@ -26,9 +26,10 @@ public class RobotContainer {
     // private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
     private final CommandXboxController joystick = new CommandXboxController(ControllerConstants.DRIVER_CONTROLLER_PORT);
     private boolean turboActive = false;
+    private double currentSpeedMultiplier = (turboActive ? SwerveConstants.TURBO_DRIVE_MULTIPLIER : SwerveConstants.STANDARD_DRIVE_MULTIPLIER);
 
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
-            .withDeadband(SwerveConstants.MAX_SPEED * (turboActive ? SwerveConstants.TURBO_DRIVE_MULTIPLIER : SwerveConstants.STANDARD_DRIVE_MULTIPLIER))
+            .withDeadband(calculateVelocity(ControllerConstants.DEADZONE))
             .withRotationalDeadband(SwerveConstants.MAX_ANGULAR_RATE * ControllerConstants.DEADZONE)
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
 
@@ -60,7 +61,7 @@ public class RobotContainer {
     }
 
     private double calculateVelocity(double input) {
-        return input * SwerveConstants.MAX_SPEED * (turboActive ? SwerveConstants.TURBO_DRIVE_MULTIPLIER : SwerveConstants.STANDARD_DRIVE_MULTIPLIER);
+        return input * SwerveConstants.MAX_SPEED * currentSpeedMultiplier;
     }
 
     private void configureButtonBindings() {
