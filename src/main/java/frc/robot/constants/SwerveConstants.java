@@ -4,7 +4,6 @@
 
 package frc.robot.constants;
 
-import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
@@ -50,19 +49,19 @@ public class SwerveConstants {
     public static final double DRIVE_MODULE_KV = 0.124; // Velocity Gain
     public static final double DRIVE_MODULE_KA = 0.0;  // Acceleration Gain
 
-    private static final Slot0Configs steerGains = new Slot0Configs()
+    private static final Slot0Configs STEER_GAINS = new Slot0Configs()
         .withKP(STEER_MODULE_KP).withKI(STEER_MODULE_KI).withKD(STEER_MODULE_KD)
         .withKS(STEER_MODULE_KS).withKV(STEER_MODULE_KV).withKA(STEER_MODULE_KA);
         
-    private static final Slot0Configs driveGains = new Slot0Configs()
+    private static final Slot0Configs DRIVE_GAINS = new Slot0Configs()
         .withKP(DRIVE_MODULE_KP).withKI(DRIVE_MODULE_KI).withKD(DRIVE_MODULE_KD)
         .withKS(DRIVE_MODULE_KS).withKV(DRIVE_MODULE_KV).withKA(DRIVE_MODULE_KA);
         
     public static final double TURBO_DRIVE_MULTIPLIER = 0.5;
     public static final double STANDARD_DRIVE_MULTIPLIER = 0.25;
 
-    public static final LinearVelocity kSpeedAt12Volts = MetersPerSecond.of(4.73);
-    public static final double MAX_SPEED = SwerveConstants.kSpeedAt12Volts.in(MetersPerSecond);
+    public static final LinearVelocity SPEED_AT_12_VOLTS = MetersPerSecond.of(4.73);
+    public static final double MAX_SPEED = SwerveConstants.SPEED_AT_12_VOLTS.in(MetersPerSecond);
     public static final double MAX_ANGULAR_RATE = RotationsPerSecond.of(1).in(RadiansPerSecond);
 
     private static final ClosedLoopOutputType STEER_CLOSED_LOOP_OUTPUT = ClosedLoopOutputType.Voltage;
@@ -72,24 +71,22 @@ public class SwerveConstants {
     private static final SteerMotorArrangement STEER_MOTOR_TYPE = SteerMotorArrangement.TalonFX_Integrated;
 
     private static final SteerFeedbackType STEER_FEEDBACK_TYPE = SteerFeedbackType.FusedCANcoder;
-    private static final Current kSlipCurrent = Amps.of(120.0);
+    private static final Current SLIP_CURRENT = Amps.of(120.0);
     
-    private static final TalonFXConfiguration driveInitialConfigs = new TalonFXConfiguration();
-    private static final TalonFXConfiguration steerInitialConfigs = new TalonFXConfiguration()
+    private static final TalonFXConfiguration DRIVE_INITIAL_CONFIG = new TalonFXConfiguration();
+    private static final TalonFXConfiguration STEER_INITIAL_CONFIG = new TalonFXConfiguration()
         .withCurrentLimits(
             new CurrentLimitsConfigs()
                 .withStatorCurrentLimit(Amps.of(60))
                 .withStatorCurrentLimitEnable(true)
         );
-    private static final CANcoderConfiguration encoderInitialConfigs = new CANcoderConfiguration();
-
-    public static final CANBus kCANBus = new CANBus("", "./logs/example.hoot");
+    private static final CANcoderConfiguration ENCODER_INITIAL_CONFIG = new CANcoderConfiguration();
 
     private static final double COUPLE_RATIO = 3.5714285714285716;
     private static final double DRIVE_GEAR_RATIO = 6.746031746031747;
     private static final double STEER_GEAR_RATIO = 21.428571428571427;
 
-    private static final Distance kWheelRadius = Inches.of(2);
+    private static final Distance WHEEL_RADIUS = Inches.of(2);
 
     private static final boolean INVERT_LEFT = false;
     private static final boolean INVERT_RIGHT = true;
@@ -103,19 +100,19 @@ public class SwerveConstants {
             .withDriveMotorGearRatio(DRIVE_GEAR_RATIO)
             .withSteerMotorGearRatio(STEER_GEAR_RATIO)
             .withCouplingGearRatio(COUPLE_RATIO)
-            .withWheelRadius(kWheelRadius)
-            .withSteerMotorGains(steerGains)
-            .withDriveMotorGains(driveGains)
+            .withWheelRadius(WHEEL_RADIUS)
+            .withSteerMotorGains(STEER_GAINS)
+            .withDriveMotorGains(DRIVE_GAINS)
             .withSteerMotorClosedLoopOutput(STEER_CLOSED_LOOP_OUTPUT)
             .withDriveMotorClosedLoopOutput(DRIVE_CLOSED_LOOP_OUTPUT)
-            .withSlipCurrent(kSlipCurrent)
-            .withSpeedAt12Volts(kSpeedAt12Volts)
+            .withSlipCurrent(SLIP_CURRENT)
+            .withSpeedAt12Volts(SPEED_AT_12_VOLTS)
             .withDriveMotorType(DRIVE_MOTOR_TYPE)
             .withSteerMotorType(STEER_MOTOR_TYPE)
             .withFeedbackSource(STEER_FEEDBACK_TYPE)
-            .withDriveMotorInitialConfigs(driveInitialConfigs)
-            .withSteerMotorInitialConfigs(steerInitialConfigs)
-            .withEncoderInitialConfigs(encoderInitialConfigs);
+            .withDriveMotorInitialConfigs(DRIVE_INITIAL_CONFIG)
+            .withSteerMotorInitialConfigs(STEER_INITIAL_CONFIG)
+            .withEncoderInitialConfigs(ENCODER_INITIAL_CONFIG);
 
 
     // Front Left
