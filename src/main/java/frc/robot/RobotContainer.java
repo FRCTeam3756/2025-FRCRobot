@@ -51,9 +51,9 @@ public class RobotContainer {
     private void configureDrivetrain() {
         drivetrain.setDefaultCommand(
             drivetrain.applyRequest(() ->
-                drive.withVelocityX(joystick.getLeftY() * SwerveConstants.MAX_SPEED * (turboActive ? SwerveConstants.TURBO_DRIVE_MULTIPLIER : SwerveConstants.STANDARD_DRIVE_MULTIPLIER)) // Drive forward with negative Y (forward)
-                    .withVelocityY(-joystick.getLeftX() * SwerveConstants.MAX_SPEED * (turboActive ? SwerveConstants.TURBO_DRIVE_MULTIPLIER : SwerveConstants.STANDARD_DRIVE_MULTIPLIER)) // Drive left with negative X (left)
-                    .withRotationalRate(-joystick.getRightX() * SwerveConstants.MAX_ANGULAR_RATE) // Drive counterclockwise with negative X (left)
+                drive.withVelocityX(joystick.getLeftY() * SwerveConstants.MAX_SPEED * (turboActive ? SwerveConstants.TURBO_DRIVE_MULTIPLIER : SwerveConstants.STANDARD_DRIVE_MULTIPLIER))
+                    .withVelocityY(-joystick.getLeftX() * SwerveConstants.MAX_SPEED * (turboActive ? SwerveConstants.TURBO_DRIVE_MULTIPLIER : SwerveConstants.STANDARD_DRIVE_MULTIPLIER))
+                    .withRotationalRate(-joystick.getRightX() * SwerveConstants.MAX_ANGULAR_RATE)
             )
         );
     }
