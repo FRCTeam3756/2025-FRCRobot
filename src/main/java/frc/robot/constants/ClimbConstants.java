@@ -4,5 +4,6 @@ public class ClimbConstants {
     public static int LEFT_CAN_ID = 13;
     public static int RIGHT_CAN_ID = 14;
 
-    public static double CLIMB_SPEED = 0.05;
+    public static double RIGHT_ADDITIONAL_SPEED_PERCENTAGE = 1.14;
+    public static double CLIMB_SPEED = 0.65; //0.4
 }

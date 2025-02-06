@@ -66,12 +66,13 @@ public class RobotContainer {
     private void configureButtonBindings() {
         driveFieldCentricButton.onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
         
-        // elevatorUpButton.whileTrue(new ElevatorUp(elevatorSubsystem));
-        // elevatorDownButton.whileTrue(new ElevatorDown(elevatorSubsystem));
         driveTurboButton.whileTrue(new InstantCommand(() -> turboActive = true));
         driveTurboButton.onFalse(new InstantCommand(() -> turboActive = false));
         climbUpButton.whileTrue(new ClimbUp(climbSubsystem));
         climbDownButton.whileTrue(new ClimbDown(climbSubsystem));
+
+        // elevatorUpButton.whileTrue(new ElevatorUp(elevatorSubsystem));
+        // elevatorDownButton.whileTrue(new ElevatorDown(elevatorSubsystem));
         // intakeButton.whileTrue(new IntakeAlgae(algaeSubsystem));
         // shootProcessorButton.whileTrue(new ShootProcessor(algaeSubsystem));
         // shootBargeButton.whileTrue(new ShootBarge(algaeSubsystem));
