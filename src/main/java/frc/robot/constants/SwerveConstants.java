@@ -59,7 +59,7 @@ public class SwerveConstants {
         .withKS(DRIVE_MODULE_KS).withKV(DRIVE_MODULE_KV).withKA(DRIVE_MODULE_KA);
         
     public static final double TURBO_DRIVE_MULTIPLIER = 0.5;
-    public static final double STANDARD_DRIVE_MULTIPLIER = 0.2;
+    public static final double STANDARD_DRIVE_MULTIPLIER = 0.25;
 
     public static final LinearVelocity kSpeedAt12Volts = MetersPerSecond.of(4.73);
     public static final double MAX_SPEED = SwerveConstants.kSpeedAt12Volts.in(MetersPerSecond);
