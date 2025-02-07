@@ -35,19 +35,19 @@ import edu.wpi.first.units.measure.LinearVelocity;
 import frc.robot.subsystems.SwerveSubsystem;
 
 public class SwerveConstants {
-    public static final double STEER_MODULE_KP = 100; // Proportional Gain
-    public static final double STEER_MODULE_KI = 0.0; // Integral Gain
-    public static final double STEER_MODULE_KD = 0.5;  // Derivative Gain
-    public static final double STEER_MODULE_KS = 0.1; // Proportional Gain
-    public static final double STEER_MODULE_KV = 2.66; // Integral Gain
-    public static final double STEER_MODULE_KA = 0.0;  // Derivative Gain
+    public static final double STEER_MODULE_KP = 100;   // Proportional Gain
+    public static final double STEER_MODULE_KI = 0.0;   // Integral Gain
+    public static final double STEER_MODULE_KD = 0.5;   // Derivative Gain
+    public static final double STEER_MODULE_KS = 0.1;   // Proportional Gain
+    public static final double STEER_MODULE_KV = 2.66;  // Integral Gain
+    public static final double STEER_MODULE_KA = 0.0;   // Derivative Gain
 
-    public static final double DRIVE_MODULE_KP = 0.1; // Proportional Gain
-    public static final double DRIVE_MODULE_KI = 0.0; // Integral Gain
-    public static final double DRIVE_MODULE_KD = 0.0;  // Derivative Gain
-    public static final double DRIVE_MODULE_KS = 0.0; // Static Gain
+    public static final double DRIVE_MODULE_KP = 0.1;   // Proportional Gain
+    public static final double DRIVE_MODULE_KI = 0.0;   // Integral Gain
+    public static final double DRIVE_MODULE_KD = 0.0;   // Derivative Gain
+    public static final double DRIVE_MODULE_KS = 0.0;   // Static Gain
     public static final double DRIVE_MODULE_KV = 0.124; // Velocity Gain
-    public static final double DRIVE_MODULE_KA = 0.0;  // Acceleration Gain
+    public static final double DRIVE_MODULE_KA = 0.0;   // Acceleration Gain
 
     private static final Slot0Configs STEER_GAINS = new Slot0Configs()
         .withKP(STEER_MODULE_KP).withKI(STEER_MODULE_KI).withKD(STEER_MODULE_KD)
