@@ -12,10 +12,11 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.ClimbDown;
+
 import frc.robot.commands.ClimbUp;
-import frc.robot.constants.ControllerConstants;
+import frc.robot.commands.ClimbDown;
 import frc.robot.constants.SwerveConstants;
+import frc.robot.constants.ControllerConstants;
 import frc.robot.subsystems.ClimbingSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 
@@ -29,10 +30,10 @@ public class RobotContainer {
     private double currentSpeedMultiplier = (turboActive ? SwerveConstants.TURBO_DRIVE_MULTIPLIER : SwerveConstants.STANDARD_DRIVE_MULTIPLIER);
 
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
-            .withDeadband(calculateVelocity(ControllerConstants.DEADZONE))
-            .withRotationalDeadband(SwerveConstants.MAX_ANGULAR_RATE * ControllerConstants.DEADZONE)
+            .withDeadband(calculateDriveVelocity(ControllerConstants.DEADZONE))
+            .withRotationalDeadband(calculateAngularVelocity(ControllerConstants.DEADZONE))
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
-
+    
     private final SwerveSubsystem drivetrain = SwerveConstants.createDrivetrain();
     
     private final Trigger climbUpButton = ControllerConstants.climbUpButton;
@@ -54,15 +55,19 @@ public class RobotContainer {
         drivetrain.seedFieldCentric();
         drivetrain.setDefaultCommand(
             drivetrain.applyRequest(() ->
-                drive.withVelocityX(calculateVelocity(joystick.getLeftY()))
-                    .withVelocityY(calculateVelocity(-joystick.getLeftX()))
-                    .withRotationalRate(-joystick.getRightX() * SwerveConstants.MAX_ANGULAR_RATE)
+                drive.withVelocityX(calculateDriveVelocity(joystick.getLeftY()))
+                    .withVelocityY(calculateDriveVelocity(-joystick.getLeftX()))
+                    .withRotationalRate(calculateAngularVelocity(-joystick.getRightX()))
             )
         );
     }
 
-    private double calculateVelocity(double input) {
+    private double calculateDriveVelocity(double input) {
         return input * SwerveConstants.MAX_SPEED * currentSpeedMultiplier;
+    }
+
+    private double calculateAngularVelocity(double input) {
+        return input * SwerveConstants.MAX_ANGULAR_RATE;
     }
 
     private void configureButtonBindings() {
