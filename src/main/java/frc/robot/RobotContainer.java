@@ -28,22 +28,23 @@ public class RobotContainer {
     private boolean turboActive = false;
     private double currentSpeedMultiplier = (turboActive ? SwerveConstants.TURBO_DRIVE_MULTIPLIER : SwerveConstants.STANDARD_DRIVE_MULTIPLIER);
 
+    //TODO: Test Idea for fixing turning (test the gyro), switch FieldCentric to RobotCentric
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
             .withDeadband(calculateVelocity(ControllerConstants.DEADZONE))
             .withRotationalDeadband(SwerveConstants.MAX_ANGULAR_RATE * ControllerConstants.DEADZONE)
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
 
-    public final SwerveSubsystem drivetrain = SwerveConstants.createDrivetrain();
+    private final SwerveSubsystem drivetrain = SwerveConstants.createDrivetrain();
     
-    public final Trigger climbUpButton = ControllerConstants.climbUpButton;
-    public final Trigger climbDownButton = ControllerConstants.climbDownButton;
-    public final Trigger intakeButton = ControllerConstants.intakeButton;
-    public final Trigger shootProcessorButton = ControllerConstants.shootProcessorButton;
-    public final Trigger shootBargeButton = ControllerConstants.shootBargeButton;
-    public final Trigger elevatorUpButton = ControllerConstants.elevatorUpButton;
-    public final Trigger elevatorDownButton = ControllerConstants.elevatorDownButton;
-    public final Trigger driveTurboButton = ControllerConstants.driveTurboButton;
-    public final Trigger driveFieldCentricButton = ControllerConstants.driveFieldCentricButton;
+    private final Trigger climbUpButton = ControllerConstants.climbUpButton;
+    private final Trigger climbDownButton = ControllerConstants.climbDownButton;
+    // private final Trigger intakeButton = ControllerConstants.intakeButton;
+    // private final Trigger shootProcessorButton = ControllerConstants.shootProcessorButton;
+    // private final Trigger shootBargeButton = ControllerConstants.shootBargeButton;
+    // private final Trigger elevatorUpButton = ControllerConstants.elevatorUpButton;
+    // private final Trigger elevatorDownButton = ControllerConstants.elevatorDownButton;
+    private final Trigger driveTurboButton = ControllerConstants.driveTurboButton;
+    private final Trigger resetGyroButton = ControllerConstants.resetGyroButton;
 
     public RobotContainer() {
         configureDrivetrain();
@@ -51,6 +52,7 @@ public class RobotContainer {
     }
 
     private void configureDrivetrain() {
+        drivetrain.seedFieldCentric();
         drivetrain.setDefaultCommand(
             drivetrain.applyRequest(() ->
                 drive.withVelocityX(calculateVelocity(joystick.getLeftY()))
@@ -65,7 +67,7 @@ public class RobotContainer {
     }
 
     private void configureButtonBindings() {
-        driveFieldCentricButton.onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
+        resetGyroButton.onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
         
         driveTurboButton.whileTrue(new InstantCommand(() -> turboActive = true));
         driveTurboButton.onFalse(new InstantCommand(() -> turboActive = false));
