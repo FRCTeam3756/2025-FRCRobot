@@ -22,8 +22,8 @@ public class ControllerConstants {
     public static final Trigger shootBargeButton = controller.leftTrigger();
     public static final Trigger autoIntakeButton = controller.a();
     public static final Trigger autoSpeakerButton = controller.b();
-    public static final Trigger autoAmpButton = controller.y();
-    public static final Trigger resetGyroButton = controller.x();
+    public static final Trigger autoAmpButton = controller.x();
+    public static final Trigger resetGyroButton = controller.y();
     public static final Trigger driveTurboButton = controller.leftStick();
 
     public static final double DEADZONE = 0.05;

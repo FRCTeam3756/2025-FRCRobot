@@ -28,7 +28,6 @@ public class RobotContainer {
     private boolean turboActive = false;
     private double currentSpeedMultiplier = (turboActive ? SwerveConstants.TURBO_DRIVE_MULTIPLIER : SwerveConstants.STANDARD_DRIVE_MULTIPLIER);
 
-    //TODO: Test Idea for fixing turning (test the gyro), switch FieldCentric to RobotCentric
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
             .withDeadband(calculateVelocity(ControllerConstants.DEADZONE))
             .withRotationalDeadband(SwerveConstants.MAX_ANGULAR_RATE * ControllerConstants.DEADZONE)
