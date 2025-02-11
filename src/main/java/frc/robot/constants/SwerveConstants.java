@@ -70,7 +70,7 @@ public class SwerveConstants {
     private static final DriveMotorArrangement DRIVE_MOTOR_TYPE = DriveMotorArrangement.TalonFX_Integrated;
     private static final SteerMotorArrangement STEER_MOTOR_TYPE = SteerMotorArrangement.TalonFX_Integrated;
 
-    private static final SteerFeedbackType STEER_FEEDBACK_TYPE = SteerFeedbackType.FusedCANcoder;
+    private static final SteerFeedbackType STEER_FEEDBACK_TYPE = SteerFeedbackType.RemoteCANcoder;
     private static final Current SLIP_CURRENT = Amps.of(120.0);
     
     private static final TalonFXConfiguration DRIVE_INITIAL_CONFIG = new TalonFXConfiguration();
