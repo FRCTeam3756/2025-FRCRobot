@@ -13,18 +13,16 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
-import frc.robot.commands.ClimbUp;
-import frc.robot.commands.ClimbDown;
-import frc.robot.constants.SwerveConstants;
-import frc.robot.constants.ControllerConstants;
-import frc.robot.subsystems.ClimbingSubsystem;
-import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.commands.*;
+import frc.robot.constants.*;
+import frc.robot.subsystems.*;
 
 public class RobotContainer {
-    private final ClimbingSubsystem climbSubsystem = new ClimbingSubsystem();
     // private final CoralSubsystem coralSubsystem = new CoralSubsystem();
     // private final AlgaeSubsystem algaeSubsystem = new AlgaeSubsystem();
-    // private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
+
+    private final ClimbingSubsystem climbSubsystem = new ClimbingSubsystem();
+    private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
     private final CommandXboxController joystick = new CommandXboxController(ControllerConstants.DRIVER_CONTROLLER_PORT);
     private boolean turboActive = false;
     private double currentSpeedMultiplier = (turboActive ? SwerveConstants.TURBO_DRIVE_MULTIPLIER : SwerveConstants.STANDARD_DRIVE_MULTIPLIER);
@@ -36,13 +34,13 @@ public class RobotContainer {
     
     private final SwerveSubsystem drivetrain = SwerveConstants.createDrivetrain();
     
-    private final Trigger climbUpButton = ControllerConstants.climbUpButton;
-    private final Trigger climbDownButton = ControllerConstants.climbDownButton;
     // private final Trigger intakeButton = ControllerConstants.intakeButton;
     // private final Trigger shootProcessorButton = ControllerConstants.shootProcessorButton;
     // private final Trigger shootBargeButton = ControllerConstants.shootBargeButton;
-    // private final Trigger elevatorUpButton = ControllerConstants.elevatorUpButton;
-    // private final Trigger elevatorDownButton = ControllerConstants.elevatorDownButton;
+    private final Trigger climbUpButton = ControllerConstants.climbUpButton;
+    private final Trigger climbDownButton = ControllerConstants.climbDownButton;
+    private final Trigger elevatorUpButton = ControllerConstants.elevatorUpButton;
+    private final Trigger elevatorDownButton = ControllerConstants.elevatorDownButton;
     private final Trigger driveTurboButton = ControllerConstants.driveTurboButton;
     private final Trigger resetGyroButton = ControllerConstants.resetGyroButton;
 
@@ -78,8 +76,8 @@ public class RobotContainer {
         climbUpButton.whileTrue(new ClimbUp(climbSubsystem));
         climbDownButton.whileTrue(new ClimbDown(climbSubsystem));
 
-        // elevatorUpButton.whileTrue(new ElevatorUp(elevatorSubsystem));
-        // elevatorDownButton.whileTrue(new ElevatorDown(elevatorSubsystem));
+        elevatorUpButton.whileTrue(new ElevatorUp(elevatorSubsystem));
+        elevatorDownButton.whileTrue(new ElevatorDown(elevatorSubsystem));
         // intakeButton.whileTrue(new IntakeAlgae(algaeSubsystem));
         // shootProcessorButton.whileTrue(new ShootProcessor(algaeSubsystem));
         // shootBargeButton.whileTrue(new ShootBarge(algaeSubsystem));
