@@ -20,7 +20,7 @@ import com.ctre.phoenix6.swerve.SwerveModuleConstantsFactory;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.numbers.*;
 import edu.wpi.first.units.measure.*;
-import static edu.wpi.first.units.Units.*;
+import edu.wpi.first.units.Units;
 
 public class SwerveConstants {
     public static final double STEER_MODULE_KP = 100;   // Proportional Gain
@@ -48,9 +48,9 @@ public class SwerveConstants {
     public static final double TURBO_DRIVE_MULTIPLIER = 0.5;
     public static final double STANDARD_DRIVE_MULTIPLIER = 0.25;
 
-    public static final LinearVelocity SPEED_AT_12_VOLTS = MetersPerSecond.of(4.73);
-    public static final double MAX_SPEED = SwerveConstants.SPEED_AT_12_VOLTS.in(MetersPerSecond);
-    public static final double MAX_ANGULAR_RATE = RotationsPerSecond.of(1).in(RadiansPerSecond);
+    public static final LinearVelocity SPEED_AT_12_VOLTS = Units.MetersPerSecond.of(4.73);
+    public static final double MAX_SPEED = SwerveConstants.SPEED_AT_12_VOLTS.in(Units.MetersPerSecond);
+    public static final double MAX_ANGULAR_RATE = Units.RotationsPerSecond.of(1).in(Units.RadiansPerSecond);
 
     private static final SwerveModuleConstants.ClosedLoopOutputType STEER_CLOSED_LOOP_OUTPUT = SwerveModuleConstants.ClosedLoopOutputType.Voltage;
     private static final SwerveModuleConstants.ClosedLoopOutputType DRIVE_CLOSED_LOOP_OUTPUT = SwerveModuleConstants.ClosedLoopOutputType.Voltage;
@@ -59,13 +59,13 @@ public class SwerveConstants {
     private static final SwerveModuleConstants.SteerMotorArrangement STEER_MOTOR_TYPE = SwerveModuleConstants.SteerMotorArrangement.TalonFX_Integrated;
 
     private static final SwerveModuleConstants.SteerFeedbackType STEER_FEEDBACK_TYPE = SwerveModuleConstants.SteerFeedbackType.RemoteCANcoder;
-    private static final Current SLIP_CURRENT = Amps.of(120.0);
+    private static final Current SLIP_CURRENT = Units.Amps.of(120.0);
     
     private static final TalonFXConfiguration DRIVE_INITIAL_CONFIG = new TalonFXConfiguration();
     private static final TalonFXConfiguration STEER_INITIAL_CONFIG = new TalonFXConfiguration()
         .withCurrentLimits(
             new CurrentLimitsConfigs()
-                .withStatorCurrentLimit(Amps.of(40))
+                .withStatorCurrentLimit(Units.Amps.of(40))
                 .withStatorCurrentLimitEnable(true)
         );
     private static final CANcoderConfiguration ENCODER_INITIAL_CONFIG = new CANcoderConfiguration();
@@ -74,7 +74,7 @@ public class SwerveConstants {
     private static final double DRIVE_GEAR_RATIO = 6.75;
     private static final double STEER_GEAR_RATIO = 150 / 7;
 
-    private static final Distance WHEEL_RADIUS = Inches.of(2);
+    private static final Distance WHEEL_RADIUS = Units.Inches.of(2);
 
     private static final boolean INVERT_LEFT = false;
     private static final boolean INVERT_RIGHT = true;
@@ -107,45 +107,45 @@ public class SwerveConstants {
     private static final int FL_DRIVE_ID = 1;
     private static final int FL_STEER_ID = 5;
     private static final int FL_CANCODER_ID = 9;
-    private static final Angle FL_OFFSET_RADIANS = Rotations.of(-0.15234375);
+    private static final Angle FL_OFFSET_RADIANS = Units.Rotations.of(-0.15234375);
     private static final boolean FL_STEER_MOTOR_REVERSED = false;
     private static final boolean FL_CANCODER_REVERSED = true;
 
-    private static final Distance FL_X_POSITION = Inches.of(11.5);
-    private static final Distance FL_Y_POSITION = Inches.of(11.5);
+    private static final Distance FL_X_POSITION = Units.Inches.of(11.5);
+    private static final Distance FL_Y_POSITION = Units.Inches.of(11.5);
 
     // Front Right
     private static final int FR_DRIVE_ID = 2;
     private static final int FR_STEER_ID = 6;
     private static final int FR_CANCODER_ID = 10;
-    private static final Angle FR_OFFSET_RADIANS = Rotations.of(0.282958984375);
+    private static final Angle FR_OFFSET_RADIANS = Units.Rotations.of(0.282958984375);
     private static final boolean FR_STEER_MOTOR_REVERSED = false;
     private static final boolean FR_CANCODER_REVERSED = true;
 
-    private static final Distance FR_X_POSITION = Inches.of(11.5);
-    private static final Distance FR_Y_POSITION = Inches.of(-11.5);
+    private static final Distance FR_X_POSITION = Units.Inches.of(11.5);
+    private static final Distance FR_Y_POSITION = Units.Inches.of(-11.5);
 
     // Back Left
     private static final int BL_DRIVE_ID = 3;
     private static final int BL_STEER_ID = 7;
     private static final int BL_CANCODER_ID = 11;
-    private static final Angle BL_OFFSET_RADIANS = Rotations.of(-0.18017578125);
+    private static final Angle BL_OFFSET_RADIANS = Units.Rotations.of(-0.18017578125);
     private static final boolean BL_STEER_MOTOR_REVERSED = false;
     private static final boolean BL_CANCODER_REVERSED = true;
 
-    private static final Distance BL_X_POSITION = Inches.of(-11.5);
-    private static final Distance BL_Y_POSITION = Inches.of(11.5);
+    private static final Distance BL_X_POSITION = Units.Inches.of(-11.5);
+    private static final Distance BL_Y_POSITION = Units.Inches.of(11.5);
 
     // Back Right
     private static final int BR_DRIVE_ID = 4;
     private static final int BR_STEER_ID = 8;
     private static final int BR_CANCODER_ID = 12;
-    private static final Angle BR_OFFSET_RADIANS = Rotations.of(0.021240234375);
+    private static final Angle BR_OFFSET_RADIANS = Units.Rotations.of(0.021240234375);
     private static final boolean BR_STEER_MOTOR_REVERSED = false;
     private static final boolean BR_CANCODER_REVERSED = true;
 
-    private static final Distance BR_X_POSITION = Inches.of(-11.5);
-    private static final Distance BR_Y_POSITION = Inches.of(-11.5);
+    private static final Distance BR_X_POSITION = Units.Inches.of(-11.5);
+    private static final Distance BR_Y_POSITION = Units.Inches.of(-11.5);
 
 
     public static final SwerveModuleConstants<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration> FL_SWERVE_MODULE =
