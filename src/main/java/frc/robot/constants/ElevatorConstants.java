@@ -3,7 +3,9 @@ package frc.robot.constants;
 import java.util.Map;
 
 public class ElevatorConstants {
-    public static final double DEFAULT_ELEVATOR_SPEED = Integer.MAX_VALUE;
+    public static final int ELEVATOR_CAN_ID = 0;
+
+    public static final double ELEVATOR_SPEED = Integer.MAX_VALUE;
 
     public static final Map<Integer, Double> CORAL_SHOOT_HEIGHTS = Map.ofEntries(
         Map.entry(1, 0.0),      //TODO: Change numbers
