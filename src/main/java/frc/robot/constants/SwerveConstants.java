@@ -83,8 +83,8 @@ public class SwerveConstants {
     private static final CANcoderConfiguration ENCODER_INITIAL_CONFIG = new CANcoderConfiguration();
 
     private static final double COUPLE_RATIO = 3.5714285714285716;
-    private static final double DRIVE_GEAR_RATIO = 6.746031746031747;
-    private static final double STEER_GEAR_RATIO = 21.428571428571427;
+    private static final double DRIVE_GEAR_RATIO = 6.75;
+    private static final double STEER_GEAR_RATIO = 150 / 7;
 
     private static final Distance WHEEL_RADIUS = Inches.of(2);
 
