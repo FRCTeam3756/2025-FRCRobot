@@ -77,7 +77,7 @@ public class SwerveConstants {
     private static final TalonFXConfiguration STEER_INITIAL_CONFIG = new TalonFXConfiguration()
         .withCurrentLimits(
             new CurrentLimitsConfigs()
-                .withStatorCurrentLimit(Amps.of(60))
+                .withStatorCurrentLimit(Amps.of(40))
                 .withStatorCurrentLimitEnable(true)
         );
     private static final CANcoderConfiguration ENCODER_INITIAL_CONFIG = new CANcoderConfiguration();
