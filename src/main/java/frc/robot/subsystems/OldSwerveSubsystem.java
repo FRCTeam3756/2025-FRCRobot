@@ -21,7 +21,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 
 import frc.robot.constants.SwerveConstants.TunerSwerveDrivetrain;;
 
-public class SwerveSubsystem extends TunerSwerveDrivetrain implements Subsystem {
+public class OldSwerveSubsystem extends TunerSwerveDrivetrain implements Subsystem {
     private static final Rotation2d kBlueAlliancePerspectiveRotation = Rotation2d.kZero;
     private static final Rotation2d kRedAlliancePerspectiveRotation = Rotation2d.k180deg;
     private boolean hasAppliedOperatorPerspective = false;
@@ -47,20 +47,20 @@ public class SwerveSubsystem extends TunerSwerveDrivetrain implements Subsystem 
     
     private SysIdRoutine sysIdRoutineToApply = sysIdRoutineTranslation;
 
-    public SwerveSubsystem(
+    public OldSwerveSubsystem(
         SwerveDrivetrainConstants drivetrainConstants,
         SwerveModuleConstants<?, ?, ?>... modules) {
         super(drivetrainConstants, modules);
     }
 
-    public SwerveSubsystem(
+    public OldSwerveSubsystem(
         SwerveDrivetrainConstants drivetrainConstants,
         double odometryUpdateFrequency,
         SwerveModuleConstants<?, ?, ?>... modules) {
         super(drivetrainConstants, odometryUpdateFrequency, modules);
     }
 
-    public SwerveSubsystem(
+    public OldSwerveSubsystem(
         SwerveDrivetrainConstants drivetrainConstants,
         double odometryUpdateFrequency,
         Matrix<N3, N1> odometryStandardDeviation,

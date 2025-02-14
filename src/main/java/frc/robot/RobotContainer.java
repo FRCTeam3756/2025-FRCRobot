@@ -10,42 +10,15 @@ import frc.robot.constants.TunerConstants;
 import frc.robot.swerve.*;
 
 public class RobotContainer {
-  private final Drive drive;
+  private final Drive drive = new Drive(
+    new GyroIOPigeon2(),
+    new ModuleIOTalonFX(TunerConstants.FrontLeft),
+    new ModuleIOTalonFX(TunerConstants.FrontRight),
+    new ModuleIOTalonFX(TunerConstants.BackLeft),
+    new ModuleIOTalonFX(TunerConstants.BackRight));
   private final CommandXboxController controller = new CommandXboxController(0);
 
   public RobotContainer() {
-    switch (Constants.currentMode) {
-      case REAL:
-        drive =
-            new Drive(
-                new GyroIOPigeon2(),
-                new ModuleIOTalonFX(TunerConstants.FrontLeft),
-                new ModuleIOTalonFX(TunerConstants.FrontRight),
-                new ModuleIOTalonFX(TunerConstants.BackLeft),
-                new ModuleIOTalonFX(TunerConstants.BackRight));
-        break;
-
-      case SIM:
-        drive =
-            new Drive(
-                new GyroIO() {},
-                new ModuleIOSim(TunerConstants.FrontLeft),
-                new ModuleIOSim(TunerConstants.FrontRight),
-                new ModuleIOSim(TunerConstants.BackLeft),
-                new ModuleIOSim(TunerConstants.BackRight));
-        break;
-
-      default:
-        drive =
-            new Drive(
-                new GyroIO() {},
-                new ModuleIO() {},
-                new ModuleIO() {},
-                new ModuleIO() {},
-                new ModuleIO() {});
-        break;
-    }
-
     configureButtonBindings();
   }
 

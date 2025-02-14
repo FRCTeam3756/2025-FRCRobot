@@ -4,7 +4,7 @@
 
 package frc.robot.constants;
 
-import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.subsystems.OldSwerveSubsystem;
 
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
@@ -169,8 +169,8 @@ public class SwerveConstants {
             BR_X_POSITION, BR_Y_POSITION, INVERT_RIGHT, BR_STEER_MOTOR_REVERSED, BR_CANCODER_REVERSED
         );
 
-    public static SwerveSubsystem createDrivetrain() {
-        return new SwerveSubsystem(
+    public static OldSwerveSubsystem createDrivetrain() {
+        return new OldSwerveSubsystem(
             DrivetrainConstants, FL_SWERVE_MODULE, FR_SWERVE_MODULE, BL_SWERVE_MODULE, BR_SWERVE_MODULE
         );
     }

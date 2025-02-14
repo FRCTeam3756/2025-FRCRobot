@@ -19,8 +19,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 
-/** Represents a single swerve module.*/
-public class SwerveModule {
+public class OldSwerveModule {
     private final TalonFX driveMotor;
     private final TalonFX steerMotor;
     private final CANcoder absoluteEncoder;
@@ -31,7 +30,7 @@ public class SwerveModule {
 
     private PIDController pidController;
 
-    public SwerveModule(
+    public OldSwerveModule(
         int steerCanID, int driveCanID, int cancoderID, double motorOffsetRadians,
         boolean cancoderReversed, boolean motorReversed) {
         this.driveMotor = new TalonFX(driveCanID);

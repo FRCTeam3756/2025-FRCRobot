@@ -26,9 +26,7 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void disabledInit() {
-    // robotContainer.setNeutralMode(true);
-  }
+  public void disabledInit() {}
 
   @Override
   public void disabledPeriodic() {}
@@ -39,7 +37,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     autonomousCommand = robotContainer.getAutonomousCommand();
-    // robotContainer.setNeutralMode(false);
+    
     if (autonomousCommand != null) {
       autonomousCommand.schedule();
     }
@@ -53,7 +51,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    // robotContainer.setNeutralMode(false);
     if (autonomousCommand != null) {
       autonomousCommand.cancel();
     }
