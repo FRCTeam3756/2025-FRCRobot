@@ -1,89 +1,74 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot;
 
-import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
-import com.ctre.phoenix6.swerve.SwerveRequest;
-
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
-
-import frc.robot.commands.*;
-import frc.robot.constants.*;
-import frc.robot.subsystems.*;
+import frc.robot.commands.DriveCommands;
+import frc.robot.constants.TunerConstants;
+import frc.robot.swerve.*;
 
 public class RobotContainer {
-    // private final CoralSubsystem coralSubsystem = new CoralSubsystem();
-    // private final AlgaeSubsystem algaeSubsystem = new AlgaeSubsystem();
+  private final Drive drive;
+  private final CommandXboxController controller = new CommandXboxController(0);
 
-    private final ClimbingSubsystem climbSubsystem = new ClimbingSubsystem();
-    private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
-    private final CommandXboxController joystick = new CommandXboxController(ControllerConstants.DRIVER_CONTROLLER_PORT);
-    private boolean turboActive = false;
-    private double currentSpeedMultiplier = (turboActive ? SwerveConstants.TURBO_DRIVE_MULTIPLIER : SwerveConstants.STANDARD_DRIVE_MULTIPLIER);
+  public RobotContainer() {
+    switch (Constants.currentMode) {
+      case REAL:
+        drive =
+            new Drive(
+                new GyroIOPigeon2(),
+                new ModuleIOTalonFX(TunerConstants.FrontLeft),
+                new ModuleIOTalonFX(TunerConstants.FrontRight),
+                new ModuleIOTalonFX(TunerConstants.BackLeft),
+                new ModuleIOTalonFX(TunerConstants.BackRight));
+        break;
 
-    private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
-            .withDeadband(calculateDriveVelocity(ControllerConstants.DEADZONE))
-            .withRotationalDeadband(calculateAngularVelocity(ControllerConstants.DEADZONE))
-            .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
-    
-    private final SwerveSubsystem drivetrain = SwerveConstants.createDrivetrain();
-    
-    // private final Trigger intakeButton = ControllerConstants.intakeButton;
-    // private final Trigger shootProcessorButton = ControllerConstants.shootProcessorButton;
-    // private final Trigger shootBargeButton = ControllerConstants.shootBargeButton;
-    private final Trigger climbUpButton = ControllerConstants.climbUpButton;
-    private final Trigger climbDownButton = ControllerConstants.climbDownButton;
-    private final Trigger elevatorUpButton = ControllerConstants.elevatorUpButton;
-    private final Trigger elevatorDownButton = ControllerConstants.elevatorDownButton;
-    private final Trigger driveTurboButton = ControllerConstants.driveTurboButton;
-    private final Trigger resetGyroButton = ControllerConstants.resetGyroButton;
+      case SIM:
+        drive =
+            new Drive(
+                new GyroIO() {},
+                new ModuleIOSim(TunerConstants.FrontLeft),
+                new ModuleIOSim(TunerConstants.FrontRight),
+                new ModuleIOSim(TunerConstants.BackLeft),
+                new ModuleIOSim(TunerConstants.BackRight));
+        break;
 
-    public RobotContainer() {
-        configureDrivetrain();
-        configureButtonBindings();
+      default:
+        drive =
+            new Drive(
+                new GyroIO() {},
+                new ModuleIO() {},
+                new ModuleIO() {},
+                new ModuleIO() {},
+                new ModuleIO() {});
+        break;
     }
 
-    private void configureDrivetrain() {
-        drivetrain.seedFieldCentric();
-        drivetrain.setDefaultCommand(
-            drivetrain.applyRequest(() ->
-                drive.withVelocityX(calculateDriveVelocity(joystick.getLeftY()))
-                    .withVelocityY(calculateDriveVelocity(-joystick.getLeftX()))
-                    .withRotationalRate(calculateAngularVelocity(-joystick.getRightX()))
-            )
-        );
-    }
+    configureButtonBindings();
+  }
 
-    private double calculateDriveVelocity(double input) {
-        return input * SwerveConstants.MAX_SPEED * currentSpeedMultiplier;
-    }
+  private void configureButtonBindings() {
+    drive.setDefaultCommand(
+        DriveCommands.joystickDrive(
+            drive,
+            () -> -controller.getLeftY(),
+            () -> -controller.getLeftX(),
+            () -> -controller.getRightX()));
 
-    private double calculateAngularVelocity(double input) {
-        return input * SwerveConstants.MAX_ANGULAR_RATE;
-    }
+    controller
+        .b()
+        .onTrue(
+            Commands.runOnce(
+                    () ->
+                        drive.setPose(
+                            new Pose2d(drive.getPose().getTranslation(), new Rotation2d())),
+                    drive)
+                .ignoringDisable(true));
+  }
 
-    private void configureButtonBindings() {
-        resetGyroButton.onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
-        
-        driveTurboButton.whileTrue(new InstantCommand(() -> turboActive = true));
-        driveTurboButton.onFalse(new InstantCommand(() -> turboActive = false));
-        climbUpButton.whileTrue(new ClimbUp(climbSubsystem));
-        climbDownButton.whileTrue(new ClimbDown(climbSubsystem));
-
-        elevatorUpButton.whileTrue(new ElevatorUp(elevatorSubsystem));
-        elevatorDownButton.whileTrue(new ElevatorDown(elevatorSubsystem));
-        // intakeButton.whileTrue(new IntakeAlgae(algaeSubsystem));
-        // shootProcessorButton.whileTrue(new ShootProcessor(algaeSubsystem));
-        // shootBargeButton.whileTrue(new ShootBarge(algaeSubsystem));
-    }
-
-    public Command getAutonomousCommand() {
-        return Commands.print("No autonomous command configured");
-    }
+  public Command getAutonomousCommand() {
+    return null;
+  }
 }
