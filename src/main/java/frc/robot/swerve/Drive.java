@@ -34,7 +34,6 @@ public class Drive extends SubsystemBase {
               Math.hypot(SwerveConstants.BR_SWERVE_MODULE.LocationX, SwerveConstants.BR_SWERVE_MODULE.LocationY)));
 
   static final Lock odometryLock = new ReentrantLock();
-  private final GyroIO gyroIO;
   private final GyroIOInputsAutoLogged gyroInputs = new GyroIOInputsAutoLogged();
   private final Module[] modules = new Module[4];
 
@@ -51,7 +50,6 @@ public class Drive extends SubsystemBase {
       new SwerveDrivePoseEstimator(kinematics, rawGyroRotation, lastModulePositions, new Pose2d());
 
   public Drive() {
-    this.gyroIO = new GyroIOPigeon2();
     modules[0] = new Module(new ModuleIOTalonFX(SwerveConstants.FL_SWERVE_MODULE), 0, SwerveConstants.FL_SWERVE_MODULE);
     modules[1] = new Module(new ModuleIOTalonFX(SwerveConstants.FR_SWERVE_MODULE), 1, SwerveConstants.FR_SWERVE_MODULE);
     modules[2] = new Module(new ModuleIOTalonFX(SwerveConstants.BL_SWERVE_MODULE), 2, SwerveConstants.BL_SWERVE_MODULE);
@@ -65,7 +63,6 @@ public class Drive extends SubsystemBase {
   @Override
   public void periodic() {
     odometryLock.lock();
-    gyroIO.updateInputs(gyroInputs);
 
     for (var module : modules) {
       module.periodic();
@@ -93,12 +90,7 @@ public class Drive extends SubsystemBase {
         lastModulePositions[moduleIndex] = modulePositions[moduleIndex];
       }
 
-      if (gyroInputs.connected) {
-        rawGyroRotation = gyroInputs.odometryYawPositions[i];
-      } else {
-        Twist2d twist = kinematics.toTwist2d(moduleDeltas);
-        rawGyroRotation = rawGyroRotation.plus(new Rotation2d(twist.dtheta));
-      }
+      rawGyroRotation = gyroInputs.odometryYawPositions[i];
 
       poseEstimator.updateWithTime(sampleTimestamps[i], rawGyroRotation, modulePositions);
     }
