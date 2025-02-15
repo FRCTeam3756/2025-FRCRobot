@@ -16,17 +16,13 @@ import edu.wpi.first.wpilibj2.command.*;
 public class RobotContainer {
   // private final CoralSubsystem coralSubsystem = new CoralSubsystem();
   // private final AlgaeSubsystem algaeSubsystem = new AlgaeSubsystem();
+  // private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
 
   private final ClimbingSubsystem climbSubsystem = new ClimbingSubsystem();
-  private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
 
   private final Drive drive = new Drive();
   
   private boolean turboActive = false;
-  private double currentSpeedMultiplier = (turboActive ? SwerveConstants.TURBO_DRIVE_MULTIPLIER : SwerveConstants.STANDARD_DRIVE_MULTIPLIER);
-
-  
-  // private final Trigger intakeButton = ControllerConstants.intakeButton;
 
   public RobotContainer() {
     configureButtonBindings();
@@ -34,11 +30,11 @@ public class RobotContainer {
 
   private void configureButtonBindings() {
     drive.setDefaultCommand(
-        DriveCommands.joystickDrive(
+        Controller.joystickDrive(
             drive,
-            () -> -Controller.controller.getLeftY() * currentSpeedMultiplier,
-            () -> -Controller.controller.getLeftX() * currentSpeedMultiplier,
-            () -> -Controller.controller.getRightX() * currentSpeedMultiplier));
+            () -> -Controller.controller.getLeftY() * getCurrentSpeedMultiplier(),
+            () -> -Controller.controller.getLeftX() * getCurrentSpeedMultiplier(),
+            () -> -Controller.controller.getRightX() * getCurrentSpeedMultiplier()));
 
     Controller.controller
         .b()
@@ -50,16 +46,24 @@ public class RobotContainer {
                     drive)
                 .ignoringDisable(true));
     
-                Controller.driveTurboButton.whileTrue(new InstantCommand(() -> turboActive = true));
-    Controller.driveTurboButton.onFalse(new InstantCommand(() -> turboActive = false));
+    Controller.driveTurboButton.whileTrue(new InstantCommand(() -> setTurboActive(true)));
+    Controller.driveTurboButton.onFalse(new InstantCommand(() -> setTurboActive(false)));
     Controller.climbUpButton.whileTrue(new ClimbUp(climbSubsystem));
     Controller.climbDownButton.whileTrue(new ClimbDown(climbSubsystem));
 
-    Controller.elevatorUpButton.whileTrue(new ElevatorUp(elevatorSubsystem));
-    Controller.elevatorDownButton.whileTrue(new ElevatorDown(elevatorSubsystem));
+    // Controller.elevatorUpButton.whileTrue(new ElevatorUp(elevatorSubsystem));
+    // Controller.elevatorDownButton.whileTrue(new ElevatorDown(elevatorSubsystem));
     // Controller.intakeButton.whileTrue(new IntakeAlgae(algaeSubsystem));
     // Controller.shootProcessorButton.whileTrue(new ShootProcessor(algaeSubsystem));
     // Controller.shootBargeButton.whileTrue(new ShootBarge(algaeSubsystem));
+  }
+
+  private double getCurrentSpeedMultiplier() {
+    return turboActive ? SwerveConstants.TURBO_DRIVE_MULTIPLIER : SwerveConstants.STANDARD_DRIVE_MULTIPLIER;
+  }
+
+  private void setTurboActive(boolean isActive) {
+    turboActive = isActive;
   }
 
   public Command getAutonomousCommand() {
