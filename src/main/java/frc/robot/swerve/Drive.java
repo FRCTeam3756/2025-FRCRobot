@@ -5,9 +5,6 @@
 package frc.robot.swerve;
 
 import com.ctre.phoenix6.CANBus;
-import edu.wpi.first.hal.FRCNetComm.tInstances;
-import edu.wpi.first.hal.FRCNetComm.tResourceType;
-import edu.wpi.first.hal.HAL;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.*;
@@ -54,8 +51,6 @@ public class Drive extends SubsystemBase {
     modules[1] = new Module(new ModuleIOTalonFX(SwerveConstants.FR_SWERVE_MODULE), 1, SwerveConstants.FR_SWERVE_MODULE);
     modules[2] = new Module(new ModuleIOTalonFX(SwerveConstants.BL_SWERVE_MODULE), 2, SwerveConstants.BL_SWERVE_MODULE);
     modules[3] = new Module(new ModuleIOTalonFX(SwerveConstants.BR_SWERVE_MODULE), 3, SwerveConstants.BR_SWERVE_MODULE);
-
-    HAL.report(tResourceType.kResourceType_RobotDrive, tInstances.kRobotDriveSwerve_AdvantageKit);
 
     PhoenixOdometryThread.getInstance().start();
   }
