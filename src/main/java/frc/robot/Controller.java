@@ -2,15 +2,15 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the license viewable in the root directory of this project.
 
-package frc.robot.constants;
+package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
-public class ControllerConstants {
+public class Controller {
     public static final int DRIVER_CONTROLLER_PORT = 0;
 
-    private static final CommandXboxController controller = new CommandXboxController(ControllerConstants.DRIVER_CONTROLLER_PORT);
+    public static final CommandXboxController controller = new CommandXboxController(Controller.DRIVER_CONTROLLER_PORT);
 
     public static final Trigger elevatorUpButton = controller.povRight();
     public static final Trigger elevatorDownButton = controller.povLeft();

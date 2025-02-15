@@ -50,17 +50,12 @@ public class Drive extends SubsystemBase {
   private SwerveDrivePoseEstimator poseEstimator =
       new SwerveDrivePoseEstimator(kinematics, rawGyroRotation, lastModulePositions, new Pose2d());
 
-  public Drive(
-      GyroIO gyroIO,
-      ModuleIO flModuleIO,
-      ModuleIO frModuleIO,
-      ModuleIO blModuleIO,
-      ModuleIO brModuleIO) {
-    this.gyroIO = gyroIO;
-    modules[0] = new Module(flModuleIO, 0, SwerveConstants.FL_SWERVE_MODULE);
-    modules[1] = new Module(frModuleIO, 1, SwerveConstants.FR_SWERVE_MODULE);
-    modules[2] = new Module(blModuleIO, 2, SwerveConstants.BL_SWERVE_MODULE);
-    modules[3] = new Module(brModuleIO, 3, SwerveConstants.BR_SWERVE_MODULE);
+  public Drive() {
+    this.gyroIO = new GyroIOPigeon2();
+    modules[0] = new Module(new ModuleIOTalonFX(SwerveConstants.FL_SWERVE_MODULE), 0, SwerveConstants.FL_SWERVE_MODULE);
+    modules[1] = new Module(new ModuleIOTalonFX(SwerveConstants.FR_SWERVE_MODULE), 1, SwerveConstants.FR_SWERVE_MODULE);
+    modules[2] = new Module(new ModuleIOTalonFX(SwerveConstants.BL_SWERVE_MODULE), 2, SwerveConstants.BL_SWERVE_MODULE);
+    modules[3] = new Module(new ModuleIOTalonFX(SwerveConstants.BR_SWERVE_MODULE), 3, SwerveConstants.BR_SWERVE_MODULE);
 
     HAL.report(tResourceType.kResourceType_RobotDrive, tInstances.kRobotDriveSwerve_AdvantageKit);
 

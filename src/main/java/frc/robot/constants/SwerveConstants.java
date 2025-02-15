@@ -108,7 +108,7 @@ public class SwerveConstants {
     private static final int FL_DRIVE_ID = 1;
     private static final int FL_STEER_ID = 5;
     private static final int FL_CANCODER_ID = 9;            //inverse
-    private static final Angle FL_OFFSET_RADIANS = Units.Rotations.of(0.347900);
+    private static final Angle FL_OFFSET_RADIANS = Units.Rotations.of(0.347900 - 0.25);
     private static final boolean FL_STEER_MOTOR_REVERSED = false;
     private static final boolean FL_CANCODER_REVERSED = true;
 
@@ -119,7 +119,7 @@ public class SwerveConstants {
     private static final int FR_DRIVE_ID = 2;
     private static final int FR_STEER_ID = 6;
     private static final int FR_CANCODER_ID = 10;
-    private static final Angle FR_OFFSET_RADIANS = Units.Rotations.of(0.277100);
+    private static final Angle FR_OFFSET_RADIANS = Units.Rotations.of(0.277100 + 0.25);
     private static final boolean FR_STEER_MOTOR_REVERSED = false;
     private static final boolean FR_CANCODER_REVERSED = true;
 
@@ -129,8 +129,8 @@ public class SwerveConstants {
     // Back Left
     private static final int BL_DRIVE_ID = 3;
     private static final int BL_STEER_ID = 7;
-    private static final int BL_CANCODER_ID = 11;       //inverse
-    private static final Angle BL_OFFSET_RADIANS = Units.Rotations.of(0.317139);
+    private static final int BL_CANCODER_ID = 11;
+    private static final Angle BL_OFFSET_RADIANS = Units.Rotations.of(0.317139 - 0.25);
     private static final boolean BL_STEER_MOTOR_REVERSED = false;
     private static final boolean BL_CANCODER_REVERSED = true;
 
@@ -140,8 +140,8 @@ public class SwerveConstants {
     // Back Right
     private static final int BR_DRIVE_ID = 4;
     private static final int BR_STEER_ID = 8;
-    private static final int BR_CANCODER_ID = 12;      //inverse
-    private static final Angle BR_OFFSET_RADIANS = Units.Rotations.of(0.026367);
+    private static final int BR_CANCODER_ID = 12;
+    private static final Angle BR_OFFSET_RADIANS = Units.Rotations.of(0.026367 + 0.25);
     private static final boolean BR_STEER_MOTOR_REVERSED = false;
     private static final boolean BR_CANCODER_REVERSED = true;
 
