@@ -1,21 +1,10 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.constants;
 
-import frc.robot.subsystems.OldSwerveSubsystem;
-
-import com.ctre.phoenix6.configs.CANcoderConfiguration;
-import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
-import com.ctre.phoenix6.configs.Slot0Configs;
-import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.hardware.CANcoder;
-import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.swerve.SwerveDrivetrain;
-import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
-import com.ctre.phoenix6.swerve.SwerveModuleConstants;
-import com.ctre.phoenix6.swerve.SwerveModuleConstantsFactory;
+import com.ctre.phoenix6.CANBus;
+import com.ctre.phoenix6.configs.*;
+import com.ctre.phoenix6.hardware.*;
+import com.ctre.phoenix6.swerve.*;
+import com.ctre.phoenix6.swerve.SwerveModuleConstants.*;
 
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.numbers.*;
@@ -37,6 +26,9 @@ public class SwerveConstants {
     public static final double DRIVE_MODULE_KV = 0.124; // Velocity Gain
     public static final double DRIVE_MODULE_KA = 0.0;   // Acceleration Gain
 
+    public static final double TURBO_DRIVE_MULTIPLIER = 1;
+    public static final double STANDARD_DRIVE_MULTIPLIER = 1;
+
     private static final Slot0Configs STEER_GAINS = new Slot0Configs()
         .withKP(STEER_MODULE_KP).withKI(STEER_MODULE_KI).withKD(STEER_MODULE_KD)
         .withKS(STEER_MODULE_KS).withKV(STEER_MODULE_KV).withKA(STEER_MODULE_KA);
@@ -44,31 +36,27 @@ public class SwerveConstants {
     private static final Slot0Configs DRIVE_GAINS = new Slot0Configs()
         .withKP(DRIVE_MODULE_KP).withKI(DRIVE_MODULE_KI).withKD(DRIVE_MODULE_KD)
         .withKS(DRIVE_MODULE_KS).withKV(DRIVE_MODULE_KV).withKA(DRIVE_MODULE_KA);
-        
-    public static final double TURBO_DRIVE_MULTIPLIER = 0.5;
-    public static final double STANDARD_DRIVE_MULTIPLIER = 0.25;
 
-    public static final LinearVelocity SPEED_AT_12_VOLTS = Units.MetersPerSecond.of(4.73);
-    public static final double MAX_SPEED = SwerveConstants.SPEED_AT_12_VOLTS.in(Units.MetersPerSecond);
-    public static final double MAX_ANGULAR_RATE = Units.RotationsPerSecond.of(1).in(Units.RadiansPerSecond);
-
-    private static final SwerveModuleConstants.ClosedLoopOutputType STEER_CLOSED_LOOP_OUTPUT = SwerveModuleConstants.ClosedLoopOutputType.Voltage;
-    private static final SwerveModuleConstants.ClosedLoopOutputType DRIVE_CLOSED_LOOP_OUTPUT = SwerveModuleConstants.ClosedLoopOutputType.Voltage;
-
-    private static final SwerveModuleConstants.DriveMotorArrangement DRIVE_MOTOR_TYPE = SwerveModuleConstants.DriveMotorArrangement.TalonFX_Integrated;
-    private static final SwerveModuleConstants.SteerMotorArrangement STEER_MOTOR_TYPE = SwerveModuleConstants.SteerMotorArrangement.TalonFX_Integrated;
-
-    private static final SwerveModuleConstants.SteerFeedbackType STEER_FEEDBACK_TYPE = SwerveModuleConstants.SteerFeedbackType.RemoteCANcoder;
-    private static final Current SLIP_CURRENT = Units.Amps.of(120.0);
+    private static final ClosedLoopOutputType STEER_CLOSED_LOOP_OUTPUT = ClosedLoopOutputType.Voltage;
+    private static final ClosedLoopOutputType DRIVE_CLOSED_LOOP_OUTPUT = ClosedLoopOutputType.Voltage;
     
+    private static final DriveMotorArrangement DRIVE_MOTOR_TYPE = DriveMotorArrangement.TalonFX_Integrated;
+    private static final SteerMotorArrangement STEER_MOTOR_TYPE = SteerMotorArrangement.TalonFX_Integrated;
+
+    private static final SteerFeedbackType STEER_FEEDBACK_TYPE = SteerFeedbackType.RemoteCANcoder;
+    private static final Current SLIP_CURRENT = Units.Amps.of(120.0);
+
     private static final TalonFXConfiguration DRIVE_INITIAL_CONFIG = new TalonFXConfiguration();
     private static final TalonFXConfiguration STEER_INITIAL_CONFIG = new TalonFXConfiguration()
-        .withCurrentLimits(
-            new CurrentLimitsConfigs()
-                .withStatorCurrentLimit(Units.Amps.of(40))
-                .withStatorCurrentLimitEnable(true)
-        );
+            .withCurrentLimits(
+                    new CurrentLimitsConfigs()
+                            .withStatorCurrentLimit(Units.Amps.of(60))
+                            .withStatorCurrentLimitEnable(true));
     private static final CANcoderConfiguration ENCODER_INITIAL_CONFIG = new CANcoderConfiguration();
+
+    public static final CANBus CAN_BUS = new CANBus(GyroConstants.GYRO_CAN_BUS_NAME, "./logs/example.hoot");
+
+    public static final LinearVelocity SPEED_AT_12_VOLTS = Units.MetersPerSecond.of(4.73);
 
     private static final double COUPLE_RATIO = 3.5714285714285716;
     private static final double DRIVE_GEAR_RATIO = 6.75;
@@ -79,12 +67,18 @@ public class SwerveConstants {
     private static final boolean INVERT_LEFT = false;
     private static final boolean INVERT_RIGHT = true;
 
+    private static final MomentOfInertia STEER_INERTIA = Units.KilogramSquareMeters.of(0.004);
+    private static final MomentOfInertia DRIVE_INERTIA = Units.KilogramSquareMeters.of(0.025);
+
+    private static final Voltage STEER_FRICTION_VOLTAGE = Units.Volts.of(0.2);
+    private static final Voltage DRIVE_FRICTION_VOLTAGE = Units.Volts.of(0.2);
+
     public static final SwerveDrivetrainConstants DrivetrainConstants = new SwerveDrivetrainConstants()
             .withCANBusName(GyroConstants.GYRO_CAN_BUS_NAME)
-            .withPigeon2Id(GyroConstants.GYRO_CAN_PORT);
+            .withPigeon2Id(GyroConstants.GYRO_CAN_PORT)
+            .withPigeon2Configs(GyroConstants.GYRO_CONFIG);
 
-    private static final SwerveModuleConstantsFactory<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration> ConstantCreator =
-        new SwerveModuleConstantsFactory<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration>()
+    private static final SwerveModuleConstantsFactory<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration> ConstantCreator = new SwerveModuleConstantsFactory<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration>()
             .withDriveMotorGearRatio(DRIVE_GEAR_RATIO)
             .withSteerMotorGearRatio(STEER_GEAR_RATIO)
             .withCouplingGearRatio(COUPLE_RATIO)
@@ -100,53 +94,55 @@ public class SwerveConstants {
             .withFeedbackSource(STEER_FEEDBACK_TYPE)
             .withDriveMotorInitialConfigs(DRIVE_INITIAL_CONFIG)
             .withSteerMotorInitialConfigs(STEER_INITIAL_CONFIG)
-            .withEncoderInitialConfigs(ENCODER_INITIAL_CONFIG);
-
+            .withEncoderInitialConfigs(ENCODER_INITIAL_CONFIG)
+            .withSteerInertia(STEER_INERTIA)
+            .withDriveInertia(DRIVE_INERTIA)
+            .withSteerFrictionVoltage(STEER_FRICTION_VOLTAGE)
+            .withDriveFrictionVoltage(DRIVE_FRICTION_VOLTAGE);
 
     // Front Left
     private static final int FL_DRIVE_ID = 1;
     private static final int FL_STEER_ID = 5;
-    private static final int FL_CANCODER_ID = 9;
-    private static final Angle FL_OFFSET_RADIANS = Units.Rotations.of(-0.15234375);
+    private static final int FL_CANCODER_ID = 9;            //inverse
+    private static final Angle FL_OFFSET_RADIANS = Units.Rotations.of(0.347900);
     private static final boolean FL_STEER_MOTOR_REVERSED = false;
     private static final boolean FL_CANCODER_REVERSED = true;
 
-    private static final Distance FL_X_POSITION = Units.Inches.of(11.5);
-    private static final Distance FL_Y_POSITION = Units.Inches.of(11.5);
+    public static final Distance FL_X_POSITION = Units.Inches.of(11.5);
+    public static final Distance FL_Y_POSITION = Units.Inches.of(11.5);
 
     // Front Right
     private static final int FR_DRIVE_ID = 2;
     private static final int FR_STEER_ID = 6;
     private static final int FR_CANCODER_ID = 10;
-    private static final Angle FR_OFFSET_RADIANS = Units.Rotations.of(0.282958984375);
+    private static final Angle FR_OFFSET_RADIANS = Units.Rotations.of(0.277100);
     private static final boolean FR_STEER_MOTOR_REVERSED = false;
     private static final boolean FR_CANCODER_REVERSED = true;
 
-    private static final Distance FR_X_POSITION = Units.Inches.of(11.5);
-    private static final Distance FR_Y_POSITION = Units.Inches.of(-11.5);
+    public static final Distance FR_X_POSITION = Units.Inches.of(11.5);
+    public static final Distance FR_Y_POSITION = Units.Inches.of(-11.5);
 
     // Back Left
     private static final int BL_DRIVE_ID = 3;
     private static final int BL_STEER_ID = 7;
-    private static final int BL_CANCODER_ID = 11;
-    private static final Angle BL_OFFSET_RADIANS = Units.Rotations.of(-0.18017578125);
+    private static final int BL_CANCODER_ID = 11;       //inverse
+    private static final Angle BL_OFFSET_RADIANS = Units.Rotations.of(0.317139);
     private static final boolean BL_STEER_MOTOR_REVERSED = false;
     private static final boolean BL_CANCODER_REVERSED = true;
 
-    private static final Distance BL_X_POSITION = Units.Inches.of(-11.5);
-    private static final Distance BL_Y_POSITION = Units.Inches.of(11.5);
+    public static final Distance BL_X_POSITION = Units.Inches.of(-11.5);
+    public static final Distance BL_Y_POSITION = Units.Inches.of(11.5);
 
     // Back Right
     private static final int BR_DRIVE_ID = 4;
     private static final int BR_STEER_ID = 8;
-    private static final int BR_CANCODER_ID = 12;
-    private static final Angle BR_OFFSET_RADIANS = Units.Rotations.of(0.021240234375);
+    private static final int BR_CANCODER_ID = 12;      //inverse
+    private static final Angle BR_OFFSET_RADIANS = Units.Rotations.of(0.026367);
     private static final boolean BR_STEER_MOTOR_REVERSED = false;
     private static final boolean BR_CANCODER_REVERSED = true;
 
-    private static final Distance BR_X_POSITION = Units.Inches.of(-11.5);
-    private static final Distance BR_Y_POSITION = Units.Inches.of(-11.5);
-
+    public static final Distance BR_X_POSITION = Units.Inches.of(-11.5);
+    public static final Distance BR_Y_POSITION = Units.Inches.of(-11.5);
 
     public static final SwerveModuleConstants<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration> FL_SWERVE_MODULE =
         ConstantCreator.createModuleConstants(
@@ -169,46 +165,41 @@ public class SwerveConstants {
             BR_X_POSITION, BR_Y_POSITION, INVERT_RIGHT, BR_STEER_MOTOR_REVERSED, BR_CANCODER_REVERSED
         );
 
-    public static OldSwerveSubsystem createDrivetrain() {
-        return new OldSwerveSubsystem(
-            DrivetrainConstants, FL_SWERVE_MODULE, FR_SWERVE_MODULE, BL_SWERVE_MODULE, BR_SWERVE_MODULE
-        );
-    }
 
     public static class TunerSwerveDrivetrain extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder> {
         public TunerSwerveDrivetrain(
-            SwerveDrivetrainConstants drivetrainConstants,
-            SwerveModuleConstants<?, ?, ?>... modules
-        ) {
-            super(
-                TalonFX::new, TalonFX::new, CANcoder::new,
-                drivetrainConstants, modules
-            );
+                SwerveDrivetrainConstants drivetrainConstants, SwerveModuleConstants<?, ?, ?>... modules) {
+            super(TalonFX::new, TalonFX::new, CANcoder::new, drivetrainConstants, modules);
         }
 
         public TunerSwerveDrivetrain(
-            SwerveDrivetrainConstants drivetrainConstants,
-            double odometryUpdateFrequency,
-            SwerveModuleConstants<?, ?, ?>... modules
-        ) {
+                SwerveDrivetrainConstants drivetrainConstants,
+                double odometryUpdateFrequency,
+                SwerveModuleConstants<?, ?, ?>... modules) {
             super(
-                TalonFX::new, TalonFX::new, CANcoder::new,
-                drivetrainConstants, odometryUpdateFrequency, modules
-            );
+                    TalonFX::new,
+                    TalonFX::new,
+                    CANcoder::new,
+                    drivetrainConstants,
+                    odometryUpdateFrequency,
+                    modules);
         }
 
         public TunerSwerveDrivetrain(
-            SwerveDrivetrainConstants drivetrainConstants,
-            double odometryUpdateFrequency,
-            Matrix<N3, N1> odometryStandardDeviation,
-            Matrix<N3, N1> visionStandardDeviation,
-            SwerveModuleConstants<?, ?, ?>... modules
-        ) {
+                SwerveDrivetrainConstants drivetrainConstants,
+                double odometryUpdateFrequency,
+                Matrix<N3, N1> odometryStandardDeviation,
+                Matrix<N3, N1> visionStandardDeviation,
+                SwerveModuleConstants<?, ?, ?>... modules) {
             super(
-                TalonFX::new, TalonFX::new, CANcoder::new,
-                drivetrainConstants, odometryUpdateFrequency,
-                odometryStandardDeviation, visionStandardDeviation, modules
-            );
+                    TalonFX::new,
+                    TalonFX::new,
+                    CANcoder::new,
+                    drivetrainConstants,
+                    odometryUpdateFrequency,
+                    odometryStandardDeviation,
+                    visionStandardDeviation,
+                    modules);
         }
     }
 }
