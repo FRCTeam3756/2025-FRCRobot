@@ -8,20 +8,20 @@ import frc.robot.subsystems.CoralSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class IntakeCoral extends Command {
-  CoralSubsystem intake;
+  CoralSubsystem subsystem;
 
   public IntakeCoral(CoralSubsystem subystem) {
-    intake = subystem;
-    addRequirements(intake);
+    this.subsystem = subystem;
+    addRequirements(this.subsystem);
   }
 
   @Override
   public void execute() {
-    intake.intakeGamePiece();
+    subsystem.intakeGamePiece();
   }
 
   @Override
   public void end(boolean interrupted) {
-    intake.stop();
+    subsystem.stop();
   }
 }

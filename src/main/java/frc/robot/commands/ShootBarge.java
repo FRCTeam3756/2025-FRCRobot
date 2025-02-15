@@ -8,20 +8,20 @@ import frc.robot.subsystems.AlgaeSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class ShootBarge extends Command {
-  AlgaeSubsystem shooter;
+  AlgaeSubsystem subsystem;
 
   public ShootBarge(AlgaeSubsystem subsystem) {
-    shooter = subsystem;
-    addRequirements(shooter);
+    this.subsystem = subsystem;
+    addRequirements(this.subsystem);
   }
 
   @Override
   public void execute() {
-    shooter.shootBarge();
+    subsystem.shootBarge();
   }
 
   @Override
   public void end(boolean interrupted) {
-    shooter.stop();
+    subsystem.stop();
   }
 }

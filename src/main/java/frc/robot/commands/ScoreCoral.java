@@ -8,35 +8,35 @@ import frc.robot.subsystems.CoralSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class ScoreCoral extends Command {
-    CoralSubsystem arm;
+    CoralSubsystem subsystem;
     int shootLevel;
 
     public ScoreCoral(CoralSubsystem subsystem, int shootLevel) {
-        arm = subsystem;
+        this.subsystem = subsystem;
         this.shootLevel = shootLevel;
-        addRequirements(arm);
+        addRequirements(subsystem);
     }
 
     @Override
     public void execute() {
         switch (this.shootLevel) {
             case 1:
-                arm.shootL1();
+                subsystem.shootL1();
                 break;
             case 2:
-                arm.shootL1();
+                subsystem.shootL1();
                 break;
             case 3:
-                arm.shootL1();
+                subsystem.shootL1();
                 break;
             case 4:
-                arm.shootL1();
+                subsystem.shootL1();
                 break;
         }
     }
 
     @Override
     public void end(boolean interrupted) {
-        arm.stop();
+        subsystem.stop();
     }
 }

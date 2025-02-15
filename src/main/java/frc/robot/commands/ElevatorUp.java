@@ -10,9 +10,9 @@ import frc.robot.subsystems.ElevatorSubsystem;
 public class ElevatorUp extends Command {
   ElevatorSubsystem subsystem;
 
-  public ElevatorUp(ElevatorSubsystem elevator) {
-    subsystem = elevator;
-    addRequirements(subsystem);
+  public ElevatorUp(ElevatorSubsystem subsystem) {
+    this.subsystem = subsystem;
+    addRequirements(this.subsystem);
   }
 
   @Override

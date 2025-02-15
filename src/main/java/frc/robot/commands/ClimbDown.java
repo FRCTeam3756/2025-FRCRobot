@@ -10,9 +10,9 @@ import frc.robot.subsystems.ClimbingSubsystem;
 public class ClimbDown extends Command {
   ClimbingSubsystem subsystem;
 
-  public ClimbDown(ClimbingSubsystem climb) {
-    subsystem = climb;
-    addRequirements(subsystem);
+  public ClimbDown(ClimbingSubsystem subsystem) {
+    this.subsystem = subsystem;
+    addRequirements(this.subsystem);
   }
 
   @Override

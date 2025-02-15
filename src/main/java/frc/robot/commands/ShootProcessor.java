@@ -8,20 +8,20 @@ import frc.robot.subsystems.AlgaeSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class ShootProcessor extends Command {
-  AlgaeSubsystem shooter;
+  AlgaeSubsystem subsystem;
 
   public ShootProcessor(AlgaeSubsystem subsystem) {
-    shooter = subsystem;
-    addRequirements(shooter);
+    this.subsystem = subsystem;
+    addRequirements(this.subsystem);
   }
 
   @Override
   public void execute() {
-    shooter.shootProcessor();
+    subsystem.shootProcessor();
   }
 
   @Override
   public void end(boolean interrupted) {
-    shooter.stop();
+    subsystem.stop();
   }
 }

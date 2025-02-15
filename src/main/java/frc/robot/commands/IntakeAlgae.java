@@ -8,20 +8,20 @@ import frc.robot.subsystems.AlgaeSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class IntakeAlgae extends Command {
-  AlgaeSubsystem intake;
+  AlgaeSubsystem subsystem;
 
   public IntakeAlgae(AlgaeSubsystem subystem) {
-    intake = subystem;
-    addRequirements(intake);
+    this.subsystem = subystem;
+    addRequirements(subsystem);
   }
 
   @Override
   public void execute() {
-    intake.intakeGamePiece();
+    subsystem.intakeGamePiece();
   }
 
   @Override
   public void end(boolean interrupted) {
-    intake.stop();
+    subsystem.stop();
   }
 }
