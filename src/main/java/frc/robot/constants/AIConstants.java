@@ -8,9 +8,27 @@ public class AIConstants {
     public static final String ROBOT_IP_ADDRESS = "10.37.56.2";
     public static final String NETWORK_TABLE_NAME = "AIPipeline";
     public static final String DATA_ENTRY_NAME = "data";
-    public static final String X_NAME = "x";
-    public static final String Y_NAME = "y";
-    public static final String ROT_NAME = "rot";
+
+    public enum NETWORK_TABLE_NAMING {
+        X("x"),
+        Y("y"),
+        ROTATION("rot"),
+        TURBO("turbo"),
+        INTAKE("intake"),
+        OUTTAKE("outtake"),
+        ELEVATOR("elevator"),
+        CLIMB("climb");
+
+        private final String value;
+
+        NETWORK_TABLE_NAMING(String value) {
+            this.value = value;
+        }
+
+        public String getValue() {
+            return value;
+        }
+    }
 
     public static final double MINIMUM_DRIVE_SPEED = 0.1;
     public static final double MAX_DRIVE_SPEED = 0.3;                   // 1 is very fast
