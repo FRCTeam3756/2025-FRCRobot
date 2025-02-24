@@ -8,12 +8,12 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.ai.JONCommunication;
 
 public class JONSubsystem extends SubsystemBase {
-    private JONCommunication jon = new JONCommunication();
+    private final JONCommunication jon = new JONCommunication();
 
     public JONSubsystem() {}
 
     @Override
     public void periodic() {
-        jon.getAIRequest();
+        jon.getAIData();
     }
 }
