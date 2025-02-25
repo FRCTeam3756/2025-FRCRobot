@@ -13,13 +13,12 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.*;
 
 public class RobotContainer {
-  // private final ClawSubsystem clawSubsystem = new ClawSubsystem();
+  private final ClawSubsystem clawSubsystem = new ClawSubsystem();
   private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
   private final ClimbingSubsystem climbSubsystem = new ClimbingSubsystem();
 
   private final Drive drive = new Drive();
   
-  private int elevatorHeight = 1;
   private boolean turboActive = false;
 
   public RobotContainer() {
@@ -48,10 +47,10 @@ public class RobotContainer {
     Controller.driveTurboButton.onFalse(new InstantCommand(() -> setTurboActive(false)));
     Controller.climbUpButton.whileTrue(new InstantCommand(() -> climbSubsystem.climbingUp()));
     Controller.climbDownButton.whileTrue(new InstantCommand(() -> climbSubsystem.climbingDown()));
-    Controller.elevatorUpButton.whileTrue(new InstantCommand(() -> elevatorSubsystem.elevatorUp(elevatorHeight)));
-    Controller.elevatorDownButton.whileTrue(new InstantCommand(() -> elevatorSubsystem.elevatorDown(elevatorHeight)));
-    // Controller.intakeButton.whileTrue(new IntakeAlgae(clawSubsystem));
-    // Controller.shootProcessorButton.whileTrue(new ShootProcessor(clawSubsystem));
+    Controller.elevatorUpButton.whileTrue(new InstantCommand(() -> elevatorSubsystem.elevatorUp()));
+    Controller.elevatorDownButton.whileTrue(new InstantCommand(() -> elevatorSubsystem.elevatorDown()));
+    Controller.intakeButton.whileTrue(new InstantCommand(() -> clawSubsystem.intakeGamePiece()));
+    Controller.shootProcessorButton.whileTrue(new InstantCommand(() -> clawSubsystem.shootProcessor()));
   }
 
   private double getCurrentSpeedMultiplier() {

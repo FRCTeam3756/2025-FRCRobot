@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.REVLibError;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
@@ -18,19 +19,27 @@ public class ClawSubsystem extends SubsystemBase {
   private SparkMax leftMotor;
   private SparkMax rightMotor;
   private SparkMaxConfig neoConfig;
+  private RelativeEncoder leftEncoder;
+  private RelativeEncoder rightEncoder;
 
   public ClawSubsystem() {
     leftMotor = new SparkMax(ClawConstants.LEFT_MOTOR_ID, MotorType.kBrushless);
     rightMotor = new SparkMax(ClawConstants.RIGHT_MOTOR_ID, MotorType.kBrushless);
     
     neoConfig = new SparkMaxConfig();
-    neoConfig.smartCurrentLimit(ClawConstants.NEO_MAX_AMPERAGE);
+    neoConfig.smartCurrentLimit(ClawConstants.MOTOR_MAX_AMPERAGE);
+    
+    leftEncoder = leftMotor.getEncoder();
+    rightEncoder = rightMotor.getEncoder();
 
     REVLibError rightError = rightMotor.configure(neoConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
     REVLibError leftError = leftMotor.configure(neoConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 
-    if (leftError != REVLibError.kOk & rightError != REVLibError.kOk) {
-      System.out.println("Issue with Claw Motors!");
+    if (leftError == REVLibError.kOk & rightError == REVLibError.kOk) {
+      leftEncoder.setPosition(0);
+      rightEncoder.setPosition(0);
+    } else {
+      System.err.println("Claw Motor Configuration Failed!");
     }
   }
 

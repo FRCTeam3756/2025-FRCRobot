@@ -8,7 +8,7 @@ public class ClawConstants {
     public static final int LEFT_MOTOR_ID = Integer.MAX_VALUE;
     public static final int RIGHT_MOTOR_ID = Integer.MAX_VALUE;
 
-    public static final int NEO_MAX_AMPERAGE = 60;
+    public static final int MOTOR_MAX_AMPERAGE = 60;
 
     public static final double L1_SHOOT_SPEED = Integer.MAX_VALUE;
     public static final double L2_SHOOT_SPEED = Integer.MAX_VALUE;

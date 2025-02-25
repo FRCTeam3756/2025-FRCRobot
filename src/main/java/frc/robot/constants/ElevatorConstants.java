@@ -4,17 +4,22 @@
 
 package frc.robot.constants;
 
-import java.util.Map;
-
 public class ElevatorConstants {
     public static final int ELEVATOR_CAN_ID = 0;
 
+    public static final int MIN_HEIGHT = 1;
+    public static final int MAX_HEIGHT = 4;
+
+    public static final int MOTOR_MAX_AMPERAGE = 60;
     public static final double ELEVATOR_SPEED = Integer.MAX_VALUE;
 
-    public static final Map<Integer, Double> CORAL_SHOOT_HEIGHTS = Map.ofEntries(
-        Map.entry(1, 0.0),      //TODO: Change numbers
-        Map.entry(2, 1.0),
-        Map.entry(3, 2.0),
-        Map.entry(4, 3.0)
-    );
+    public static final double L1_SHOOT_HEIGHT = Double.MAX_VALUE;
+    public static final double L2_SHOOT_HEIGHT = Double.MAX_VALUE;
+    public static final double L3_SHOOT_HEIGHT = Double.MAX_VALUE;
+    public static final double L4_SHOOT_HEIGHT = Double.MAX_VALUE;
+    public static final double PROCESSOR_SHOOT_HEIGHT = Double.MAX_VALUE;
+
+    public static final double CORAL_PICKUP_HEIGHT = Double.MAX_VALUE;
+    public static final double ALGAE_L2_PICKUP_HEIGHT = Double.MAX_VALUE;
+    public static final double ALGAE_L3_PICKUP_HEIGHT = Double.MAX_VALUE;
 }
