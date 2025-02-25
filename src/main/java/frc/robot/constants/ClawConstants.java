@@ -4,7 +4,7 @@
 
 package frc.robot.constants;
 
-public class CoralConstants {
+public class ClawConstants {
     public static final int LEFT_MOTOR_ID = Integer.MAX_VALUE;
     public static final int RIGHT_MOTOR_ID = Integer.MAX_VALUE;
 
@@ -12,6 +12,7 @@ public class CoralConstants {
     public static final double L2_SHOOT_SPEED = Integer.MAX_VALUE;
     public static final double L3_SHOOT_SPEED = Integer.MAX_VALUE;
     public static final double L4_SHOOT_SPEED = Integer.MAX_VALUE;
+    public static final double PROCESSOR_SHOOT_SPEED = Integer.MAX_VALUE;
 
     public static final double INTAKE_SPEED = Integer.MAX_VALUE;
     public static final double OUTTAKE_SPEED = Integer.MAX_VALUE;

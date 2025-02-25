@@ -4,13 +4,13 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.AlgaeSubsystem;
+import frc.robot.subsystems.ClawSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class ShootProcessor extends Command {
-  AlgaeSubsystem subsystem;
+  ClawSubsystem subsystem;
 
-  public ShootProcessor(AlgaeSubsystem subsystem) {
+  public ShootProcessor(ClawSubsystem subsystem) {
     this.subsystem = subsystem;
     addRequirements(this.subsystem);
   }

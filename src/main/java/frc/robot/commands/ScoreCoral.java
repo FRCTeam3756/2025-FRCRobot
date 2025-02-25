@@ -4,14 +4,14 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.CoralSubsystem;
+import frc.robot.subsystems.ClawSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class ScoreCoral extends Command {
-    CoralSubsystem subsystem;
+    ClawSubsystem subsystem;
     int shootLevel;
 
-    public ScoreCoral(CoralSubsystem subsystem, int shootLevel) {
+    public ScoreCoral(ClawSubsystem subsystem, int shootLevel) {
         this.subsystem = subsystem;
         this.shootLevel = shootLevel;
         addRequirements(subsystem);

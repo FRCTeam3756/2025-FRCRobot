@@ -4,13 +4,13 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.CoralSubsystem;
+import frc.robot.subsystems.ClawSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class IntakeCoral extends Command {
-  CoralSubsystem subsystem;
+  ClawSubsystem subsystem;
 
-  public IntakeCoral(CoralSubsystem subystem) {
+  public IntakeCoral(ClawSubsystem subystem) {
     this.subsystem = subystem;
     addRequirements(this.subsystem);
   }
