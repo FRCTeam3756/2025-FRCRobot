@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-import frc.robot.commands.*;
 import frc.robot.constants.*;
 import frc.robot.subsystems.*;
 import frc.robot.swerve.*;
@@ -15,8 +14,7 @@ import edu.wpi.first.wpilibj2.command.*;
 
 public class RobotContainer {
   // private final ClawSubsystem clawSubsystem = new ClawSubsystem();
-  // private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
-
+  private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
   private final ClimbingSubsystem climbSubsystem = new ClimbingSubsystem();
 
   private final Drive drive = new Drive();
@@ -48,11 +46,10 @@ public class RobotContainer {
     
     Controller.driveTurboButton.whileTrue(new InstantCommand(() -> setTurboActive(true)));
     Controller.driveTurboButton.onFalse(new InstantCommand(() -> setTurboActive(false)));
-    Controller.climbUpButton.whileTrue(new ClimbUp(climbSubsystem));
-    Controller.climbDownButton.whileTrue(new ClimbDown(climbSubsystem));
-
-    // Controller.elevatorUpButton.whileTrue(new ElevatorUp(elevatorSubsystem, elevatorHeight));
-    // Controller.elevatorDownButton.whileTrue(new ElevatorDown(elevatorSubsystem, elevatorHeight));
+    Controller.climbUpButton.whileTrue(new InstantCommand(() -> climbSubsystem.climbingUp()));
+    Controller.climbDownButton.whileTrue(new InstantCommand(() -> climbSubsystem.climbingDown()));
+    Controller.elevatorUpButton.whileTrue(new InstantCommand(() -> elevatorSubsystem.elevatorUp(elevatorHeight)));
+    Controller.elevatorDownButton.whileTrue(new InstantCommand(() -> elevatorSubsystem.elevatorDown(elevatorHeight)));
     // Controller.intakeButton.whileTrue(new IntakeAlgae(clawSubsystem));
     // Controller.shootProcessorButton.whileTrue(new ShootProcessor(clawSubsystem));
   }
