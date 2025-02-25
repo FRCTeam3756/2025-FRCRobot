@@ -7,10 +7,10 @@ package frc.robot.commands;
 import frc.robot.subsystems.ClawSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class ShootProcessor extends Command {
+public class ScoreProcessor extends Command {
   ClawSubsystem subsystem;
 
-  public ShootProcessor(ClawSubsystem subsystem) {
+  public ScoreProcessor(ClawSubsystem subsystem) {
     this.subsystem = subsystem;
     addRequirements(this.subsystem);
   }

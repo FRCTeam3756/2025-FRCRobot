@@ -34,7 +34,6 @@ public class Controller {
     public static final Trigger driveTurboButton = controller.leftStick();
 
     public static final double DEADZONE = 0.05;
-    
 
     private static double applyDeadband(double value) {
         return MathUtil.applyDeadband(value, Controller.DEADZONE);

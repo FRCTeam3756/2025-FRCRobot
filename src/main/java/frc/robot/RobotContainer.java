@@ -14,14 +14,14 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.*;
 
 public class RobotContainer {
-  // private final CoralSubsystem coralSubsystem = new CoralSubsystem();
-  // private final AlgaeSubsystem algaeSubsystem = new AlgaeSubsystem();
+  // private final ClawSubsystem clawSubsystem = new ClawSubsystem();
   // private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
 
   private final ClimbingSubsystem climbSubsystem = new ClimbingSubsystem();
 
   private final Drive drive = new Drive();
   
+  private int elevatorHeight = 1;
   private boolean turboActive = false;
 
   public RobotContainer() {
@@ -51,11 +51,10 @@ public class RobotContainer {
     Controller.climbUpButton.whileTrue(new ClimbUp(climbSubsystem));
     Controller.climbDownButton.whileTrue(new ClimbDown(climbSubsystem));
 
-    // Controller.elevatorUpButton.whileTrue(new ElevatorUp(elevatorSubsystem));
-    // Controller.elevatorDownButton.whileTrue(new ElevatorDown(elevatorSubsystem));
-    // Controller.intakeButton.whileTrue(new IntakeAlgae(algaeSubsystem));
-    // Controller.shootProcessorButton.whileTrue(new ShootProcessor(algaeSubsystem));
-    // Controller.shootBargeButton.whileTrue(new ShootBarge(algaeSubsystem));
+    // Controller.elevatorUpButton.whileTrue(new ElevatorUp(elevatorSubsystem, elevatorHeight));
+    // Controller.elevatorDownButton.whileTrue(new ElevatorDown(elevatorSubsystem, elevatorHeight));
+    // Controller.intakeButton.whileTrue(new IntakeAlgae(clawSubsystem));
+    // Controller.shootProcessorButton.whileTrue(new ShootProcessor(clawSubsystem));
   }
 
   private double getCurrentSpeedMultiplier() {

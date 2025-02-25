@@ -9,19 +9,21 @@ import frc.robot.subsystems.ElevatorSubsystem;
 
 public class ElevatorDown extends Command {
   ElevatorSubsystem subsystem;
+  int elevatorHeight;
 
-  public ElevatorDown(ElevatorSubsystem subsystem) {
+  public ElevatorDown(ElevatorSubsystem subsystem, int elevatorHeight) {
     this.subsystem = subsystem;
+    this.elevatorHeight = elevatorHeight;
     addRequirements(this.subsystem);
   }
 
   @Override
   public void execute() {
-    subsystem.elevatorDown();
+    subsystem.elevatorDown(elevatorHeight);
   }
 
   @Override
   public void end(boolean interrupted) {
-    subsystem.elevatorStop();
+    subsystem.elevatorStop(elevatorHeight);
   }
 }
