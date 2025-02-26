@@ -45,8 +45,7 @@ public class RobotContainer {
     
     Controller.driveTurboButton.whileTrue(new InstantCommand(() -> setTurboActive(true)));
     Controller.driveTurboButton.onFalse(new InstantCommand(() -> setTurboActive(false)));
-    Controller.climbUpButton.whileTrue(new InstantCommand(() -> climbSubsystem.climbingUp()));
-    Controller.climbDownButton.whileTrue(new InstantCommand(() -> climbSubsystem.climbingDown()));
+    Controller.climbButton.whileTrue(new InstantCommand(() -> climbSubsystem.climbing()));
     Controller.elevatorUpButton.whileTrue(new InstantCommand(() -> elevatorSubsystem.elevatorUp()));
     Controller.elevatorDownButton.whileTrue(new InstantCommand(() -> elevatorSubsystem.elevatorDown()));
     Controller.intakeButton.whileTrue(new InstantCommand(() -> clawSubsystem.intakeGamePiece()));

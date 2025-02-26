@@ -21,8 +21,7 @@ public class Controller {
 
     public static final Trigger elevatorUpButton = controller.povRight();
     public static final Trigger elevatorDownButton = controller.povLeft();
-    public static final Trigger climbUpButton = controller.povUp();
-    public static final Trigger climbDownButton = controller.povDown();
+    public static final Trigger climbButton = controller.povUp();
     public static final Trigger intakeButton = controller.rightBumper();
     public static final Trigger shootProcessorButton = controller.leftBumper();
     public static final Trigger shootCoralButton = controller.rightTrigger();

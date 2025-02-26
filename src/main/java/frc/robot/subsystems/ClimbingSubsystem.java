@@ -15,17 +15,12 @@ public class ClimbingSubsystem extends SubsystemBase {
   private TalonSRX leftPaddle = new TalonSRX(ClimbConstants.LEFT_CAN_ID);
   private TalonSRX rightPaddle = new TalonSRX(ClimbConstants.RIGHT_CAN_ID);
 
-  public void climbingUp() {
+  public void climbing() {
     leftPaddle.set(ControlMode.PercentOutput, ClimbConstants.CLIMB_SPEED);
     rightPaddle.set(ControlMode.PercentOutput, ClimbConstants.CLIMB_SPEED * ClimbConstants.RIGHT_ADDITIONAL_SPEED_PERCENTAGE);
   }
 
-  public void climbingDown() {
-    leftPaddle.set(ControlMode.PercentOutput, -ClimbConstants.CLIMB_SPEED);
-    rightPaddle.set(ControlMode.PercentOutput, -ClimbConstants.CLIMB_SPEED * ClimbConstants.RIGHT_ADDITIONAL_SPEED_PERCENTAGE);
-  }
-
-  public void climbingStop() {
+  public void stop() {
     leftPaddle.set(ControlMode.PercentOutput, 0);
     rightPaddle.set(ControlMode.PercentOutput, 0);
   }
