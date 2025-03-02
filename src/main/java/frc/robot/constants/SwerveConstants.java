@@ -30,8 +30,8 @@ public class SwerveConstants {
     public static final double DRIVE_MODULE_KV = 0.124; // Velocity Gain
     public static final double DRIVE_MODULE_KA = 0.0;   // Acceleration Gain
 
-    public static final double TURBO_DRIVE_MULTIPLIER = 0.6;
-    public static final double STANDARD_DRIVE_MULTIPLIER = 0.3;
+    public static final double TURBO_DRIVE_MULTIPLIER = 1;
+    public static final double STANDARD_DRIVE_MULTIPLIER = 0.5;
 
     private static final Slot0Configs STEER_GAINS = new Slot0Configs()
         .withKP(STEER_MODULE_KP).withKI(STEER_MODULE_KI).withKD(STEER_MODULE_KD)
