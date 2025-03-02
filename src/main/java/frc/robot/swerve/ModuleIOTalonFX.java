@@ -18,7 +18,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.*;
 
-import java.util.Queue;
 import java.util.function.Supplier;
 
 public class ModuleIOTalonFX implements ModuleIO {
@@ -40,17 +39,13 @@ public class ModuleIOTalonFX implements ModuleIO {
   private final VelocityTorqueCurrentFOC velocityTorqueCurrentRequest =
       new VelocityTorqueCurrentFOC(0.0);
 
-  private final Queue<Double> timestampQueue;
-
   private final StatusSignal<Angle> drivePosition;
-  private final Queue<Double> drivePositionQueue;
   private final StatusSignal<AngularVelocity> driveVelocity;
   private final StatusSignal<Voltage> driveAppliedVolts;
   private final StatusSignal<Current> driveCurrent;
 
   private final StatusSignal<Angle> turnAbsolutePosition;
   private final StatusSignal<Angle> turnPosition;
-  private final Queue<Double> turnPositionQueue;
   private final StatusSignal<AngularVelocity> turnVelocity;
   private final StatusSignal<Voltage> turnAppliedVolts;
   private final StatusSignal<Current> turnCurrent;
@@ -115,18 +110,13 @@ public class ModuleIOTalonFX implements ModuleIO {
             : SensorDirectionValue.CounterClockwise_Positive;
     cancoder.getConfigurator().apply(cancoderConfig);
 
-    timestampQueue = PhoenixOdometryThread.getInstance().makeTimestampQueue();
-
     drivePosition = driveTalon.getPosition();
-    drivePositionQueue =
-        PhoenixOdometryThread.getInstance().registerSignal(driveTalon.getPosition());
     driveVelocity = driveTalon.getVelocity();
     driveAppliedVolts = driveTalon.getMotorVoltage();
     driveCurrent = driveTalon.getStatorCurrent();
 
     turnAbsolutePosition = cancoder.getAbsolutePosition();
     turnPosition = turnTalon.getPosition();
-    turnPositionQueue = PhoenixOdometryThread.getInstance().registerSignal(turnTalon.getPosition());
     turnVelocity = turnTalon.getVelocity();
     turnAppliedVolts = turnTalon.getMotorVoltage();
     turnCurrent = turnTalon.getStatorCurrent();
@@ -173,20 +163,6 @@ public class ModuleIOTalonFX implements ModuleIO {
     inputs.turnVelocityRadPerSec = Units.rotationsToRadians(turnVelocity.getValueAsDouble());
     inputs.turnAppliedVolts = turnAppliedVolts.getValueAsDouble();
     inputs.turnCurrentAmps = turnCurrent.getValueAsDouble();
-
-    inputs.odometryTimestamps =
-        timestampQueue.stream().mapToDouble((Double value) -> value).toArray();
-    inputs.odometryDrivePositionsRad =
-        drivePositionQueue.stream()
-            .mapToDouble((Double value) -> Units.rotationsToRadians(value))
-            .toArray();
-    inputs.odometryTurnPositions =
-        turnPositionQueue.stream()
-            .map((Double value) -> Rotation2d.fromRotations(value))
-            .toArray(Rotation2d[]::new);
-    timestampQueue.clear();
-    drivePositionQueue.clear();
-    turnPositionQueue.clear();
   }
 
   @Override

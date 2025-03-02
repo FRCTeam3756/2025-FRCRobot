@@ -59,10 +59,6 @@ public class Drive extends SubsystemBase {
     modules[3] = new Module(new ModuleIOTalonFX(SwerveConstants.BR_SWERVE_MODULE), 3, SwerveConstants.BR_SWERVE_MODULE);
   }
 
-  public void initialize() {
-    PhoenixOdometryThread.getInstance().start();
-  }
-
   @Override
   public void periodic() {
     odometryLock.lock();

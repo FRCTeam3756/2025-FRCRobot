@@ -20,7 +20,6 @@ public class RobotContainer {
   private boolean turboActive = false;
 
   public RobotContainer() {
-    drive.initialize();
     configureButtonBindings();
   }
 
