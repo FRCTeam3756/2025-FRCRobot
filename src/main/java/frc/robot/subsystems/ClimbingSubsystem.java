@@ -8,12 +8,11 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
 import frc.robot.constants.ClimbConstants;
 
 public class ClimbingSubsystem extends SubsystemBase {
-  private TalonSRX leftPaddle = new TalonSRX(ClimbConstants.LEFT_CAN_ID);
-  private TalonSRX rightPaddle = new TalonSRX(ClimbConstants.RIGHT_CAN_ID);
+  private final TalonSRX leftPaddle = new TalonSRX(ClimbConstants.LEFT_CAN_ID);
+  private final TalonSRX rightPaddle = new TalonSRX(ClimbConstants.RIGHT_CAN_ID);
 
   public void climbing() {
     leftPaddle.set(ControlMode.PercentOutput, ClimbConstants.CLIMB_SPEED * ClimbConstants.LEFT_ADDITIONAL_SPEED_PERCENTAGE);
