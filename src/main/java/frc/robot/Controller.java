@@ -7,32 +7,49 @@ package frc.robot;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.geometry.*;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj2.command.*;
-import edu.wpi.first.wpilibj2.command.button.*;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.swerve.Drive;
 
 public class Controller {
-    public static final int DRIVER_CONTROLLER_PORT = 0;
-
-    public static final CommandXboxController controller = new CommandXboxController(Controller.DRIVER_CONTROLLER_PORT);
-
-    public static final Trigger elevatorUpButton = controller.povRight();
-    public static final Trigger elevatorDownButton = controller.povLeft();
-    public static final Trigger climbButton = controller.povDown();
-    public static final Trigger intakeButton = controller.rightBumper();
-    public static final Trigger shootProcessorButton = controller.leftBumper();
-    public static final Trigger shootCoralButton = controller.rightTrigger();
-    public static final Trigger shootBargeButton = controller.leftTrigger();
-    public static final Trigger autoIntakeButton = controller.a();
-    public static final Trigger autoSpeakerButton = controller.b();
-    public static final Trigger autoAmpButton = controller.x();
-    public static final Trigger resetGyroButton = controller.y();
-    public static final Trigger driveTurboButton = controller.leftStick();
-
+    public static final int CONTROLLER_PORT = 0;
     public static final double DEADZONE = 0.05;
+
+    public static final CommandXboxController controller = new CommandXboxController(Controller.CONTROLLER_PORT);
+
+    // Joysticks
+    public static final Trigger driveTurboButton = controller.leftStick();
+    public static final Trigger driveSlowButton = controller.rightStick();
+
+    // D-Pad
+    public static final Trigger elevatorBargeButton = controller.povUp();
+    public static final Trigger elevatorDownButton = controller.povDown();
+    public static final Trigger elevatorManualButton = controller.povLeft();
+    public static final Trigger elevatorProcessorButton = controller.povRight();
+
+    // Face Buttons
+    public static final Trigger elevatorL4Button = controller.y();
+    public static final Trigger elevatorL3Button = controller.x();
+    public static final Trigger elevatorL2Button = controller.b();
+    public static final Trigger elevatorL1Button = controller.a();
+
+    // Back Buttons
+    public static final Trigger clawTiltUp = controller.leftBumper();
+    public static final Trigger clawTiltDown = controller.rightBumper();
+    public static final Trigger clawIntakeButton = controller.leftTrigger();
+    public static final Trigger clawOuttakeButton = controller.rightTrigger();
+
+    // Top Buttons
+    public static final Trigger climbButton = controller.start();
+    public static final Trigger resetGyroButton = controller.back();
 
     private static double applyDeadband(double value) {
         return MathUtil.applyDeadband(value, Controller.DEADZONE);

@@ -4,10 +4,7 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.constants.SwerveConstants;
 import frc.robot.subsystems.ClimbingSubsystem;
@@ -33,16 +30,6 @@ public class RobotContainer {
             () -> -Controller.controller.getLeftY() * getCurrentSpeedMultiplier(),
             () -> -Controller.controller.getLeftX() * getCurrentSpeedMultiplier(),
             () -> -Controller.controller.getRightX() * getCurrentSpeedMultiplier()));
-
-    Controller.controller
-        .b()
-        .onTrue(
-            Commands.runOnce(
-                    () ->
-                        drive.setPose(
-                            new Pose2d(drive.getPose().getTranslation(), new Rotation2d())),
-                    drive)
-                .ignoringDisable(true));
     
     Controller.driveTurboButton
         .whileTrue(new InstantCommand(() -> setTurboActive(true)))
@@ -50,8 +37,12 @@ public class RobotContainer {
     Controller.climbButton
         .whileTrue(new InstantCommand(() -> climbSubsystem.climbing(), climbSubsystem))
         .onFalse(new InstantCommand(() -> climbSubsystem.stop(), climbSubsystem));
-    // Controller.elevatorUpButton.whileTrue(new InstantCommand(() -> elevatorSubsystem.elevatorUp()));
-    // Controller.elevatorDownButton.whileTrue(new InstantCommand(() -> elevatorSubsystem.elevatorDown()));
+    // Controller.elevatorUpButton
+    //     .whileTrue(new InstantCommand(() -> elevatorSubsystem.elevatorUp()))
+    //     .onFalse(new InstantCommand(() -> elevatorSubsystem.elevatorStop()));
+    // Controller.elevatorDownButton
+    //     .whileTrue(new InstantCommand(() -> elevatorSubsystem.elevatorDown()))
+    //     .onFalse(new InstantCommand(() -> elevatorSubsystem.elevatorStop()));
     // Controller.intakeButton.whileTrue(new InstantCommand(() -> clawSubsystem.intakeGamePiece()));
     // Controller.shootProcessorButton.whileTrue(new InstantCommand(() -> clawSubsystem.shootProcessor()));
   }

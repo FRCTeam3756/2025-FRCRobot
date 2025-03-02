@@ -4,22 +4,22 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.REVLibError;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.ClimbConstants;
 import frc.robot.constants.ElevatorConstants;
 
 public class ElevatorSubsystem extends SubsystemBase{
-  private SparkMax elevatorMotor;
-  private SparkMaxConfig motorConfig;
-  private RelativeEncoder elevatorEncoder;
+  private final SparkMax elevatorMotor;
+  private final SparkMaxConfig motorConfig;
+  private final RelativeEncoder elevatorEncoder;
   
   public ElevatorSubsystem() {
     elevatorMotor = new SparkMax(ElevatorConstants.ELEVATOR_CAN_ID, MotorType.kBrushless);

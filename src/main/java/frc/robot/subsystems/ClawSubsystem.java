@@ -6,21 +6,21 @@ package frc.robot.subsystems;
 
 import com.revrobotics.REVLibError;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.ClawConstants;
 
 public class ClawSubsystem extends SubsystemBase {
-  private SparkMax leftMotor;
-  private SparkMax rightMotor;
-  private SparkMaxConfig neoConfig;
-  private RelativeEncoder leftEncoder;
-  private RelativeEncoder rightEncoder;
+  private final SparkMax leftMotor;
+  private final SparkMax rightMotor;
+  private final SparkMaxConfig neoConfig;
+  private final RelativeEncoder leftEncoder;
+  private final RelativeEncoder rightEncoder;
 
   public ClawSubsystem() {
     leftMotor = new SparkMax(ClawConstants.LEFT_MOTOR_ID, MotorType.kBrushless);
