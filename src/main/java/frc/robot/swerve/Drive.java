@@ -4,19 +4,26 @@
 
 package frc.robot.swerve;
 
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 import com.ctre.phoenix6.CANBus;
+
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
-import edu.wpi.first.math.geometry.*;
-import edu.wpi.first.math.kinematics.*;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.SwerveConstants;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class Drive extends SubsystemBase {
   static final double ODOMETRY_FREQUENCY =
@@ -31,19 +38,18 @@ public class Drive extends SubsystemBase {
               Math.hypot(SwerveConstants.BR_SWERVE_MODULE.LocationX, SwerveConstants.BR_SWERVE_MODULE.LocationY)));
 
   static final Lock odometryLock = new ReentrantLock();
-  // private final GyroIOInputsAutoLogged gyroInputs = new GyroIOInputsAutoLogged();
   private final Module[] modules = new Module[4];
 
-  private SwerveDriveKinematics kinematics = new SwerveDriveKinematics(getModuleTranslations());
-  private Rotation2d rawGyroRotation = new Rotation2d();
-  private SwerveModulePosition[] lastModulePositions =
+  private final SwerveDriveKinematics kinematics = new SwerveDriveKinematics(getModuleTranslations());
+  private final Rotation2d rawGyroRotation = new Rotation2d();
+  private final SwerveModulePosition[] lastModulePositions =
       new SwerveModulePosition[] {
         new SwerveModulePosition(),
         new SwerveModulePosition(),
         new SwerveModulePosition(),
         new SwerveModulePosition()
       };
-  private SwerveDrivePoseEstimator poseEstimator =
+  private final SwerveDrivePoseEstimator poseEstimator =
       new SwerveDrivePoseEstimator(kinematics, rawGyroRotation, lastModulePositions, new Pose2d());
 
   public Drive() {
@@ -51,18 +57,21 @@ public class Drive extends SubsystemBase {
     modules[1] = new Module(new ModuleIOTalonFX(SwerveConstants.FR_SWERVE_MODULE), 1, SwerveConstants.FR_SWERVE_MODULE);
     modules[2] = new Module(new ModuleIOTalonFX(SwerveConstants.BL_SWERVE_MODULE), 2, SwerveConstants.BL_SWERVE_MODULE);
     modules[3] = new Module(new ModuleIOTalonFX(SwerveConstants.BR_SWERVE_MODULE), 3, SwerveConstants.BR_SWERVE_MODULE);
+  }
 
+  public void initialize() {
     PhoenixOdometryThread.getInstance().start();
   }
 
   @Override
   public void periodic() {
     odometryLock.lock();
-
-    for (var module : modules) {
-      module.periodic();
-    }
-    odometryLock.unlock();
+      try {
+          for (var module : modules) {
+              module.periodic();
+          } } finally {
+          odometryLock.unlock();
+      }
 
     if (DriverStation.isDisabled()) {
       for (var module : modules) {
@@ -74,18 +83,10 @@ public class Drive extends SubsystemBase {
     int sampleCount = sampleTimestamps.length;
     for (int i = 0; i < sampleCount; i++) {
       SwerveModulePosition[] modulePositions = new SwerveModulePosition[4];
-      SwerveModulePosition[] moduleDeltas = new SwerveModulePosition[4];
       for (int moduleIndex = 0; moduleIndex < 4; moduleIndex++) {
         modulePositions[moduleIndex] = modules[moduleIndex].getOdometryPositions()[i];
-        moduleDeltas[moduleIndex] =
-            new SwerveModulePosition(
-                modulePositions[moduleIndex].distanceMeters
-                    - lastModulePositions[moduleIndex].distanceMeters,
-                modulePositions[moduleIndex].angle);
         lastModulePositions[moduleIndex] = modulePositions[moduleIndex];
       }
-
-      // rawGyroRotation = gyroInputs.odometryYawPositions[i];
 
       poseEstimator.updateWithTime(sampleTimestamps[i], rawGyroRotation, modulePositions);
     }
