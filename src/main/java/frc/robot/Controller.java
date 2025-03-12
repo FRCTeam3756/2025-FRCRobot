@@ -30,7 +30,7 @@ public class Controller {
     public static final Trigger driveSlowButton = controller.rightStick();
 
     // D-Pad
-    public static final Trigger elevatorBargeButton = controller.povUp();
+    public static final Trigger elevatorUpButton = controller.povUp();
     public static final Trigger elevatorDownButton = controller.povDown();
     public static final Trigger elevatorManualButton = controller.povLeft();
     public static final Trigger elevatorProcessorButton = controller.povRight();

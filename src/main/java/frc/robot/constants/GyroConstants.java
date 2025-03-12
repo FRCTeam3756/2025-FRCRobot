@@ -7,7 +7,7 @@ package frc.robot.constants;
 import com.ctre.phoenix6.configs.Pigeon2Configuration;
 
 public class GyroConstants {
-    public static final int CAN_PORT = 0;
+    public static final int CAN_ID = 13;
     public static final String CAN_BUS_NAME = "rio";
     public static final String CAN_LOG_PATH = "./logs/canbus.hoot";
     public static final Pigeon2Configuration PIGEON_CONFIG = null;

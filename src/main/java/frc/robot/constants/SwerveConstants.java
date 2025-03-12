@@ -79,7 +79,7 @@ public class SwerveConstants {
 
     public static final SwerveDrivetrainConstants DrivetrainConstants = new SwerveDrivetrainConstants()
             .withCANBusName(GyroConstants.CAN_BUS_NAME)
-            .withPigeon2Id(GyroConstants.CAN_PORT)
+            .withPigeon2Id(GyroConstants.CAN_ID)
             .withPigeon2Configs(GyroConstants.PIGEON_CONFIG);
 
     private static final SwerveModuleConstantsFactory<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration> CONSTANT_CREATOR = new SwerveModuleConstantsFactory<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration>()

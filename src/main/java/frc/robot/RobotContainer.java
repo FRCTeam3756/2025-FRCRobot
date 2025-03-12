@@ -7,12 +7,12 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.constants.SwerveConstants;
-import frc.robot.subsystems.ClimbingSubsystem;
+import frc.robot.subsystems.*;
 import frc.robot.swerve.Drive;
 
 public class RobotContainer {
   // private final ClawSubsystem clawSubsystem = new ClawSubsystem();
-  // private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
+  private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
   private final ClimbingSubsystem climbSubsystem = new ClimbingSubsystem();
 
   private final Drive drive = new Drive();
@@ -37,12 +37,12 @@ public class RobotContainer {
     Controller.climbButton
         .whileTrue(new InstantCommand(() -> climbSubsystem.climbing(), climbSubsystem))
         .onFalse(new InstantCommand(() -> climbSubsystem.stop(), climbSubsystem));
-    // Controller.elevatorUpButton
-    //     .whileTrue(new InstantCommand(() -> elevatorSubsystem.elevatorUp()))
-    //     .onFalse(new InstantCommand(() -> elevatorSubsystem.elevatorStop()));
-    // Controller.elevatorDownButton
-    //     .whileTrue(new InstantCommand(() -> elevatorSubsystem.elevatorDown()))
-    //     .onFalse(new InstantCommand(() -> elevatorSubsystem.elevatorStop()));
+    Controller.elevatorUpButton
+        .whileTrue(new InstantCommand(() -> elevatorSubsystem.elevatorUp()))
+        .onFalse(new InstantCommand(() -> elevatorSubsystem.elevatorStop()));
+    Controller.elevatorDownButton
+        .whileTrue(new InstantCommand(() -> elevatorSubsystem.elevatorDown()))
+        .onFalse(new InstantCommand(() -> elevatorSubsystem.elevatorStop()));
     // Controller.intakeButton.whileTrue(new InstantCommand(() -> clawSubsystem.intakeGamePiece()));
     // Controller.shootProcessorButton.whileTrue(new InstantCommand(() -> clawSubsystem.shootProcessor()));
   }

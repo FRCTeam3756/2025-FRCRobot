@@ -5,7 +5,7 @@
 package frc.robot.constants;
 
 public class ElevatorConstants {
-    public static final int ELEVATOR_CAN_ID = 0;
+    public static final int ELEVATOR_CAN_ID = 16;
 
     public static final int MIN_HEIGHT = 1;
     public static final int MAX_HEIGHT = 4;
