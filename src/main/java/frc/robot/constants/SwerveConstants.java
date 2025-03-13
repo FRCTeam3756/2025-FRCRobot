@@ -108,10 +108,9 @@ public class SwerveConstants {
     private static final int FL_DRIVE_ID = 1;
     private static final int FL_STEER_ID = 5;
     private static final int FL_CANCODER_ID = 9;
-    private static final double FL_ABS_POSITION_NO_OFFSET = 0.347900;
-    private static final Angle FL_ENCODER_OFFSET = Units.Rotations.of(Math.abs(FL_ABS_POSITION_NO_OFFSET)).minus(Units.Degrees.of(90));
-    private static final boolean FL_STEER_MOTOR_REVERSED = false;
-    private static final boolean FL_CANCODER_REVERSED = true;
+    private static final Angle FL_ENCODER_OFFSET = Units.Rotations.of(0.174560546875);
+    private static final boolean FL_STEER_MOTOR_INVERTED = true;
+    private static final boolean FL_CANCODER_INVERTED = false;
 
     public static final Distance FL_X_POSITION = Units.Inches.of(11.5);
     public static final Distance FL_Y_POSITION = Units.Inches.of(11.5);
@@ -120,10 +119,9 @@ public class SwerveConstants {
     private static final int FR_DRIVE_ID = 2;
     private static final int FR_STEER_ID = 6;
     private static final int FR_CANCODER_ID = 10;
-    private static final double FR_ABS_POSITION_NO_OFFSET = 0.277100;
-    private static final Angle FR_ENCODER_OFFSET = Units.Rotations.of(Math.abs(FR_ABS_POSITION_NO_OFFSET)).plus(Units.Degrees.of(90));
-    private static final boolean FR_STEER_MOTOR_REVERSED = false;
-    private static final boolean FR_CANCODER_REVERSED = true;
+    private static final Angle FR_ENCODER_OFFSET = Units.Rotations.of(-0.28076171875);
+    private static final boolean FR_STEER_MOTOR_INVERTED = true;
+    private static final boolean FR_CANCODER_INVERTED = false;
 
     public static final Distance FR_X_POSITION = Units.Inches.of(11.5);
     public static final Distance FR_Y_POSITION = Units.Inches.of(-11.5);
@@ -132,10 +130,9 @@ public class SwerveConstants {
     private static final int BL_DRIVE_ID = 3;
     private static final int BL_STEER_ID = 7;
     private static final int BL_CANCODER_ID = 11;
-    private static final double BL_ABS_POSITION_NO_OFFSET = 0.317139;
-    private static final Angle BL_ENCODER_OFFSET = Units.Rotations.of(Math.abs(BL_ABS_POSITION_NO_OFFSET)).minus(Units.Degrees.of(90));
-    private static final boolean BL_STEER_MOTOR_REVERSED = false;
-    private static final boolean BL_CANCODER_REVERSED = true;
+    private static final Angle BL_ENCODER_OFFSET = Units.Rotations.of(0.19287109375);
+    private static final boolean BL_STEER_MOTOR_INVERTED = true;
+    private static final boolean BL_CANCODER_INVERTED = false;
 
     public static final Distance BL_X_POSITION = Units.Inches.of(-11.5);
     public static final Distance BL_Y_POSITION = Units.Inches.of(11.5);
@@ -144,10 +141,9 @@ public class SwerveConstants {
     private static final int BR_DRIVE_ID = 4;
     private static final int BR_STEER_ID = 8;
     private static final int BR_CANCODER_ID = 12;
-    private static final double BR_ABS_POSITION_NO_OFFSET = 0.026367;
-    private static final Angle BR_ENCODER_OFFSET = Units.Rotations.of(Math.abs(BR_ABS_POSITION_NO_OFFSET)).plus(Units.Degrees.of(90));
-    private static final boolean BR_STEER_MOTOR_REVERSED = false;
-    private static final boolean BR_CANCODER_REVERSED = true;
+    private static final Angle BR_ENCODER_OFFSET = Units.Rotations.of(-0.0302734375);
+    private static final boolean BR_STEER_MOTOR_INVERTED = true;
+    private static final boolean BR_CANCODER_INVERTED = false;
 
     public static final Distance BR_X_POSITION = Units.Inches.of(-11.5);
     public static final Distance BR_Y_POSITION = Units.Inches.of(-11.5);
@@ -155,22 +151,22 @@ public class SwerveConstants {
     public static final SwerveModuleConstants<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration> FL_SWERVE_MODULE =
         CONSTANT_CREATOR.createModuleConstants(
             FL_STEER_ID, FL_DRIVE_ID, FL_CANCODER_ID, FL_ENCODER_OFFSET,
-            FL_X_POSITION, FL_Y_POSITION, INVERT_LEFT, FL_STEER_MOTOR_REVERSED, FL_CANCODER_REVERSED
+            FL_X_POSITION, FL_Y_POSITION, INVERT_LEFT, FL_STEER_MOTOR_INVERTED, FL_CANCODER_INVERTED
         );
     public static final SwerveModuleConstants<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration> FR_SWERVE_MODULE =
         CONSTANT_CREATOR.createModuleConstants(
             FR_STEER_ID, FR_DRIVE_ID, FR_CANCODER_ID, FR_ENCODER_OFFSET,
-            FR_X_POSITION, FR_Y_POSITION, INVERT_RIGHT, FR_STEER_MOTOR_REVERSED, FR_CANCODER_REVERSED
+            FR_X_POSITION, FR_Y_POSITION, INVERT_RIGHT, FR_STEER_MOTOR_INVERTED, FR_CANCODER_INVERTED
         );
     public static final SwerveModuleConstants<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration> BL_SWERVE_MODULE =
         CONSTANT_CREATOR.createModuleConstants(
             BL_STEER_ID, BL_DRIVE_ID, BL_CANCODER_ID, BL_ENCODER_OFFSET,
-            BL_X_POSITION, BL_Y_POSITION, INVERT_LEFT, BL_STEER_MOTOR_REVERSED, BL_CANCODER_REVERSED
+            BL_X_POSITION, BL_Y_POSITION, INVERT_LEFT, BL_STEER_MOTOR_INVERTED, BL_CANCODER_INVERTED
         );
     public static final SwerveModuleConstants<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration> BR_SWERVE_MODULE =
         CONSTANT_CREATOR.createModuleConstants(
             BR_STEER_ID, BR_DRIVE_ID, BR_CANCODER_ID, BR_ENCODER_OFFSET,
-            BR_X_POSITION, BR_Y_POSITION, INVERT_RIGHT, BR_STEER_MOTOR_REVERSED, BR_CANCODER_REVERSED
+            BR_X_POSITION, BR_Y_POSITION, INVERT_RIGHT, BR_STEER_MOTOR_INVERTED, BR_CANCODER_INVERTED
         );
 
 
