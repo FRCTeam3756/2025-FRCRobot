@@ -12,7 +12,6 @@ import com.ctre.phoenix6.controls.*;
 import com.ctre.phoenix6.hardware.*;
 import com.ctre.phoenix6.signals.*;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants;
-import org.littletonrobotics.junction.AutoLog;
 
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -54,27 +53,6 @@ public class ModuleIO {
   private final Debouncer driveConnectedDebounce = new Debouncer(0.5);
   private final Debouncer turnConnectedDebounce = new Debouncer(0.5);
   private final Debouncer turnEncoderConnectedDebounce = new Debouncer(0.5);
-
-  @AutoLog
-  public static class ModuleIOInputs {
-    public boolean driveConnected = false;
-    public double drivePositionRad = 0.0;
-    public double driveVelocityRadPerSec = 0.0;
-    public double driveAppliedVolts = 0.0;
-    public double driveCurrentAmps = 0.0;
-
-    public boolean turnConnected = false;
-    public boolean turnEncoderConnected = false;
-    public Rotation2d turnAbsolutePosition = new Rotation2d();
-    public Rotation2d turnPosition = new Rotation2d();
-    public double turnVelocityRadPerSec = 0.0;
-    public double turnAppliedVolts = 0.0;
-    public double turnCurrentAmps = 0.0;
-
-    public double[] odometryTimestamps = new double[] {};
-    public double[] odometryDrivePositionsRad = new double[] {};
-    public Rotation2d[] odometryTurnPositions = new Rotation2d[] {};
-  }
 
   public ModuleIO(
       SwerveModuleConstants<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration>

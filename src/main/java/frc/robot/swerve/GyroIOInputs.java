@@ -4,12 +4,19 @@
 
 package frc.robot.swerve;
 
-import java.lang.Cloneable;
 import java.lang.Override;
 import org.littletonrobotics.junction.LogTable;
 import org.littletonrobotics.junction.inputs.LoggableInputs;
 
-public class GyroIOInputsAutoLogged extends GyroIO.GyroIOInputs implements LoggableInputs, Cloneable {
+import edu.wpi.first.math.geometry.Rotation2d;
+
+public class GyroIOInputs implements LoggableInputs {
+    public boolean connected = false;
+    public Rotation2d yawPosition = new Rotation2d();
+    public double yawVelocityRadPerSec = 0.0;
+    public double[] odometryYawTimestamps = new double[] {};
+    public Rotation2d[] odometryYawPositions = new Rotation2d[] {};
+
   @Override
   public void toLog(LogTable table) {
     table.put("Connected", connected);
@@ -26,15 +33,5 @@ public class GyroIOInputsAutoLogged extends GyroIO.GyroIOInputs implements Logga
     yawVelocityRadPerSec = table.get("YawVelocityRadPerSec", yawVelocityRadPerSec);
     odometryYawTimestamps = table.get("OdometryYawTimestamps", odometryYawTimestamps);
     odometryYawPositions = table.get("OdometryYawPositions", odometryYawPositions);
-  }
-
-  public GyroIOInputsAutoLogged clone() {
-    GyroIOInputsAutoLogged copy = new GyroIOInputsAutoLogged();
-    copy.connected = this.connected;
-    copy.yawPosition = this.yawPosition;
-    copy.yawVelocityRadPerSec = this.yawVelocityRadPerSec;
-    copy.odometryYawTimestamps = this.odometryYawTimestamps.clone();
-    copy.odometryYawPositions = this.odometryYawPositions.clone();
-    return copy;
   }
 }

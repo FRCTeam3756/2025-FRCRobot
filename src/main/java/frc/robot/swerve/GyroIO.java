@@ -4,8 +4,6 @@
 
 package frc.robot.swerve;
 
-import org.littletonrobotics.junction.AutoLog;
-
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.StatusSignal;
@@ -31,14 +29,6 @@ public class GyroIO {
     yaw.setUpdateFrequency(Drive.ODOMETRY_FREQUENCY);
     yawVelocity.setUpdateFrequency(50.0);
     pigeon.optimizeBusUtilization();
-  }
-  @AutoLog
-  public static class GyroIOInputs {
-    public boolean connected = false;
-    public Rotation2d yawPosition = new Rotation2d();
-    public double yawVelocityRadPerSec = 0.0;
-    public double[] odometryYawTimestamps = new double[] {};
-    public Rotation2d[] odometryYawPositions = new Rotation2d[] {};
   }
 
   public void updateInputs(GyroIOInputs inputs) {

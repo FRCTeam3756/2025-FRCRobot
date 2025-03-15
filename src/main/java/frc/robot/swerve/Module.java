@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.Alert.AlertType;
 
 public class Module {
   private final ModuleIO io;
-  private final ModuleIOInputsAutoLogged inputs = new ModuleIOInputsAutoLogged();
+  private final ModuleIOInputs inputs = new ModuleIOInputs();
   private final SwerveModuleConstants<
           TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration>
       constants;
