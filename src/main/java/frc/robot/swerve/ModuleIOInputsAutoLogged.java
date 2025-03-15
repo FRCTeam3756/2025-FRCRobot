@@ -47,24 +47,4 @@ public class ModuleIOInputsAutoLogged extends ModuleIO.ModuleIOInputs implements
     odometryDrivePositionsRad = table.get("OdometryDrivePositionsRad", odometryDrivePositionsRad);
     odometryTurnPositions = table.get("OdometryTurnPositions", odometryTurnPositions);
   }
-
-  public ModuleIOInputsAutoLogged clone() {
-    ModuleIOInputsAutoLogged copy = new ModuleIOInputsAutoLogged();
-    copy.driveConnected = this.driveConnected;
-    copy.drivePositionRad = this.drivePositionRad;
-    copy.driveVelocityRadPerSec = this.driveVelocityRadPerSec;
-    copy.driveAppliedVolts = this.driveAppliedVolts;
-    copy.driveCurrentAmps = this.driveCurrentAmps;
-    copy.turnConnected = this.turnConnected;
-    copy.turnEncoderConnected = this.turnEncoderConnected;
-    copy.turnAbsolutePosition = this.turnAbsolutePosition;
-    copy.turnPosition = this.turnPosition;
-    copy.turnVelocityRadPerSec = this.turnVelocityRadPerSec;
-    copy.turnAppliedVolts = this.turnAppliedVolts;
-    copy.turnCurrentAmps = this.turnCurrentAmps;
-    copy.odometryTimestamps = this.odometryTimestamps.clone();
-    copy.odometryDrivePositionsRad = this.odometryDrivePositionsRad.clone();
-    copy.odometryTurnPositions = this.odometryTurnPositions.clone();
-    return copy;
-  }
 }
