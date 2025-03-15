@@ -9,7 +9,6 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import com.ctre.phoenix6.CANBus;
 
-import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -18,8 +17,6 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.math.numbers.N1;
-import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -63,14 +60,15 @@ public class Drive extends SubsystemBase {
   public void periodic() {
     odometryLock.lock();
       try {
-          for (var module : modules) {
+          for (Module module : modules) {
               module.periodic();
-          } } finally {
+          }
+      } finally {
           odometryLock.unlock();
       }
 
     if (DriverStation.isDisabled()) {
-      for (var module : modules) {
+      for (Module module : modules) {
         module.stop();
       }
     }
@@ -98,23 +96,8 @@ public class Drive extends SubsystemBase {
     }
   }
 
-  public void runCharacterization(double output) {
-    for (int i = 0; i < 4; i++) {
-      modules[i].runCharacterization(output);
-    }
-  }
-
   public void stop() {
     runVelocity(new ChassisSpeeds());
-  }
-
-  public void stopWithX() {
-    Rotation2d[] headings = new Rotation2d[4];
-    for (int i = 0; i < 4; i++) {
-      headings[i] = getModuleTranslations()[i].getAngle();
-    }
-    kinematics.resetHeadings(headings);
-    stop();
   }
 
   private SwerveModulePosition[] getModulePositions() {
@@ -123,22 +106,6 @@ public class Drive extends SubsystemBase {
       states[i] = modules[i].getPosition();
     }
     return states;
-  }
-
-  public double[] getWheelRadiusCharacterizationPositions() {
-    double[] values = new double[4];
-    for (int i = 0; i < 4; i++) {
-      values[i] = modules[i].getWheelRadiusCharacterizationPosition();
-    }
-    return values;
-  }
-
-  public double getFFCharacterizationVelocity() {
-    double output = 0.0;
-    for (int i = 0; i < 4; i++) {
-      output += modules[i].getFFCharacterizationVelocity() / 4.0;
-    }
-    return output;
   }
 
   public Pose2d getPose() {
@@ -151,14 +118,6 @@ public class Drive extends SubsystemBase {
 
   public void setPose(Pose2d pose) {
     poseEstimator.resetPosition(rawGyroRotation, getModulePositions(), pose);
-  }
-
-  public void addVisionMeasurement(
-      Pose2d visionRobotPoseMeters,
-      double timestampSeconds,
-      Matrix<N3, N1> visionMeasurementStdDevs) {
-    poseEstimator.addVisionMeasurement(
-        visionRobotPoseMeters, timestampSeconds, visionMeasurementStdDevs);
   }
 
   public double getMaxLinearSpeedMetersPerSec() {
