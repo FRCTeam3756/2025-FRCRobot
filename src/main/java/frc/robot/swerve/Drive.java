@@ -53,10 +53,10 @@ public class Drive extends SubsystemBase {
       new SwerveDrivePoseEstimator(kinematics, rawGyroRotation, lastModulePositions, new Pose2d());
 
   public Drive() {
-    modules[0] = new Module(new ModuleIOTalonFX(SwerveConstants.FL_SWERVE_MODULE), 0, SwerveConstants.FL_SWERVE_MODULE);
-    modules[1] = new Module(new ModuleIOTalonFX(SwerveConstants.FR_SWERVE_MODULE), 1, SwerveConstants.FR_SWERVE_MODULE);
-    modules[2] = new Module(new ModuleIOTalonFX(SwerveConstants.BL_SWERVE_MODULE), 2, SwerveConstants.BL_SWERVE_MODULE);
-    modules[3] = new Module(new ModuleIOTalonFX(SwerveConstants.BR_SWERVE_MODULE), 3, SwerveConstants.BR_SWERVE_MODULE);
+    modules[0] = new Module(new ModuleIO(SwerveConstants.FL_SWERVE_MODULE), 0, SwerveConstants.FL_SWERVE_MODULE);
+    modules[1] = new Module(new ModuleIO(SwerveConstants.FR_SWERVE_MODULE), 1, SwerveConstants.FR_SWERVE_MODULE);
+    modules[2] = new Module(new ModuleIO(SwerveConstants.BL_SWERVE_MODULE), 2, SwerveConstants.BL_SWERVE_MODULE);
+    modules[3] = new Module(new ModuleIO(SwerveConstants.BR_SWERVE_MODULE), 3, SwerveConstants.BR_SWERVE_MODULE);
   }
 
   @Override
