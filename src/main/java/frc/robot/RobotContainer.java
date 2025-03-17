@@ -11,7 +11,7 @@ import frc.robot.subsystems.*;
 import frc.robot.swerve.Drive;
 
 public class RobotContainer {
-  // private final ClawSubsystem clawSubsystem = new ClawSubsystem();
+  private final ClawSubsystem clawSubsystem = new ClawSubsystem();
   private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
   private final ClimbingSubsystem climbSubsystem = new ClimbingSubsystem();
 
@@ -43,8 +43,18 @@ public class RobotContainer {
     Controller.elevatorDownButton
         .whileTrue(new InstantCommand(() -> elevatorSubsystem.elevatorDown()))
         .onFalse(new InstantCommand(() -> elevatorSubsystem.elevatorStop()));
-    // Controller.intakeButton.whileTrue(new InstantCommand(() -> clawSubsystem.intakeGamePiece()));
-    // Controller.shootProcessorButton.whileTrue(new InstantCommand(() -> clawSubsystem.shootProcessor()));
+    Controller.clawTiltUp
+        .whileTrue(new InstantCommand(() -> clawSubsystem.tiltWristUp()))
+        .onFalse(new InstantCommand(() -> clawSubsystem.tiltWristStop()));
+    Controller.clawTiltDown
+        .whileTrue(new InstantCommand(() -> clawSubsystem.tiltWristDown()))
+        .onFalse(new InstantCommand(() -> clawSubsystem.tiltWristStop()));        
+    Controller.clawIntakeButton
+        .whileTrue(new InstantCommand(() -> clawSubsystem.intakeGamePiece()))
+        .onFalse(new InstantCommand(() -> clawSubsystem.stopRollers()));
+    Controller.clawOuttakeButton
+        .whileTrue(new InstantCommand(() -> clawSubsystem.shootProcessor()))
+        .onFalse(new InstantCommand(() -> clawSubsystem.stopRollers()));
   }
 
   private double getCurrentSpeedMultiplier() {

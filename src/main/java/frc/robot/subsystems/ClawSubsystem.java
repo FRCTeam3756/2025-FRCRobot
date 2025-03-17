@@ -16,19 +16,19 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.ClawConstants;
 
 public class ClawSubsystem extends SubsystemBase {
-  private final SparkMax leftMotor;
-  private final SparkMax rightMotor;
+  private final SparkMax wristMotor, leftMotor, rightMotor;
   private final SparkMaxConfig neoConfig;
-  private final RelativeEncoder leftEncoder;
-  private final RelativeEncoder rightEncoder;
+  private final RelativeEncoder wristEncoder, leftEncoder, rightEncoder;
 
   public ClawSubsystem() {
-    leftMotor = new SparkMax(ClawConstants.LEFT_MOTOR_ID, MotorType.kBrushless);
-    rightMotor = new SparkMax(ClawConstants.RIGHT_MOTOR_ID, MotorType.kBrushless);
+    wristMotor = new SparkMax(ClawConstants.WRIST_MOTOR_ID, MotorType.kBrushless);
+    leftMotor = new SparkMax(ClawConstants.LEFT_CLAW_MOTOR_ID, MotorType.kBrushless);
+    rightMotor = new SparkMax(ClawConstants.RIGHT_CLAW_MOTOR_ID, MotorType.kBrushless);
     
     neoConfig = new SparkMaxConfig();
     neoConfig.smartCurrentLimit(ClawConstants.MOTOR_MAX_AMPERAGE);
     
+    wristEncoder = wristMotor.getEncoder();
     leftEncoder = leftMotor.getEncoder();
     rightEncoder = rightMotor.getEncoder();
 
@@ -36,11 +36,29 @@ public class ClawSubsystem extends SubsystemBase {
     REVLibError leftError = leftMotor.configure(neoConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 
     if (leftError == REVLibError.kOk & rightError == REVLibError.kOk) {
-      leftEncoder.setPosition(0);
-      rightEncoder.setPosition(0);
+      wristEncoder.setPosition(0.0);
+      leftEncoder.setPosition(0.0);
+      rightEncoder.setPosition(0.0);
     } else {
       System.err.println("Claw Motor Configuration Failed!");
     }
+  }
+
+  public void tiltWristStop() {
+    wristMotor.set(0.0);
+  }
+
+  public void tiltWristUp() {
+    wristMotor.set(ClawConstants.WRIST_SPEED);
+  }
+
+  public void tiltWristDown() {
+    wristMotor.set(-ClawConstants.WRIST_SPEED);
+  }
+
+  public void stopRollers() {
+    leftMotor.set(0.0);
+    rightMotor.set(0.0);
   }
 
   public void intakeGamePiece() {
