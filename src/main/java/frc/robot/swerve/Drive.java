@@ -27,96 +27,95 @@ import frc.robot.constants.SwerveConstants;
 import frc.robot.Controller;
 
 public class Drive extends SubsystemBase {
-  static final double ODOMETRY_FREQUENCY =
-      new CANBus(SwerveConstants.DrivetrainConstants.CANBusName).isNetworkFD() ? 250.0 : 100.0;
-  public static final double DRIVE_BASE_RADIUS =
+  static final double ODOMETRY_FREQUENCY = new CANBus(SwerveConstants.DrivetrainConstants.CANBusName).isNetworkFD()
+      ? 250.0
+      : 100.0;
+  public static final double DRIVE_BASE_RADIUS = Math.max(
       Math.max(
-          Math.max(
-              Math.hypot(SwerveConstants.FL_SWERVE_MODULE.LocationX, SwerveConstants.FL_SWERVE_MODULE.LocationY),
-              Math.hypot(SwerveConstants.FR_SWERVE_MODULE.LocationX, SwerveConstants.FR_SWERVE_MODULE.LocationY)),
-          Math.max(
-              Math.hypot(SwerveConstants.BL_SWERVE_MODULE.LocationX, SwerveConstants.BL_SWERVE_MODULE.LocationY),
-              Math.hypot(SwerveConstants.BR_SWERVE_MODULE.LocationX, SwerveConstants.BR_SWERVE_MODULE.LocationY)));
+          Math.hypot(SwerveConstants.FL_SWERVE_MODULE.LocationX, SwerveConstants.FL_SWERVE_MODULE.LocationY),
+          Math.hypot(SwerveConstants.FR_SWERVE_MODULE.LocationX, SwerveConstants.FR_SWERVE_MODULE.LocationY)),
+      Math.max(
+          Math.hypot(SwerveConstants.BL_SWERVE_MODULE.LocationX, SwerveConstants.BL_SWERVE_MODULE.LocationY),
+          Math.hypot(SwerveConstants.BR_SWERVE_MODULE.LocationX, SwerveConstants.BR_SWERVE_MODULE.LocationY)));
 
   static final Lock odometryLock = new ReentrantLock();
   private final Module[] modules = new Module[4];
 
   private final SwerveDriveKinematics kinematics = new SwerveDriveKinematics(getModuleTranslations());
   private final Rotation2d rawGyroRotation = new Rotation2d();
-  private final SwerveModulePosition[] lastModulePositions =
-      new SwerveModulePosition[] {
-        new SwerveModulePosition(),
-        new SwerveModulePosition(),
-        new SwerveModulePosition(),
-        new SwerveModulePosition()
-      };
-  private final SwerveDrivePoseEstimator poseEstimator =
-      new SwerveDrivePoseEstimator(kinematics, rawGyroRotation, lastModulePositions, new Pose2d());
-  
-    public Drive() {
-      modules[0] = new Module(new ModuleIO(SwerveConstants.FL_SWERVE_MODULE), 0, SwerveConstants.FL_SWERVE_MODULE);
-      modules[1] = new Module(new ModuleIO(SwerveConstants.FR_SWERVE_MODULE), 1, SwerveConstants.FR_SWERVE_MODULE);
-      modules[2] = new Module(new ModuleIO(SwerveConstants.BL_SWERVE_MODULE), 2, SwerveConstants.BL_SWERVE_MODULE);
-      modules[3] = new Module(new ModuleIO(SwerveConstants.BR_SWERVE_MODULE), 3, SwerveConstants.BR_SWERVE_MODULE);
-    }
-  
-    @Override
-    public void periodic() {
-      odometryLock.lock();
-        try {
-            for (Module module : modules) {
-                module.periodic();
-            }
-        } finally {
-            odometryLock.unlock();
-        }
-  
-      if (DriverStation.isDisabled()) {
-        for (Module module : modules) {
-          module.stop();
-        }
+  private final SwerveModulePosition[] lastModulePositions = new SwerveModulePosition[] {
+      new SwerveModulePosition(),
+      new SwerveModulePosition(),
+      new SwerveModulePosition(),
+      new SwerveModulePosition()
+  };
+  private final SwerveDrivePoseEstimator poseEstimator = new SwerveDrivePoseEstimator(kinematics, rawGyroRotation,
+      lastModulePositions, new Pose2d());
+
+  public Drive() {
+    modules[0] = new Module(new ModuleIO(SwerveConstants.FL_SWERVE_MODULE), 0, SwerveConstants.FL_SWERVE_MODULE);
+    modules[1] = new Module(new ModuleIO(SwerveConstants.FR_SWERVE_MODULE), 1, SwerveConstants.FR_SWERVE_MODULE);
+    modules[2] = new Module(new ModuleIO(SwerveConstants.BL_SWERVE_MODULE), 2, SwerveConstants.BL_SWERVE_MODULE);
+    modules[3] = new Module(new ModuleIO(SwerveConstants.BR_SWERVE_MODULE), 3, SwerveConstants.BR_SWERVE_MODULE);
+  }
+
+  @Override
+  public void periodic() {
+    odometryLock.lock();
+    try {
+      for (Module module : modules) {
+        module.periodic();
       }
-  
-      double[] sampleTimestamps = modules[0].getOdometryTimestamps();
-      int sampleCount = sampleTimestamps.length;
-      for (int i = 0; i < sampleCount; i++) {
-        SwerveModulePosition[] modulePositions = new SwerveModulePosition[4];
-        for (int moduleIndex = 0; moduleIndex < 4; moduleIndex++) {
-          modulePositions[moduleIndex] = modules[moduleIndex].getOdometryPositions()[i];
-          lastModulePositions[moduleIndex] = modulePositions[moduleIndex];
-        }
-  
-        poseEstimator.updateWithTime(sampleTimestamps[i], rawGyroRotation, modulePositions);
+    } finally {
+      odometryLock.unlock();
+    }
+
+    if (DriverStation.isDisabled()) {
+      for (Module module : modules) {
+        module.stop();
       }
     }
-  
-    public Command drive(
-              Drive drive,
-              double x,
-              double y,
-              double rot) {
-          return Commands.run(
-                  () -> {
-                      Translation2d linearVelocity = Controller.getLinearVelocityFromJoysticks(x, y);
 
-                    double omega = Controller.calculateRotation(rot);
+    double[] sampleTimestamps = modules[0].getOdometryTimestamps();
+    int sampleCount = sampleTimestamps.length;
+    for (int i = 0; i < sampleCount; i++) {
+      SwerveModulePosition[] modulePositions = new SwerveModulePosition[4];
+      for (int moduleIndex = 0; moduleIndex < 4; moduleIndex++) {
+        modulePositions[moduleIndex] = modules[moduleIndex].getOdometryPositions()[i];
+        lastModulePositions[moduleIndex] = modulePositions[moduleIndex];
+      }
 
-                    ChassisSpeeds speeds = new ChassisSpeeds(
-                            linearVelocity.getX() * drive.getMaxLinearSpeedMetersPerSec(),
-                            linearVelocity.getY() * drive.getMaxLinearSpeedMetersPerSec(),
-                            omega * drive.getMaxAngularSpeedRadPerSec());
-                    
-                    boolean isFlipped = Controller.isAllianceFlipped();
-
-                    drive.runVelocity(
-                            ChassisSpeeds.fromFieldRelativeSpeeds(
-                                    speeds,
-                                    isFlipped
-                                            ? drive.getRotation().plus(new Rotation2d(Math.PI))
-                                            : drive.getRotation()));
-                },
-                drive);
+      poseEstimator.updateWithTime(sampleTimestamps[i], rawGyroRotation, modulePositions);
     }
+  }
+
+  public Command drive(
+      Drive drive,
+      double x,
+      double y,
+      double rot) {
+    return Commands.run(
+        () -> {
+          Translation2d linearVelocity = Controller.getLinearVelocityFromJoysticks(x, y);
+
+          double omega = Controller.calculateRotation(rot);
+
+          ChassisSpeeds speeds = new ChassisSpeeds(
+              linearVelocity.getX() * drive.getMaxLinearSpeedMetersPerSec(),
+              linearVelocity.getY() * drive.getMaxLinearSpeedMetersPerSec(),
+              omega * drive.getMaxAngularSpeedRadPerSec());
+
+          boolean isFlipped = Controller.isAllianceFlipped();
+
+          drive.runVelocity(
+              ChassisSpeeds.fromFieldRelativeSpeeds(
+                  speeds,
+                  isFlipped
+                      ? drive.getRotation().plus(new Rotation2d(Math.PI))
+                      : drive.getRotation()));
+        },
+        drive);
+  }
 
   public void runVelocity(ChassisSpeeds speeds) {
     ChassisSpeeds discreteSpeeds = ChassisSpeeds.discretize(speeds, 0.02);
@@ -162,10 +161,10 @@ public class Drive extends SubsystemBase {
 
   public static Translation2d[] getModuleTranslations() {
     return new Translation2d[] {
-      new Translation2d(SwerveConstants.FL_X_POSITION, SwerveConstants.FL_Y_POSITION),
-      new Translation2d(SwerveConstants.FR_X_POSITION, SwerveConstants.FR_Y_POSITION),
-      new Translation2d(SwerveConstants.BL_X_POSITION, SwerveConstants.BL_Y_POSITION),
-      new Translation2d(SwerveConstants.BR_X_POSITION, SwerveConstants.BR_Y_POSITION)
+        new Translation2d(SwerveConstants.FL_X_POSITION, SwerveConstants.FL_Y_POSITION),
+        new Translation2d(SwerveConstants.FR_X_POSITION, SwerveConstants.FR_Y_POSITION),
+        new Translation2d(SwerveConstants.BL_X_POSITION, SwerveConstants.BL_Y_POSITION),
+        new Translation2d(SwerveConstants.BR_X_POSITION, SwerveConstants.BR_Y_POSITION)
     };
   }
 }

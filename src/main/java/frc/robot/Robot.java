@@ -19,35 +19,40 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotPeriodic() {
-    //TODO: Test removing thread priority
+    // TODO: Test removing thread priority
     Threads.setCurrentThreadPriority(true, 99);
     CommandScheduler.getInstance().run();
     Threads.setCurrentThreadPriority(false, 10);
   }
 
   @Override
-  public void disabledInit() {} //TODO: STOP EVERYTHING!!!
+  public void disabledInit() {
+  } // TODO: STOP EVERYTHING!!!
 
   @Override
-  public void disabledPeriodic() {}
+  public void disabledPeriodic() {
+  }
 
   @Override
-  public void disabledExit() {}
+  public void disabledExit() {
+  }
 
   @Override
   public void autonomousInit() {
     autonomousCommand = robotContainer.getAutonomousCommand();
-    
+
     if (autonomousCommand != null) {
       autonomousCommand.schedule();
     }
   }
 
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+  }
 
   @Override
-  public void autonomousExit() {}
+  public void autonomousExit() {
+  }
 
   @Override
   public void teleopInit() {
@@ -57,8 +62,10 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+  }
 
   @Override
-  public void teleopExit() {}
+  public void teleopExit() {
+  }
 }

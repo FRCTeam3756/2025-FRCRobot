@@ -17,7 +17,7 @@ public class RobotContainer {
   private final ClimbingSubsystem climbSubsystem = new ClimbingSubsystem();
   private final JONSubsystem jonSubsystem = new JONSubsystem();
   private final Drive drive = new Drive();
-  
+
   private boolean turboActive = false;
 
   public RobotContainer() {
@@ -26,7 +26,7 @@ public class RobotContainer {
 
   private void configureButtonBindings() {
     Controller.enableJoystickDrive();
-    
+
     Controller.driveTurboButton
         .whileTrue(new InstantCommand(() -> setTurboActive(true)))
         .onFalse(new InstantCommand(() -> setTurboActive(false)));
@@ -44,7 +44,7 @@ public class RobotContainer {
         .onFalse(new InstantCommand(() -> clawSubsystem.tiltWristStop()));
     Controller.clawTiltDown
         .whileTrue(new InstantCommand(() -> clawSubsystem.tiltWristDown()))
-        .onFalse(new InstantCommand(() -> clawSubsystem.tiltWristStop()));        
+        .onFalse(new InstantCommand(() -> clawSubsystem.tiltWristStop()));
     Controller.clawIntakeButton
         .whileTrue(new InstantCommand(() -> clawSubsystem.intakeGamePiece()))
         .onFalse(new InstantCommand(() -> clawSubsystem.stopRollers()));

@@ -29,12 +29,12 @@ public class PickupAlgaeCommand extends Command {
                     drive
       )
     );
-    jonSubsystem.autoPickupAlgae();
   }
 
   @Override
-  public void execute(
-  ) {}
+  public void execute() {
+    jonSubsystem.autoPickupAlgae();
+  }
 
   @Override
   public void end(boolean interrupted) {
