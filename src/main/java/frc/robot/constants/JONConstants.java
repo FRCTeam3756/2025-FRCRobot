@@ -17,7 +17,10 @@ public class JONConstants {
         INTAKE("intake"),
         OUTTAKE("outtake"),
         ELEVATOR("elevator"),
-        CLIMB("climb");
+        MATCH_PHASE("match_phase"),
+        GOAL("goal"),
+        GOAL_PICKUP_ALGAE("pickup_algae"),
+        GOAL_SCORE_ALGAE("score_algae"),;
 
         private final String value;
 

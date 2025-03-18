@@ -19,8 +19,12 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.SwerveConstants;
+
+import frc.robot.Controller;
 
 public class Drive extends SubsystemBase {
   static final double ODOMETRY_FREQUENCY =
@@ -48,43 +52,71 @@ public class Drive extends SubsystemBase {
       };
   private final SwerveDrivePoseEstimator poseEstimator =
       new SwerveDrivePoseEstimator(kinematics, rawGyroRotation, lastModulePositions, new Pose2d());
-
-  public Drive() {
-    modules[0] = new Module(new ModuleIO(SwerveConstants.FL_SWERVE_MODULE), 0, SwerveConstants.FL_SWERVE_MODULE);
-    modules[1] = new Module(new ModuleIO(SwerveConstants.FR_SWERVE_MODULE), 1, SwerveConstants.FR_SWERVE_MODULE);
-    modules[2] = new Module(new ModuleIO(SwerveConstants.BL_SWERVE_MODULE), 2, SwerveConstants.BL_SWERVE_MODULE);
-    modules[3] = new Module(new ModuleIO(SwerveConstants.BR_SWERVE_MODULE), 3, SwerveConstants.BR_SWERVE_MODULE);
-  }
-
-  @Override
-  public void periodic() {
-    odometryLock.lock();
-      try {
-          for (Module module : modules) {
-              module.periodic();
-          }
-      } finally {
-          odometryLock.unlock();
+  
+    public Drive() {
+      modules[0] = new Module(new ModuleIO(SwerveConstants.FL_SWERVE_MODULE), 0, SwerveConstants.FL_SWERVE_MODULE);
+      modules[1] = new Module(new ModuleIO(SwerveConstants.FR_SWERVE_MODULE), 1, SwerveConstants.FR_SWERVE_MODULE);
+      modules[2] = new Module(new ModuleIO(SwerveConstants.BL_SWERVE_MODULE), 2, SwerveConstants.BL_SWERVE_MODULE);
+      modules[3] = new Module(new ModuleIO(SwerveConstants.BR_SWERVE_MODULE), 3, SwerveConstants.BR_SWERVE_MODULE);
+    }
+  
+    @Override
+    public void periodic() {
+      odometryLock.lock();
+        try {
+            for (Module module : modules) {
+                module.periodic();
+            }
+        } finally {
+            odometryLock.unlock();
+        }
+  
+      if (DriverStation.isDisabled()) {
+        for (Module module : modules) {
+          module.stop();
+        }
       }
-
-    if (DriverStation.isDisabled()) {
-      for (Module module : modules) {
-        module.stop();
+  
+      double[] sampleTimestamps = modules[0].getOdometryTimestamps();
+      int sampleCount = sampleTimestamps.length;
+      for (int i = 0; i < sampleCount; i++) {
+        SwerveModulePosition[] modulePositions = new SwerveModulePosition[4];
+        for (int moduleIndex = 0; moduleIndex < 4; moduleIndex++) {
+          modulePositions[moduleIndex] = modules[moduleIndex].getOdometryPositions()[i];
+          lastModulePositions[moduleIndex] = modulePositions[moduleIndex];
+        }
+  
+        poseEstimator.updateWithTime(sampleTimestamps[i], rawGyroRotation, modulePositions);
       }
     }
+  
+    public Command drive(
+              Drive drive,
+              double x,
+              double y,
+              double rot) {
+          return Commands.run(
+                  () -> {
+                      Translation2d linearVelocity = Controller.getLinearVelocityFromJoysticks(x, y);
 
-    double[] sampleTimestamps = modules[0].getOdometryTimestamps();
-    int sampleCount = sampleTimestamps.length;
-    for (int i = 0; i < sampleCount; i++) {
-      SwerveModulePosition[] modulePositions = new SwerveModulePosition[4];
-      for (int moduleIndex = 0; moduleIndex < 4; moduleIndex++) {
-        modulePositions[moduleIndex] = modules[moduleIndex].getOdometryPositions()[i];
-        lastModulePositions[moduleIndex] = modulePositions[moduleIndex];
-      }
+                    double omega = Controller.calculateRotation(rot);
 
-      poseEstimator.updateWithTime(sampleTimestamps[i], rawGyroRotation, modulePositions);
+                    ChassisSpeeds speeds = new ChassisSpeeds(
+                            linearVelocity.getX() * drive.getMaxLinearSpeedMetersPerSec(),
+                            linearVelocity.getY() * drive.getMaxLinearSpeedMetersPerSec(),
+                            omega * drive.getMaxAngularSpeedRadPerSec());
+                    
+                    boolean isFlipped = Controller.isAllianceFlipped();
+
+                    drive.runVelocity(
+                            ChassisSpeeds.fromFieldRelativeSpeeds(
+                                    speeds,
+                                    isFlipped
+                                            ? drive.getRotation().plus(new Rotation2d(Math.PI))
+                                            : drive.getRotation()));
+                },
+                drive);
     }
-  }
 
   public void runVelocity(ChassisSpeeds speeds) {
     ChassisSpeeds discreteSpeeds = ChassisSpeeds.discretize(speeds, 0.02);
