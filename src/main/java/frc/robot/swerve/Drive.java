@@ -89,6 +89,16 @@ public class Drive extends SubsystemBase {
     }
   }
 
+  private static boolean isAllianceFlipped() {
+      return DriverStation.getAlliance().isPresent()
+              && DriverStation.getAlliance().get() == DriverStation.Alliance.Red;
+  }
+
+  private static double calculateRotation(double rot) {
+      rot = Controller.applyDeadband(rot);
+      return Math.copySign(rot * rot, rot);
+  }
+
   public Command drive(
       Drive drive,
       double x,
@@ -98,19 +108,17 @@ public class Drive extends SubsystemBase {
         () -> {
           Translation2d linearVelocity = Controller.getLinearVelocityFromJoysticks(x, y);
 
-          double omega = Controller.calculateRotation(rot);
+          double omega = calculateRotation(rot);
 
           ChassisSpeeds speeds = new ChassisSpeeds(
               linearVelocity.getX() * drive.getMaxLinearSpeedMetersPerSec(),
               linearVelocity.getY() * drive.getMaxLinearSpeedMetersPerSec(),
               omega * drive.getMaxAngularSpeedRadPerSec());
 
-          boolean isFlipped = Controller.isAllianceFlipped();
-
           drive.runVelocity(
               ChassisSpeeds.fromFieldRelativeSpeeds(
                   speeds,
-                  isFlipped
+                  isAllianceFlipped()
                       ? drive.getRotation().plus(new Rotation2d(Math.PI))
                       : drive.getRotation()));
         },

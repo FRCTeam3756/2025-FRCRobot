@@ -9,7 +9,6 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -65,16 +64,6 @@ public class Controller {
         return new Pose2d(new Translation2d(), linearDirection)
                 .transformBy(new Transform2d(linearMagnitude, 0.0, new Rotation2d()))
                 .getTranslation();
-    }
-
-    public static double calculateRotation(double rot) {
-        rot = applyDeadband(rot);
-        return Math.copySign(rot * rot, rot);
-    }
-
-    public static boolean isAllianceFlipped() {
-        return DriverStation.getAlliance().isPresent()
-                && DriverStation.getAlliance().get() == DriverStation.Alliance.Red;
     }
 
     public static void enableJoystickDrive() {
