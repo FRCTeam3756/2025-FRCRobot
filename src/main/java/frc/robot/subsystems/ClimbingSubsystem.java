@@ -27,11 +27,8 @@ public class ClimbingSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    double leftCurrent = leftPaddle.getStatorCurrent();
-    double rightCurrent = rightPaddle.getStatorCurrent();
-    
-    preventMotorBurnout(leftPaddle, leftCurrent, leftStalled, leftStallStartTime);
-    preventMotorBurnout(rightPaddle, rightCurrent, rightStalled, rightStallStartTime);
+    preventMotorBurnout(leftPaddle, leftPaddle.getStatorCurrent(), leftStalled, leftStallStartTime);
+    preventMotorBurnout(rightPaddle, rightPaddle.getStatorCurrent(), rightStalled, rightStallStartTime);
   }
 
   public void climbing() {
