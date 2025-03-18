@@ -29,15 +29,15 @@ public class JONSubsystem extends SubsystemBase {
     }
 
     public void sendMatchPhaseToJON() {
-        String matchPhase = DriverStation.isAutonomousEnabled() ? "Auto" :
-                            DriverStation.isTeleopEnabled() ? "Tele-Op" : "Pre-Match";
+        String matchPhase = DriverStation.isAutonomousEnabled() ? "Auto"
+                : DriverStation.isTeleopEnabled() ? "Tele-Op" : "Pre-Match";
 
         sendJONData(JONConstants.NETWORK_TABLE_NAMING.MATCH_PHASE.getValue(), matchPhase);
     }
-    
+
     public Object getJONData(String name, Object defaultValue) {
         NetworkTableEntry entry = this.networkTable.getEntry(name);
-        
+
         if (!entry.exists()) {
             return defaultValue;
         }
@@ -60,16 +60,18 @@ public class JONSubsystem extends SubsystemBase {
             return defaultValue;
         }
     }
-    
+
     public void sendJONData(String name, Object data) {
         this.networkTable.getEntry(name).setValue(data);
     }
 
     public void autoPickupAlgae() {
         if (clawSubsystem.isAlgaeInClaw()) {
-            sendJONData(JONConstants.NETWORK_TABLE_NAMING.GOAL.getValue(), JONConstants.NETWORK_TABLE_NAMING.GOAL_SCORE_ALGAE);
+            sendJONData(JONConstants.NETWORK_TABLE_NAMING.GOAL.getValue(),
+                    JONConstants.NETWORK_TABLE_NAMING.GOAL_SCORE_ALGAE);
         } else {
-            sendJONData(JONConstants.NETWORK_TABLE_NAMING.GOAL.getValue(), JONConstants.NETWORK_TABLE_NAMING.GOAL_PICKUP_ALGAE);
+            sendJONData(JONConstants.NETWORK_TABLE_NAMING.GOAL.getValue(),
+                    JONConstants.NETWORK_TABLE_NAMING.GOAL_PICKUP_ALGAE);
         }
         getJONData(JONConstants.NETWORK_TABLE_NAMING.X.getValue(), 0.0);
         getJONData(JONConstants.NETWORK_TABLE_NAMING.Y.getValue(), 0.0);

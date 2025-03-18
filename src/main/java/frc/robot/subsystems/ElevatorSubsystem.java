@@ -16,20 +16,21 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.ClimbConstants;
 import frc.robot.constants.ElevatorConstants;
 
-public class ElevatorSubsystem extends SubsystemBase{
+public class ElevatorSubsystem extends SubsystemBase {
   private final SparkMax elevatorMotor;
   private final SparkMaxConfig motorConfig;
   private final RelativeEncoder elevatorEncoder;
-  
+
   public ElevatorSubsystem() {
     elevatorMotor = new SparkMax(ElevatorConstants.ELEVATOR_CAN_ID, MotorType.kBrushless);
-    
+
     motorConfig = new SparkMaxConfig();
     motorConfig.smartCurrentLimit(ElevatorConstants.MOTOR_MAX_AMPERAGE);
 
     elevatorEncoder = elevatorMotor.getEncoder();
 
-    REVLibError error = elevatorMotor.configure(motorConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+    REVLibError error = elevatorMotor.configure(motorConfig, ResetMode.kResetSafeParameters,
+        PersistMode.kNoPersistParameters);
 
     if (error == REVLibError.kOk) {
       elevatorEncoder.setPosition(0);
@@ -63,5 +64,6 @@ public class ElevatorSubsystem extends SubsystemBase{
   }
 
   @Override
-  public void periodic() {}
+  public void periodic() {
+  }
 }

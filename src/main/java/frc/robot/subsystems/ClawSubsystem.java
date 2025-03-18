@@ -24,16 +24,18 @@ public class ClawSubsystem extends SubsystemBase {
     wristMotor = new SparkMax(ClawConstants.WRIST_MOTOR_ID, MotorType.kBrushless);
     leftMotor = new SparkMax(ClawConstants.LEFT_CLAW_MOTOR_ID, MotorType.kBrushless);
     rightMotor = new SparkMax(ClawConstants.RIGHT_CLAW_MOTOR_ID, MotorType.kBrushless);
-    
+
     neoConfig = new SparkMaxConfig();
     neoConfig.smartCurrentLimit(ClawConstants.MOTOR_MAX_AMPERAGE);
-    
+
     wristEncoder = wristMotor.getEncoder();
     leftEncoder = leftMotor.getEncoder();
     rightEncoder = rightMotor.getEncoder();
 
-    REVLibError rightError = rightMotor.configure(neoConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
-    REVLibError leftError = leftMotor.configure(neoConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+    REVLibError rightError = rightMotor.configure(neoConfig, ResetMode.kResetSafeParameters,
+        PersistMode.kNoPersistParameters);
+    REVLibError leftError = leftMotor.configure(neoConfig, ResetMode.kResetSafeParameters,
+        PersistMode.kNoPersistParameters);
 
     if (leftError == REVLibError.kOk & rightError == REVLibError.kOk) {
       wristEncoder.setPosition(0.0);
@@ -101,9 +103,10 @@ public class ClawSubsystem extends SubsystemBase {
   }
 
   @Override
-  public void periodic() {}
+  public void periodic() {
+  }
 
   public boolean isAlgaeInClaw() {
-      return false;
+    return false;
   }
 }

@@ -16,34 +16,34 @@ import edu.wpi.first.units.measure.*;
 import edu.wpi.first.units.Units;
 
 public class SwerveConstants {
-    public static final double STEER_MODULE_KP = 100;   // Proportional Gain
-    public static final double STEER_MODULE_KI = 0.0;   // Integral Gain
-    public static final double STEER_MODULE_KD = 0.5;   // Derivative Gain
-    public static final double STEER_MODULE_KS = 0.1;   // Static Gain
-    public static final double STEER_MODULE_KV = 2.66;  // Velocity Gain
-    public static final double STEER_MODULE_KA = 0.0;   // Acceleration Gain
+    public static final double STEER_MODULE_KP = 100;  // Proportional Gain
+    public static final double STEER_MODULE_KI = 0.0;  // Integral Gain
+    public static final double STEER_MODULE_KD = 0.5;  // Derivative Gain
+    public static final double STEER_MODULE_KS = 0.1;  // Static Gain
+    public static final double STEER_MODULE_KV = 2.66; // Velocity Gain
+    public static final double STEER_MODULE_KA = 0.0;  // Acceleration Gain
 
-    public static final double DRIVE_MODULE_KP = 0.1;   // Proportional Gain
-    public static final double DRIVE_MODULE_KI = 0.0;   // Integral Gain
-    public static final double DRIVE_MODULE_KD = 0.0;   // Derivative Gain
-    public static final double DRIVE_MODULE_KS = 0.0;   // Static Gain
+    public static final double DRIVE_MODULE_KP = 0.1;  // Proportional Gain
+    public static final double DRIVE_MODULE_KI = 0.0;  // Integral Gain
+    public static final double DRIVE_MODULE_KD = 0.0;  // Derivative Gain
+    public static final double DRIVE_MODULE_KS = 0.0;  // Static Gain
     public static final double DRIVE_MODULE_KV = 0.14; // Velocity Gain
-    public static final double DRIVE_MODULE_KA = 0.0;   // Acceleration Gain
+    public static final double DRIVE_MODULE_KA = 0.0;  // Acceleration Gain
 
     public static final double TURBO_DRIVE_MULTIPLIER = 1;
     public static final double STANDARD_DRIVE_MULTIPLIER = 0.5;
 
     private static final Slot0Configs STEER_GJONNS = new Slot0Configs()
-        .withKP(STEER_MODULE_KP).withKI(STEER_MODULE_KI).withKD(STEER_MODULE_KD)
-        .withKS(STEER_MODULE_KS).withKV(STEER_MODULE_KV).withKA(STEER_MODULE_KA);
-        
+            .withKP(STEER_MODULE_KP).withKI(STEER_MODULE_KI).withKD(STEER_MODULE_KD)
+            .withKS(STEER_MODULE_KS).withKV(STEER_MODULE_KV).withKA(STEER_MODULE_KA);
+
     private static final Slot0Configs DRIVE_GJONNS = new Slot0Configs()
-        .withKP(DRIVE_MODULE_KP).withKI(DRIVE_MODULE_KI).withKD(DRIVE_MODULE_KD)
-        .withKS(DRIVE_MODULE_KS).withKV(DRIVE_MODULE_KV).withKA(DRIVE_MODULE_KA);
+            .withKP(DRIVE_MODULE_KP).withKI(DRIVE_MODULE_KI).withKD(DRIVE_MODULE_KD)
+            .withKS(DRIVE_MODULE_KS).withKV(DRIVE_MODULE_KV).withKA(DRIVE_MODULE_KA);
 
     private static final ClosedLoopOutputType STEER_CLOSED_LOOP_OUTPUT = ClosedLoopOutputType.Voltage;
     private static final ClosedLoopOutputType DRIVE_CLOSED_LOOP_OUTPUT = ClosedLoopOutputType.Voltage;
-    
+
     private static final DriveMotorArrangement DRIVE_MOTOR_TYPE = DriveMotorArrangement.TalonFX_Integrated;
     private static final SteerMotorArrangement STEER_MOTOR_TYPE = SteerMotorArrangement.TalonFX_Integrated;
 
@@ -63,7 +63,7 @@ public class SwerveConstants {
     public static final LinearVelocity SPEED_AT_12_VOLTS = Units.MetersPerSecond.of(5.21);
 
     private static final double COUPLE_RATIO = 3.5714285714285716;
-    private static final double DRIVE_GEAR_RATIO = 6.75;                // SDS MK4i L2 Gear Ratio
+    private static final double DRIVE_GEAR_RATIO = 6.75; // SDS MK4i L2 Gear Ratio
     private static final double STEER_GEAR_RATIO = 150 / 7;
 
     private static final Distance WHEEL_RADIUS = Units.Inches.of(2);
@@ -148,27 +148,22 @@ public class SwerveConstants {
     public static final Distance BR_X_POSITION = Units.Inches.of(-11.5);
     public static final Distance BR_Y_POSITION = Units.Inches.of(-11.5);
 
-    public static final SwerveModuleConstants<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration> FL_SWERVE_MODULE =
-        CONSTANT_CREATOR.createModuleConstants(
-            FL_STEER_ID, FL_DRIVE_ID, FL_CANCODER_ID, FL_ENCODER_OFFSET,
-            FL_X_POSITION, FL_Y_POSITION, INVERT_LEFT, FL_STEER_MOTOR_INVERTED, FL_CANCODER_INVERTED
-        );
-    public static final SwerveModuleConstants<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration> FR_SWERVE_MODULE =
-        CONSTANT_CREATOR.createModuleConstants(
-            FR_STEER_ID, FR_DRIVE_ID, FR_CANCODER_ID, FR_ENCODER_OFFSET,
-            FR_X_POSITION, FR_Y_POSITION, INVERT_RIGHT, FR_STEER_MOTOR_INVERTED, FR_CANCODER_INVERTED
-        );
-    public static final SwerveModuleConstants<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration> BL_SWERVE_MODULE =
-        CONSTANT_CREATOR.createModuleConstants(
-            BL_STEER_ID, BL_DRIVE_ID, BL_CANCODER_ID, BL_ENCODER_OFFSET,
-            BL_X_POSITION, BL_Y_POSITION, INVERT_LEFT, BL_STEER_MOTOR_INVERTED, BL_CANCODER_INVERTED
-        );
-    public static final SwerveModuleConstants<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration> BR_SWERVE_MODULE =
-        CONSTANT_CREATOR.createModuleConstants(
-            BR_STEER_ID, BR_DRIVE_ID, BR_CANCODER_ID, BR_ENCODER_OFFSET,
-            BR_X_POSITION, BR_Y_POSITION, INVERT_RIGHT, BR_STEER_MOTOR_INVERTED, BR_CANCODER_INVERTED
-        );
-
+    public static final SwerveModuleConstants<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration> FL_SWERVE_MODULE = CONSTANT_CREATOR
+            .createModuleConstants(
+                    FL_STEER_ID, FL_DRIVE_ID, FL_CANCODER_ID, FL_ENCODER_OFFSET,
+                    FL_X_POSITION, FL_Y_POSITION, INVERT_LEFT, FL_STEER_MOTOR_INVERTED, FL_CANCODER_INVERTED);
+    public static final SwerveModuleConstants<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration> FR_SWERVE_MODULE = CONSTANT_CREATOR
+            .createModuleConstants(
+                    FR_STEER_ID, FR_DRIVE_ID, FR_CANCODER_ID, FR_ENCODER_OFFSET,
+                    FR_X_POSITION, FR_Y_POSITION, INVERT_RIGHT, FR_STEER_MOTOR_INVERTED, FR_CANCODER_INVERTED);
+    public static final SwerveModuleConstants<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration> BL_SWERVE_MODULE = CONSTANT_CREATOR
+            .createModuleConstants(
+                    BL_STEER_ID, BL_DRIVE_ID, BL_CANCODER_ID, BL_ENCODER_OFFSET,
+                    BL_X_POSITION, BL_Y_POSITION, INVERT_LEFT, BL_STEER_MOTOR_INVERTED, BL_CANCODER_INVERTED);
+    public static final SwerveModuleConstants<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration> BR_SWERVE_MODULE = CONSTANT_CREATOR
+            .createModuleConstants(
+                    BR_STEER_ID, BR_DRIVE_ID, BR_CANCODER_ID, BR_ENCODER_OFFSET,
+                    BR_X_POSITION, BR_Y_POSITION, INVERT_RIGHT, BR_STEER_MOTOR_INVERTED, BR_CANCODER_INVERTED);
 
     public static class TunerSwerveDrivetrain extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder> {
         public TunerSwerveDrivetrain(
