@@ -101,7 +101,9 @@ public class ClawSubsystem extends SubsystemBase {
   }
 
   @Override
-  public void periodic() {
-    
+  public void periodic() {}
+
+  public boolean isAlgaeInClaw() {
+      return false;
   }
 }

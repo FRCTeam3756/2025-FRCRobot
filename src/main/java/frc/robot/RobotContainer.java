@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.ai.*;
 import frc.robot.constants.SwerveConstants;
 import frc.robot.subsystems.*;
 import frc.robot.swerve.Drive;
@@ -14,7 +15,7 @@ public class RobotContainer {
   private final ClawSubsystem clawSubsystem = new ClawSubsystem();
   private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
   private final ClimbingSubsystem climbSubsystem = new ClimbingSubsystem();
-
+  private final JONSubsystem jonSubsystem = new JONSubsystem();
   private final Drive drive = new Drive();
   
   private boolean turboActive = false;
@@ -24,12 +25,7 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {
-    drive.setDefaultCommand(
-        Controller.joystickDrive(
-            drive,
-            () -> -Controller.controller.getLeftY() * getCurrentSpeedMultiplier(),
-            () -> -Controller.controller.getLeftX() * getCurrentSpeedMultiplier(),
-            () -> -Controller.controller.getRightX() * getCurrentSpeedMultiplier()));
+    Controller.enableJoystickDrive();
     
     Controller.driveTurboButton
         .whileTrue(new InstantCommand(() -> setTurboActive(true)))
@@ -55,9 +51,12 @@ public class RobotContainer {
     Controller.clawOuttakeButton
         .whileTrue(new InstantCommand(() -> clawSubsystem.shootProcessor()))
         .onFalse(new InstantCommand(() -> clawSubsystem.stopRollers()));
+    Controller.autoPickupAlgae
+        .whileTrue(new PickupAlgaeCommand(drive, jonSubsystem))
+        .onFalse(new InstantCommand(() -> Controller.enableJoystickDrive()));
   }
 
-  private double getCurrentSpeedMultiplier() {
+  public double getCurrentSpeedMultiplier() {
     return turboActive ? SwerveConstants.TURBO_DRIVE_MULTIPLIER : SwerveConstants.STANDARD_DRIVE_MULTIPLIER;
   }
 

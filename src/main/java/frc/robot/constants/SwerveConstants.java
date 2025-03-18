@@ -27,7 +27,7 @@ public class SwerveConstants {
     public static final double DRIVE_MODULE_KI = 0.0;   // Integral Gain
     public static final double DRIVE_MODULE_KD = 0.0;   // Derivative Gain
     public static final double DRIVE_MODULE_KS = 0.0;   // Static Gain
-    public static final double DRIVE_MODULE_KV = 0.124; // Velocity Gain
+    public static final double DRIVE_MODULE_KV = 0.14; // Velocity Gain
     public static final double DRIVE_MODULE_KA = 0.0;   // Acceleration Gain
 
     public static final double TURBO_DRIVE_MULTIPLIER = 1;
