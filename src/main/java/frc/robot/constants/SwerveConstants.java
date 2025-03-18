@@ -33,11 +33,11 @@ public class SwerveConstants {
     public static final double TURBO_DRIVE_MULTIPLIER = 1;
     public static final double STANDARD_DRIVE_MULTIPLIER = 0.5;
 
-    private static final Slot0Configs STEER_GAINS = new Slot0Configs()
+    private static final Slot0Configs STEER_GJONNS = new Slot0Configs()
         .withKP(STEER_MODULE_KP).withKI(STEER_MODULE_KI).withKD(STEER_MODULE_KD)
         .withKS(STEER_MODULE_KS).withKV(STEER_MODULE_KV).withKA(STEER_MODULE_KA);
         
-    private static final Slot0Configs DRIVE_GAINS = new Slot0Configs()
+    private static final Slot0Configs DRIVE_GJONNS = new Slot0Configs()
         .withKP(DRIVE_MODULE_KP).withKI(DRIVE_MODULE_KI).withKD(DRIVE_MODULE_KD)
         .withKS(DRIVE_MODULE_KS).withKV(DRIVE_MODULE_KV).withKA(DRIVE_MODULE_KA);
 
@@ -87,8 +87,8 @@ public class SwerveConstants {
             .withSteerMotorGearRatio(STEER_GEAR_RATIO)
             .withCouplingGearRatio(COUPLE_RATIO)
             .withWheelRadius(WHEEL_RADIUS)
-            .withSteerMotorGains(STEER_GAINS)
-            .withDriveMotorGains(DRIVE_GAINS)
+            .withSteerMotorGains(STEER_GJONNS)
+            .withDriveMotorGains(DRIVE_GJONNS)
             .withSteerMotorClosedLoopOutput(STEER_CLOSED_LOOP_OUTPUT)
             .withDriveMotorClosedLoopOutput(DRIVE_CLOSED_LOOP_OUTPUT)
             .withSlipCurrent(SLIP_CURRENT)

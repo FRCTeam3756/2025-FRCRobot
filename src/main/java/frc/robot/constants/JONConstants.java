@@ -4,7 +4,7 @@
 
 package frc.robot.constants;
 
-public class AIConstants {
+public class JONConstants {
     public static final String ROBOT_IP_ADDRESS = "10.37.56.2";
     public static final String NETWORK_TABLE_NAME = "AIPipeline";
     public static final String DATA_ENTRY_NAME = "data";
