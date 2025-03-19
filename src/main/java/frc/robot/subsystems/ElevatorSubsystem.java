@@ -13,7 +13,6 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.constants.ClimbConstants;
 import frc.robot.constants.ElevatorConstants;
 
 public class ElevatorSubsystem extends SubsystemBase{
@@ -42,7 +41,7 @@ public class ElevatorSubsystem extends SubsystemBase{
     if (getElevatorPosition() > ElevatorConstants.MAX_HEIGHT) {
       elevatorStop();
     } else {
-      elevatorMotor.set(ClimbConstants.CLIMB_SPEED);
+      elevatorMotor.set(ElevatorConstants.ELEVATOR_SPEED);
     }
   }
 
@@ -50,7 +49,7 @@ public class ElevatorSubsystem extends SubsystemBase{
     if (getElevatorPosition() < ElevatorConstants.MIN_HEIGHT) {
       elevatorStop();
     } else {
-      elevatorMotor.set(-ClimbConstants.CLIMB_SPEED);
+      elevatorMotor.set(-ElevatorConstants.ELEVATOR_SPEED);
     }
   }
 
