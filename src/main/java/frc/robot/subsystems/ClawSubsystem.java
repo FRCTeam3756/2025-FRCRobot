@@ -32,10 +32,11 @@ public class ClawSubsystem extends SubsystemBase {
     leftEncoder = leftMotor.getEncoder();
     rightEncoder = rightMotor.getEncoder();
 
-    REVLibError rightError = rightMotor.configure(neoConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
-    REVLibError leftError = leftMotor.configure(neoConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+    REVLibError wristError = wristMotor.configure(neoConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
+    REVLibError leftError = leftMotor.configure(neoConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
+    REVLibError rightError = rightMotor.configure(neoConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
 
-    if (leftError == REVLibError.kOk & rightError == REVLibError.kOk) {
+    if (leftError == REVLibError.kOk && rightError == REVLibError.kOk && wristError == REVLibError.kOk) {
       wristEncoder.setPosition(0.0);
       leftEncoder.setPosition(0.0);
       rightEncoder.setPosition(0.0);
@@ -49,11 +50,11 @@ public class ClawSubsystem extends SubsystemBase {
   }
 
   public void tiltWristUp() {
-    wristMotor.set(ClawConstants.WRIST_SPEED);
+    wristMotor.set(ClawConstants.WRIST_UP_SPEED);
   }
 
   public void tiltWristDown() {
-    wristMotor.set(-ClawConstants.WRIST_SPEED);
+    wristMotor.set(ClawConstants.WRIST_DOWN_SPEED);
   }
 
   public void stopRollers() {
@@ -62,13 +63,11 @@ public class ClawSubsystem extends SubsystemBase {
   }
 
   public void intakeGamePiece() {
-    leftMotor.set(ClawConstants.INTAKE_SPEED);
-    rightMotor.set(ClawConstants.INTAKE_SPEED);
+    setMotorSpeeds(ClawConstants.INTAKE_SPEED);
   }
 
   public void outtakeGamePiece() {
-    leftMotor.set(ClawConstants.OUTTAKE_SPEED);
-    rightMotor.set(ClawConstants.OUTTAKE_SPEED);
+    setMotorSpeeds(ClawConstants.OUTTAKE_SPEED);
   }
 
   public void shootProcessor() {

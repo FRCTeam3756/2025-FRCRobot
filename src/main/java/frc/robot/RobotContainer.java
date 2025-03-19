@@ -36,7 +36,7 @@ public class RobotContainer {
         .onFalse(new InstantCommand(() -> setTurboActive(false)));
     Controller.climbButton
         .whileTrue(new InstantCommand(() -> climbSubsystem.climbing(), climbSubsystem))
-        .onFalse(new InstantCommand(() -> climbSubsystem.stop(), climbSubsystem));
+        .onFalse(new InstantCommand(() -> climbSubsystem.stopClimbing(), climbSubsystem));
     Controller.elevatorUpButton
         .whileTrue(new InstantCommand(() -> elevatorSubsystem.elevatorUp()))
         .onFalse(new InstantCommand(() -> elevatorSubsystem.elevatorStop()));
@@ -53,7 +53,7 @@ public class RobotContainer {
         .whileTrue(new InstantCommand(() -> clawSubsystem.intakeGamePiece()))
         .onFalse(new InstantCommand(() -> clawSubsystem.stopRollers()));
     Controller.clawOuttakeButton
-        .whileTrue(new InstantCommand(() -> clawSubsystem.shootProcessor()))
+        .whileTrue(new InstantCommand(() -> clawSubsystem.outtakeGamePiece()))
         .onFalse(new InstantCommand(() -> clawSubsystem.stopRollers()));
   }
 

@@ -16,22 +16,19 @@ public class ClimbingSubsystem extends SubsystemBase {
   private final TalonSRX leftPaddle = new TalonSRX(ClimbConstants.LEFT_CAN_ID);
   private final TalonSRX rightPaddle = new TalonSRX(ClimbConstants.RIGHT_CAN_ID);
 
-  private static final double STALL_CURRENT_THRESHOLD = 40.0; // 775's burn out at 50A
+  private static final double STALL_CURRENT_THRESHOLD = -40.0; // 775's burn out at 50A
   private static final double STALL_TIME_THRESHOLD = 0.25;
   private static final double RECOVERY_TIME = 2.0;
 
-  private double leftStallStartTime = 0;
-  private double rightStallStartTime = 0;
+  private double leftStallStartTime = -1;
+  private double rightStallStartTime = -1;
+
   private boolean leftStalled = false;
   private boolean rightStalled = false;
 
   @Override
   public void periodic() {
-    double leftCurrent = leftPaddle.getStatorCurrent();
-    double rightCurrent = rightPaddle.getStatorCurrent();
-    
-    preventMotorBurnout(leftPaddle, leftCurrent, leftStalled, leftStallStartTime);
-    preventMotorBurnout(rightPaddle, rightCurrent, rightStalled, rightStallStartTime);
+    checkMotorStall();
   }
 
   public void climbing() {
@@ -43,28 +40,35 @@ public class ClimbingSubsystem extends SubsystemBase {
     }
   }
 
-  public void stop() {
+  public void stopClimbing() {
     leftPaddle.set(ControlMode.PercentOutput, 0);
     rightPaddle.set(ControlMode.PercentOutput, 0);
-    leftStalled = false;
-    rightStalled = false;
   }
 
-  private static void preventMotorBurnout(TalonSRX paddle, double motorCurrent, boolean motorStalled, double motorStallStartTime) {
+  private void checkMotorStall() {
     double currentTime = Timer.getFPGATimestamp();
 
-    if (motorCurrent > STALL_CURRENT_THRESHOLD) {
-      if (motorStallStartTime == 0) {
+    leftStalled = updateStallStatus(leftPaddle, currentTime, leftStalled, leftStallStartTime);
+    rightStalled = updateStallStatus(rightPaddle, currentTime, rightStalled, rightStallStartTime);
+  }
+
+  private boolean updateStallStatus(TalonSRX paddle, double currentTime, boolean motorStalled, double motorStallStartTime) {
+    double motorCurrent = paddle.getSupplyCurrent();
+
+    if (motorCurrent >= STALL_CURRENT_THRESHOLD) {
+      if (motorStalled && currentTime - motorStallStartTime >= RECOVERY_TIME) {
+        return false;
+      }
+      return motorStalled;
+    } else {
+      if (motorStallStartTime == -1) {
         motorStallStartTime = currentTime;
       } else if (currentTime - motorStallStartTime >= STALL_TIME_THRESHOLD) {
-        paddle.set(ControlMode.PercentOutput, 0);
-        motorStalled = true;
-        motorStallStartTime = currentTime;
+        stopClimbing();
+        return true;
       }
-    } else if (motorStalled && (currentTime - motorStallStartTime >= RECOVERY_TIME)) {
-      motorStalled = false;
-    } else if (motorCurrent < STALL_CURRENT_THRESHOLD) {
-      motorStallStartTime = 0;
     }
+
+    return motorStalled;
   }
 }

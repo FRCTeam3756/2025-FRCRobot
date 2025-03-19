@@ -28,7 +28,7 @@ public class ElevatorSubsystem extends SubsystemBase{
 
     elevatorEncoder = elevatorMotor.getEncoder();
 
-    REVLibError error = elevatorMotor.configure(motorConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+    REVLibError error = elevatorMotor.configure(motorConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
 
     if (error == REVLibError.kOk) {
       elevatorEncoder.setPosition(0);

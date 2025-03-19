@@ -42,8 +42,8 @@ public class Controller {
     public static final Trigger elevatorL1Button = controller.a();
 
     // Back Buttons
-    public static final Trigger clawTiltUp = controller.leftBumper();
-    public static final Trigger clawTiltDown = controller.rightBumper();
+    public static final Trigger clawTiltUp = controller.rightBumper();
+    public static final Trigger clawTiltDown = controller.leftBumper();
     public static final Trigger clawIntakeButton = controller.leftTrigger();
     public static final Trigger clawOuttakeButton = controller.rightTrigger();
 
