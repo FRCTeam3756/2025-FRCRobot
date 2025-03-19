@@ -5,7 +5,6 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.REVLibError;
-import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
@@ -18,7 +17,6 @@ import frc.robot.constants.ElevatorConstants;
 public class ElevatorSubsystem extends SubsystemBase{
   private final SparkMax elevatorMotor;
   private final SparkMaxConfig motorConfig;
-  private final RelativeEncoder elevatorEncoder;
   
   public ElevatorSubsystem() {
     elevatorMotor = new SparkMax(ElevatorConstants.ELEVATOR_CAN_ID, MotorType.kBrushless);
@@ -26,39 +24,23 @@ public class ElevatorSubsystem extends SubsystemBase{
     motorConfig = new SparkMaxConfig();
     motorConfig.smartCurrentLimit(ElevatorConstants.MOTOR_MAX_AMPERAGE);
 
-    elevatorEncoder = elevatorMotor.getEncoder();
-
     REVLibError error = elevatorMotor.configure(motorConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
 
-    if (error == REVLibError.kOk) {
-      elevatorEncoder.setPosition(0);
-    } else {
+    if (error != REVLibError.kOk) {
       System.err.println("Elevator Motor Configuration Failed: " + error.toString());
     }
   }
 
   public void elevatorUp() {
-    if (getElevatorPosition() > ElevatorConstants.MAX_HEIGHT) {
-      elevatorStop();
-    } else {
-      elevatorMotor.set(ElevatorConstants.ELEVATOR_SPEED);
-    }
+    elevatorMotor.set(ElevatorConstants.ELEVATOR_SPEED);
   }
 
   public void elevatorDown() {
-    if (getElevatorPosition() < ElevatorConstants.MIN_HEIGHT) {
-      elevatorStop();
-    } else {
-      elevatorMotor.set(-ElevatorConstants.ELEVATOR_SPEED);
-    }
+    elevatorMotor.set(-ElevatorConstants.ELEVATOR_SPEED);
   }
 
   public void elevatorStop() {
     elevatorMotor.set(0);
-  }
-
-  public double getElevatorPosition() {
-    return elevatorEncoder.getPosition();
   }
 
   @Override
