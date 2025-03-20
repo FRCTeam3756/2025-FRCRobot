@@ -5,8 +5,8 @@
 package frc.robot.constants;
 
 public class ClimbConstants {
-    public static int LEFT_CAN_ID = 15;
-    public static int RIGHT_CAN_ID = 14;
+    public static int LEFT_CAN_ID = 14;
+    public static int RIGHT_CAN_ID = 15;
 
     public static int LEFT_MOTOR_INVERSION = -1;
     public static int RIGHT_MOTOR_INVERSION = -1;

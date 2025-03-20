@@ -4,36 +4,54 @@
 
 package frc.robot;
 
+import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
+import com.ctre.phoenix6.swerve.SwerveRequest;
+
+import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.constants.SwerveConstants;
+import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.*;
-import frc.robot.swerve.Drive;
+// import frc.robot.swerve.Drive;
 
 public class RobotContainer {
+  private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(Units.MetersPerSecond);
+  private double MaxAngularRate = Units.RotationsPerSecond.of(0.75).in(Units.RadiansPerSecond);
   private final ClawSubsystem clawSubsystem = new ClawSubsystem();
   private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
   private final ClimbingSubsystem climbSubsystem = new ClimbingSubsystem();
 
-  private final Drive drive = new Drive();
+  public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+    private final SwerveRequest.RobotCentric drive = new SwerveRequest.RobotCentric()
+            .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * Controller.DEADZONE)
+            .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+
+  private enum DriveSpeed {
+    SLOW,
+    STANDARD,
+    TURBO
+  }
   
-  private boolean turboActive = false;
+  private DriveSpeed currentDriveSpeed = DriveSpeed.STANDARD;
 
   public RobotContainer() {
     configureButtonBindings();
   }
 
   private void configureButtonBindings() {
-    drive.setDefaultCommand(
-        Controller.joystickDrive(
-            drive,
-            () -> -Controller.controller.getLeftY() * getCurrentSpeedMultiplier(),
-            () -> -Controller.controller.getLeftX() * getCurrentSpeedMultiplier(),
-            () -> -Controller.controller.getRightX() * getCurrentSpeedMultiplier()));
+    drivetrain.setDefaultCommand(
+        drivetrain.applyRequest(() ->
+            drive.withVelocityX(-Controller.controller.getLeftY() * getCurrentSpeedMultiplier() * SwerveConstants.SPEED_AT_12_VOLTS.in(Units.MetersPerSecond))
+            .withVelocityY(-Controller.controller.getLeftX() * getCurrentSpeedMultiplier() * SwerveConstants.SPEED_AT_12_VOLTS.in(Units.MetersPerSecond))
+            .withRotationalRate(-Controller.controller.getRightX() * getCurrentSpeedMultiplier() * SwerveConstants.SPEED_AT_12_VOLTS.in(Units.MetersPerSecond))));
     
     Controller.driveTurboButton
-        .whileTrue(new InstantCommand(() -> setTurboActive(true)))
-        .onFalse(new InstantCommand(() -> setTurboActive(false)));
+        .whileTrue(new InstantCommand(() -> setTurboSpeed()))
+        .onFalse(new InstantCommand(() -> setStandardSpeed()));
+    Controller.driveSlowButton
+        .whileTrue(new InstantCommand(() -> setSlowSpeed()))
+        .onFalse(new InstantCommand(() -> setStandardSpeed()));
     Controller.climbButton
         .whileTrue(new InstantCommand(() -> climbSubsystem.climbing(), climbSubsystem))
         .onFalse(new InstantCommand(() -> climbSubsystem.stopClimbing(), climbSubsystem));
@@ -58,11 +76,32 @@ public class RobotContainer {
   }
 
   private double getCurrentSpeedMultiplier() {
-    return turboActive ? SwerveConstants.TURBO_DRIVE_MULTIPLIER : SwerveConstants.STANDARD_DRIVE_MULTIPLIER;
+    double speedMultiplier = SwerveConstants.STANDARD_DRIVE_MULTIPLIER;
+
+    switch (currentDriveSpeed) {
+      case SLOW:
+        speedMultiplier = SwerveConstants.SLOW_DRIVE_MULTIPLIER;
+        break;
+      case STANDARD:
+        speedMultiplier = SwerveConstants.STANDARD_DRIVE_MULTIPLIER;
+        break;
+      case TURBO:
+        speedMultiplier = SwerveConstants.TURBO_DRIVE_MULTIPLIER;
+    }
+
+    return speedMultiplier;
   }
 
-  private void setTurboActive(boolean isActive) {
-    turboActive = isActive;
+  private void setTurboSpeed() {
+    currentDriveSpeed = DriveSpeed.TURBO;
+  }
+
+  private void setStandardSpeed() {
+    currentDriveSpeed = DriveSpeed.STANDARD;
+  }
+
+  private void setSlowSpeed() {
+    currentDriveSpeed = DriveSpeed.SLOW;
   }
 
   public Command getAutonomousCommand() {

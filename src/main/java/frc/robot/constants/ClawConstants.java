@@ -20,6 +20,6 @@ public class ClawConstants {
     public static final double L4_SHOOT_SPEED = Integer.MAX_VALUE;
     public static final double PROCESSOR_SHOOT_SPEED = Integer.MAX_VALUE;
 
-    public static final double INTAKE_SPEED = -0.75;
-    public static final double OUTTAKE_SPEED = 0.6;
+    public static final double INTAKE_SPEED = 0.4;
+    public static final double OUTTAKE_SPEED = -0.6;
 }

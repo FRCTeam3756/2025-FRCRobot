@@ -32,6 +32,7 @@ public class SwerveConstants {
 
     public static final double TURBO_DRIVE_MULTIPLIER = 1;
     public static final double STANDARD_DRIVE_MULTIPLIER = 0.5;
+    public static final double SLOW_DRIVE_MULTIPLIER = 0.25;
 
     private static final Slot0Configs STEER_GJONNS = new Slot0Configs()
         .withKP(STEER_MODULE_KP).withKI(STEER_MODULE_KI).withKD(STEER_MODULE_KD)
@@ -60,7 +61,7 @@ public class SwerveConstants {
 
     public static final CANBus CAN_BUS = new CANBus(GyroConstants.CAN_BUS_NAME, GyroConstants.CAN_LOG_PATH);
 
-    public static final LinearVelocity SPEED_AT_12_VOLTS = Units.MetersPerSecond.of(5.21);
+    public static final LinearVelocity SPEED_AT_12_VOLTS = Units.MetersPerSecond.of(4.73);
 
     private static final double COUPLE_RATIO = 3.5714285714285716;
     private static final double DRIVE_GEAR_RATIO = 6.75;                // SDS MK4i L2 Gear Ratio

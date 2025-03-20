@@ -11,7 +11,7 @@ public class ElevatorConstants {
     public static final int MAX_HEIGHT = 4;
 
     public static final int MOTOR_MAX_AMPERAGE = 60;
-    public static final double ELEVATOR_SPEED = 0.5;
+    public static final double ELEVATOR_SPEED = 1;
 
     public static final double L1_SHOOT_HEIGHT = Double.MAX_VALUE;
     public static final double L2_SHOOT_HEIGHT = Double.MAX_VALUE;

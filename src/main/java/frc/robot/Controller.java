@@ -4,20 +4,9 @@
 
 package frc.robot;
 
-import java.util.function.DoubleSupplier;
-
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Transform2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.swerve.Drive;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 public class Controller {
     public static final int CONTROLLER_PORT = 0;
@@ -27,81 +16,39 @@ public class Controller {
 
     // Joysticks
     public static final Trigger driveTurboButton = controller.leftStick();
-    public static final Trigger driveSlowButton = controller.rightStick();
+    public static final Trigger blank5 = controller.rightStick();
 
     // D-Pad
     public static final Trigger elevatorUpButton = controller.povUp();
     public static final Trigger elevatorDownButton = controller.povDown();
-    public static final Trigger elevatorManualButton = controller.povLeft();
-    public static final Trigger elevatorProcessorButton = controller.povRight();
+    public static final Trigger blank = controller.povLeft();
+    public static final Trigger blank1 = controller.povRight();
 
     // Face Buttons
-    public static final Trigger elevatorL4Button = controller.y();
-    public static final Trigger elevatorL3Button = controller.x();
-    public static final Trigger elevatorL2Button = controller.b();
-    public static final Trigger elevatorL1Button = controller.a();
+    public static final Trigger blank2 = controller.y();
+    public static final Trigger blank3 = controller.x();
+    public static final Trigger driveSlowButton = controller.b();
+    public static final Trigger blank4 = controller.a();
 
     // Back Buttons
     public static final Trigger clawTiltUp = controller.rightBumper();
     public static final Trigger clawTiltDown = controller.leftBumper();
-    public static final Trigger clawIntakeButton = controller.leftTrigger();
-    public static final Trigger clawOuttakeButton = controller.rightTrigger();
+    public static final Trigger clawOuttakeButton = controller.leftTrigger();
+    public static final Trigger clawIntakeButton = controller.rightTrigger();
 
     // Top Buttons
     public static final Trigger climbButton = controller.start();
     public static final Trigger resetGyroButton = controller.back();
 
-    private static double applyDeadband(double value) {
-        return MathUtil.applyDeadband(value, Controller.DEADZONE);
-    }
+    // Button Box Buttons
+    private static final GenericHID buttonBox = new GenericHID(0);
 
-    private static Translation2d getLinearVelocityFromJoysticks(double x, double y) {
-        double linearMagnitude = Math.hypot(x, y);
-        Rotation2d linearDirection = new Rotation2d(Math.atan2(y, x));
-
-        linearMagnitude = applyDeadband(linearMagnitude);
-        linearMagnitude *= linearMagnitude;
-
-        return new Pose2d(new Translation2d(), linearDirection)
-                .transformBy(new Transform2d(linearMagnitude, 0.0, new Rotation2d()))
-                .getTranslation();
-    }
-
-    private static double calculateRotation(double rot) {
-        rot = applyDeadband(rot);
-        return Math.copySign(rot * rot, rot);
-    }
-
-    private static boolean isAllianceFlipped() {
-        return DriverStation.getAlliance().isPresent()
-                && DriverStation.getAlliance().get() == DriverStation.Alliance.Red;
-    }
-
-    public static Command joystickDrive(
-            Drive drive,
-            DoubleSupplier x,
-            DoubleSupplier y,
-            DoubleSupplier rot) {
-        return Commands.run(
-                () -> {
-                    Translation2d linearVelocity = getLinearVelocityFromJoysticks(x.getAsDouble(), y.getAsDouble());
-
-                    double omega = calculateRotation(rot.getAsDouble());
-
-                    ChassisSpeeds speeds = new ChassisSpeeds(
-                            linearVelocity.getX() * drive.getMaxLinearSpeedMetersPerSec(),
-                            linearVelocity.getY() * drive.getMaxLinearSpeedMetersPerSec(),
-                            omega * drive.getMaxAngularSpeedRadPerSec());
-                    
-                    boolean isFlipped = isAllianceFlipped();
-
-                    drive.runVelocity(
-                            ChassisSpeeds.fromFieldRelativeSpeeds(
-                                    speeds,
-                                    isFlipped
-                                            ? drive.getRotation().plus(new Rotation2d(Math.PI))
-                                            : drive.getRotation()));
-                },
-                drive);
-    }
+    public static final Trigger button1 = new Trigger(() -> buttonBox.getRawButton(1));
+    public static final Trigger elevatorL1Button = new Trigger(() -> buttonBox.getRawButton(2));
+    public static final Trigger button3 = new Trigger(() -> buttonBox.getRawButton(3));
+    public static final Trigger elevatorL2Button = new Trigger(() -> buttonBox.getRawButton(4));
+    public static final Trigger button5 = new Trigger(() -> buttonBox.getRawButton(5));
+    public static final Trigger elevatorL3Button = new Trigger(() -> buttonBox.getRawButton(6));
+    public static final Trigger button7 = new Trigger(() -> buttonBox.getRawButton(7));
+    public static final Trigger elevatorL4Button = new Trigger(() -> buttonBox.getRawButton(8));
 }
