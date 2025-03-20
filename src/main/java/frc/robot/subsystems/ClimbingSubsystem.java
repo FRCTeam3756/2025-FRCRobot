@@ -11,10 +11,11 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import frc.robot.constants.ClimbConstants;
+import frc.robot.constants.CANConstants;
 
 public class ClimbingSubsystem extends SubsystemBase {
-  private final TalonSRX leftPaddle = new TalonSRX(ClimbConstants.LEFT_CAN_ID);
-  private final TalonSRX rightPaddle = new TalonSRX(ClimbConstants.RIGHT_CAN_ID);
+  private final TalonSRX leftPaddle = new TalonSRX(CANConstants.LEFT_CLIMB_MOTOR_ID);
+  private final TalonSRX rightPaddle = new TalonSRX(CANConstants.RIGHT_CLIMB_MOTOR_ID);
 
   private static final double STALL_CURRENT_THRESHOLD = -40.0; // 775's burn out at 50A
   private static final double STALL_TIME_THRESHOLD = 0.25;

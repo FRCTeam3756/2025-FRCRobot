@@ -11,6 +11,7 @@ import java.util.HashMap;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
+
 import frc.robot.constants.JONConstants;
 
 public class JONSubsystem extends SubsystemBase {

@@ -59,7 +59,7 @@ public class SwerveConstants {
                             .withStatorCurrentLimitEnable(true));
     private static final CANcoderConfiguration ENCODER_INITIAL_CONFIG = new CANcoderConfiguration();
 
-    public static final CANBus CAN_BUS = new CANBus(GyroConstants.CAN_BUS_NAME, GyroConstants.CAN_LOG_PATH);
+    public static final CANBus CAN_BUS = new CANBus(CANConstants.CAN_BUS_NAME, CANConstants.CAN_LOG_PATH);
 
     public static final LinearVelocity SPEED_AT_12_VOLTS = Units.MetersPerSecond.of(4.73);
 
@@ -79,9 +79,8 @@ public class SwerveConstants {
     private static final Voltage DRIVE_FRICTION_VOLTAGE = Units.Volts.of(0.2);
 
     public static final SwerveDrivetrainConstants DrivetrainConstants = new SwerveDrivetrainConstants()
-            .withCANBusName(GyroConstants.CAN_BUS_NAME)
-            .withPigeon2Id(GyroConstants.CAN_ID)
-            .withPigeon2Configs(GyroConstants.PIGEON_CONFIG);
+            .withCANBusName(CANConstants.CAN_BUS_NAME)
+            .withPigeon2Id(CANConstants.PIGEON_ID);
 
     private static final SwerveModuleConstantsFactory<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration> CONSTANT_CREATOR = new SwerveModuleConstantsFactory<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration>()
             .withDriveMotorGearRatio(DRIVE_GEAR_RATIO)

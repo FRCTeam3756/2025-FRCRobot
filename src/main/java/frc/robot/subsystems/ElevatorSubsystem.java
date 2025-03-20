@@ -12,14 +12,16 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 import frc.robot.constants.ElevatorConstants;
+import frc.robot.constants.CANConstants;
 
 public class ElevatorSubsystem extends SubsystemBase{
   private final SparkMax elevatorMotor;
   private final SparkMaxConfig motorConfig;
   
   public ElevatorSubsystem() {
-    elevatorMotor = new SparkMax(ElevatorConstants.ELEVATOR_CAN_ID, MotorType.kBrushless);
+    elevatorMotor = new SparkMax(CANConstants.ELEVATOR_MOTOR_ID, MotorType.kBrushless);
     
     motorConfig = new SparkMaxConfig();
     motorConfig.smartCurrentLimit(ElevatorConstants.MOTOR_MAX_AMPERAGE);

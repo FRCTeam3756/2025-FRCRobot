@@ -5,10 +5,6 @@
 package frc.robot.constants;
 
 public class ClawConstants {
-    public static final int WRIST_MOTOR_ID = 17;
-    public static final int LEFT_CLAW_MOTOR_ID = 18;
-    public static final int RIGHT_CLAW_MOTOR_ID = 19;
-
     public static final int MOTOR_MAX_AMPERAGE = 30;
 
     public static final double WRIST_UP_SPEED = 0.14;

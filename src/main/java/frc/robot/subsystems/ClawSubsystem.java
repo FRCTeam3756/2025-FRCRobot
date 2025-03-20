@@ -13,6 +13,8 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import frc.robot.constants.CANConstants;
 import frc.robot.constants.ClawConstants;
 
 public class ClawSubsystem extends SubsystemBase {
@@ -21,9 +23,9 @@ public class ClawSubsystem extends SubsystemBase {
   private final RelativeEncoder wristEncoder, leftEncoder, rightEncoder;
 
   public ClawSubsystem() {
-    wristMotor = new SparkMax(ClawConstants.WRIST_MOTOR_ID, MotorType.kBrushless);
-    leftMotor = new SparkMax(ClawConstants.LEFT_CLAW_MOTOR_ID, MotorType.kBrushless);
-    rightMotor = new SparkMax(ClawConstants.RIGHT_CLAW_MOTOR_ID, MotorType.kBrushless);
+    wristMotor = new SparkMax(CANConstants.WRIST_MOTOR_ID, MotorType.kBrushless);
+    leftMotor = new SparkMax(CANConstants.LEFT_CLAW_MOTOR_ID, MotorType.kBrushless);
+    rightMotor = new SparkMax(CANConstants.RIGHT_CLAW_MOTOR_ID, MotorType.kBrushless);
     
     neoConfig = new SparkMaxConfig();
     neoConfig.smartCurrentLimit(ClawConstants.MOTOR_MAX_AMPERAGE);
