@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Threads;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -15,6 +16,12 @@ public class Robot extends TimedRobot {
 
   public Robot() {
     robotContainer = new RobotContainer();
+  }
+
+  @Override
+  public void robotInit() {
+    CameraServer.startAutomaticCapture(0);
+    // CameraServer.startAutomaticCapture(1);
   }
 
   @Override

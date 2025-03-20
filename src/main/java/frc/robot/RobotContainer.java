@@ -21,6 +21,7 @@ public class RobotContainer {
   private final ClawSubsystem clawSubsystem = new ClawSubsystem();
   private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
   private final ClimbingSubsystem climbSubsystem = new ClimbingSubsystem();
+  // private final CameraSubsystem cameraSubsystem;
 
   public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
     private final SwerveRequest.RobotCentric drive = new SwerveRequest.RobotCentric()
@@ -37,6 +38,8 @@ public class RobotContainer {
 
   public RobotContainer() {
     configureButtonBindings();
+    // cameraSubsystem = new CameraSubsystem();
+    // cameraSubsystem.setupShuffleboardCameraFeed();
   }
 
   private void configureButtonBindings() {
