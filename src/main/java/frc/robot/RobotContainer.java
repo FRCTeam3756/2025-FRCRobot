@@ -10,10 +10,9 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.constants.SwerveConstants;
-import frc.robot.generated.TunerConstants;
+import frc.robot.constants.*;
 import frc.robot.subsystems.*;
-// import frc.robot.swerve.Drive;
+import frc.robot.generated.TunerConstants;
 
 public class RobotContainer {
   private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(Units.MetersPerSecond);
@@ -37,12 +36,11 @@ public class RobotContainer {
   private DriveSpeed currentDriveSpeed = DriveSpeed.STANDARD;
 
   public RobotContainer() {
-    configureButtonBindings();
     // cameraSubsystem = new CameraSubsystem();
     // cameraSubsystem.setupShuffleboardCameraFeed();
   }
 
-  private void configureButtonBindings() {
+  public void setDriverControl() {
     drivetrain.setDefaultCommand(
         drivetrain.applyRequest(() ->
             drive.withVelocityX(-Controller.controller.getLeftY() * getCurrentSpeedMultiplier() * SwerveConstants.SPEED_AT_12_VOLTS.in(Units.MetersPerSecond))
@@ -107,7 +105,14 @@ public class RobotContainer {
     currentDriveSpeed = DriveSpeed.SLOW;
   }
 
-  public Command getAutonomousCommand() {
-    return null;
+  public Command getAuto1(double time) {
+    if (time < AutoConstants.DELAY_TIME) {
+      return null;
+    } else {
+      return drivetrain.applyRequest(() ->
+        drive.withVelocityX(0.5)
+        .withVelocityY(0)
+        .withRotationalRate(0));
+    }
   }
 }

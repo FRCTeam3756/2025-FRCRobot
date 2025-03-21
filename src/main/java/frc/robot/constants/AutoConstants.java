@@ -5,5 +5,8 @@
 package frc.robot.constants;
 
 public class AutoConstants {
-        
+    // Auto 1:
+    public static final double AUTO_1_DRIVE_DISTANCE_IN_INCHES = 100;
+    public static final double AUTO_1_DRIVE_SPEED = 0.2;
+    public static final double DELAY_TIME = 2.0;
 }

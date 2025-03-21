@@ -2,21 +2,19 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
-import edu.wpi.first.cscore.VideoSink;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class CameraSubsystem extends SubsystemBase {
+public class CameraSubsystem1 extends SubsystemBase {
     private final UsbCamera camera;
-    private final VideoSink videoSink;
 
-    public CameraSubsystem() {
-        camera = new UsbCamera("Microsoft Lifecam", 0);
-        // camera.setResolution(640, 480);
+    public CameraSubsystem1() {
+        camera = new UsbCamera("Front Camera", 0);
+        camera.setFPS(30);
+        camera.setResolution(320, 240);
 
-        videoSink = CameraServer.getVideo();
-        videoSink.setSource(camera);
+        CameraServer.startAutomaticCapture(camera);
     }
 
     @Override
