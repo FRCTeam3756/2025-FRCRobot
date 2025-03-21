@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.constants.*;
 import frc.robot.subsystems.*;
 import frc.robot.generated.TunerConstants;
+import frc.robot.autos.*;
 
 public class RobotContainer {
   private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(Units.MetersPerSecond);
@@ -22,10 +23,17 @@ public class RobotContainer {
   private final ClimbingSubsystem climbSubsystem = new ClimbingSubsystem();
   // private final CameraSubsystem cameraSubsystem;
 
+  private DriveForwardAuto driveForwardAuto = new DriveForwardAuto();
+  private DriveForwardAuto pushLeftAuto = new DriveForwardAuto();
+  private DriveForwardAuto pushRightAuto = new DriveForwardAuto();
+  private DriveForwardAuto leftPickupAlgaeAuto = new DriveForwardAuto();
+  private DriveForwardAuto middlePickupAlgaeAuto = new DriveForwardAuto();
+  private DriveForwardAuto rightPickupAlgaeAuto = new DriveForwardAuto();
+
   public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
-    private final SwerveRequest.RobotCentric drive = new SwerveRequest.RobotCentric()
-            .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * Controller.DEADZONE)
-            .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+  private final SwerveRequest.RobotCentric drive = new SwerveRequest.RobotCentric()
+          .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * Controller.DEADZONE)
+          .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
 
   private enum DriveSpeed {
     SLOW,
@@ -105,14 +113,27 @@ public class RobotContainer {
     currentDriveSpeed = DriveSpeed.SLOW;
   }
 
-  public Command getAuto1(double time) {
-    if (time < AutoConstants.DELAY_TIME) {
-      return null;
-    } else {
-      return drivetrain.applyRequest(() ->
-        drive.withVelocityX(0.5)
-        .withVelocityY(0)
-        .withRotationalRate(0));
-    }
+  public Command getDriveForwardAuto(double time) {
+    return driveForwardAuto.getAuto(time, drivetrain);
+  }
+  
+  public Command getPushLeftAuto(double time) {
+    return pushLeftAuto.getAuto(time, drivetrain);
+  }
+  
+  public Command getPushRightAuto(double time) {
+    return pushRightAuto.getAuto(time, drivetrain);
+  }
+  
+  public Command getLeftPickupAlgaeAuto(double time) {
+    return leftPickupAlgaeAuto.getAuto(time, drivetrain);
+  }
+  
+  public Command getMiddlePickupAlgaeAuto(double time) {
+    return middlePickupAlgaeAuto.getAuto(time, drivetrain);
+  }
+  
+  public Command getRightPickupAlgaeAuto(double time) {
+    return rightPickupAlgaeAuto.getAuto(time, drivetrain);
   }
 }

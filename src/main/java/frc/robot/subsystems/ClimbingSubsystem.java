@@ -14,9 +14,6 @@ import frc.robot.constants.ClimbConstants;
 import frc.robot.constants.CANConstants;
 
 public class ClimbingSubsystem extends SubsystemBase {
-  private final TalonSRX leftPaddle = new TalonSRX(CANConstants.LEFT_CLIMB_MOTOR_ID);
-  private final TalonSRX rightPaddle = new TalonSRX(CANConstants.RIGHT_CLIMB_MOTOR_ID);
-
   private static final double STALL_CURRENT_THRESHOLD = -40.0; // 775's burn out at 50A
   private static final double STALL_TIME_THRESHOLD = 0.25;
   private static final double RECOVERY_TIME = 2.0;
@@ -34,23 +31,23 @@ public class ClimbingSubsystem extends SubsystemBase {
 
   public void climbing() {
     if (!leftStalled && !rightStalled) {
-      leftPaddle.set(ControlMode.PercentOutput,
+      CANConstants.leftPaddle.set(ControlMode.PercentOutput,
           ClimbConstants.LEFT_MOTOR_INVERSION * (ClimbConstants.CLIMB_SPEED * ClimbConstants.LEFT_SPEED_PERCENTAGE));
-      rightPaddle.set(ControlMode.PercentOutput,
+      CANConstants.rightPaddle.set(ControlMode.PercentOutput,
           ClimbConstants.RIGHT_MOTOR_INVERSION * (ClimbConstants.CLIMB_SPEED * ClimbConstants.RIGHT_SPEED_PERCENTAGE));
     }
   }
 
   public void stopClimbing() {
-    leftPaddle.set(ControlMode.PercentOutput, 0);
-    rightPaddle.set(ControlMode.PercentOutput, 0);
+    CANConstants.leftPaddle.set(ControlMode.PercentOutput, 0);
+    CANConstants.rightPaddle.set(ControlMode.PercentOutput, 0);
   }
 
   private void checkMotorStall() {
     double currentTime = Timer.getFPGATimestamp();
 
-    leftStalled = updateStallStatus(leftPaddle, currentTime, leftStalled, leftStallStartTime);
-    rightStalled = updateStallStatus(rightPaddle, currentTime, rightStalled, rightStallStartTime);
+    leftStalled = updateStallStatus(CANConstants.leftPaddle, currentTime, leftStalled, leftStallStartTime);
+    rightStalled = updateStallStatus(CANConstants.rightPaddle, currentTime, rightStalled, rightStallStartTime);
   }
 
   private boolean updateStallStatus(TalonSRX paddle, double currentTime, boolean motorStalled, double motorStallStartTime) {

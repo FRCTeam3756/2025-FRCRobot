@@ -1,7 +1,23 @@
 {
+  "HALProvider": {
+    "Other Devices": {
+      "SPARK MAX [17]": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX (v6)[1]": {
+        "header": {
+          "open": true
+        }
+      }
+    }
+  },
   "NTProvider": {
     "types": {
-      "/FMSInfo": "FMSInfo"
+      "/FMSInfo": "FMSInfo",
+      "/Shuffleboard/Smart Dashboard/SendableChooser[0]": "String Chooser",
+      "/SmartDashboard/Auto Choices": "String Chooser"
     }
   },
   "NetworkTables Info": {

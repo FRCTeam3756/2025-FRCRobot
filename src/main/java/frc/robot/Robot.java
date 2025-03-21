@@ -8,8 +8,6 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Threads;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -17,16 +15,19 @@ public class Robot extends TimedRobot {
   private Command autonomousCommand;
   private final RobotContainer robotContainer;
 
-  private final SendableChooser<String> autoChooser = new SendableChooser<>();
-  private static final String auto1 = "Autonomous Program 1";
-  private static final String auto2 = "Autonomous Program 2";
-  private String selectedAuto;
-  protected double startTime;
+  private static enum auto {
+    driveForward,
+    pushLeftTeammate,
+    pushRightTeammate,
+    pickupAlgaeLeft,
+    pickupAlgaeMiddle,
+    pickupAlgaeRight
+  };
+
+  private auto selectedAuto = auto.pushRightTeammate;
+  private double startTime;
 
   public Robot() {
-    autoChooser.setDefaultOption(auto1, auto1);
-    autoChooser.addOption(auto2, auto2);
-    SmartDashboard.putData("Auto Choices", autoChooser);
     robotContainer = new RobotContainer();
   }
 
@@ -44,18 +45,20 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void disabledInit() {} // TODO: STOP EVERYTHING!!!
+  public void disabledInit() {
+  } // TODO: STOP EVERYTHING!!!
 
   @Override
-  public void disabledPeriodic() {}
+  public void disabledPeriodic() {
+  }
 
   @Override
-  public void disabledExit() {}
+  public void disabledExit() {
+  }
 
   @Override
   public void autonomousInit() {
     startTime = Timer.getFPGATimestamp();
-    selectedAuto = autoChooser.getSelected();
     System.out.println("Running autonomous program: " + selectedAuto);
 
     if (autonomousCommand != null) {
@@ -66,11 +69,44 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     switch (selectedAuto) {
-      case auto1:
-        robotContainer.getAuto1(Timer.getFPGATimestamp() - startTime).schedule();
+      case driveForward:
+        autonomousCommand = robotContainer.getDriveForwardAuto(Timer.getFPGATimestamp() - startTime);
+        if (autonomousCommand != null) {
+          autonomousCommand.schedule();
+        }
         break;
-      case auto2:
+      case pushLeftTeammate:
+        autonomousCommand = robotContainer.getPushLeftAuto(Timer.getFPGATimestamp() - startTime);
+        if (autonomousCommand != null) {
+          autonomousCommand.schedule();
+        }
         break;
+      case pushRightTeammate:
+        autonomousCommand = robotContainer.getPushRightAuto(Timer.getFPGATimestamp() - startTime);
+        if (autonomousCommand != null) {
+          autonomousCommand.schedule();
+        }
+        break;
+      case pickupAlgaeLeft:
+        autonomousCommand = robotContainer.getLeftPickupAlgaeAuto(Timer.getFPGATimestamp() - startTime);
+        if (autonomousCommand != null) {
+          autonomousCommand.schedule();
+        }
+        break;
+      case pickupAlgaeMiddle:
+        autonomousCommand = robotContainer.getMiddlePickupAlgaeAuto(Timer.getFPGATimestamp() - startTime);
+        if (autonomousCommand != null) {
+          autonomousCommand.schedule();
+        }
+        break;
+      case pickupAlgaeRight:
+        autonomousCommand = robotContainer.getRightPickupAlgaeAuto(Timer.getFPGATimestamp() - startTime);
+        if (autonomousCommand != null) {
+          autonomousCommand.schedule();
+        }
+        break;
+      default:
+        autonomousCommand.schedule();
     }
   }
 
