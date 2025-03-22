@@ -22,7 +22,6 @@ public class RobotContainer {
   private final ClawSubsystem clawSubsystem = new ClawSubsystem();
   private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
   private final ClimbingSubsystem climbSubsystem = new ClimbingSubsystem();
-  // private final CameraSubsystem cameraSubsystem;
 
   private DriveForwardAuto driveForwardAuto = new DriveForwardAuto();
   private PushLeftTeammateAuto pushLeftAuto = new PushLeftTeammateAuto();
@@ -46,7 +45,6 @@ public class RobotContainer {
 
   public RobotContainer() {
     CameraServer.startAutomaticCapture();
-    // cameraSubsystem = new CameraSubsystem();
   }
 
   public void setDriverControl() {
