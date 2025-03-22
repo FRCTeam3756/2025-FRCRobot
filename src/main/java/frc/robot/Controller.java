@@ -18,22 +18,22 @@ public class Controller {
     public static final Trigger blank = controller.rightStick();
 
     // D-Pad
-    public static final Trigger elevatorUpButton = controller.povUp();
-    public static final Trigger elevatorDownButton = controller.povDown();
+    public static final Trigger elevatorUpButton = controller.povDown();
+    public static final Trigger elevatorDownButton = controller.povUp();
     public static final Trigger blank1 = controller.povLeft();
     public static final Trigger blank2 = controller.povRight();
 
     // Face Buttons
     public static final Trigger blank3 = controller.y();
-    public static final Trigger blank4 = controller.x();
+    public static final Trigger clawOuttakeButton = controller.x();
     public static final Trigger driveSlowButton = controller.b();
-    public static final Trigger blank5 = controller.a();
+    public static final Trigger clawIntakeButton = controller.a();
 
     // Back Buttons
     public static final Trigger clawTiltUp = controller.rightBumper();
     public static final Trigger clawTiltDown = controller.leftBumper();
-    public static final Trigger clawOuttakeButton = controller.leftTrigger();
-    public static final Trigger clawIntakeButton = controller.rightTrigger();
+    public static final Trigger blank4 = controller.leftTrigger();
+    public static final Trigger blank5 = controller.rightTrigger();
 
     // Top Buttons
     public static final Trigger climbButton = controller.start();

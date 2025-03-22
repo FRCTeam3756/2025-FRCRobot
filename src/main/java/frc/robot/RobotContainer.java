@@ -7,6 +7,7 @@ package frc.robot;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -44,8 +45,8 @@ public class RobotContainer {
   private DriveSpeed currentDriveSpeed = DriveSpeed.STANDARD;
 
   public RobotContainer() {
+    CameraServer.startAutomaticCapture();
     // cameraSubsystem = new CameraSubsystem();
-    // cameraSubsystem.setupShuffleboardCameraFeed();
   }
 
   public void setDriverControl() {
@@ -113,8 +114,8 @@ public class RobotContainer {
     currentDriveSpeed = DriveSpeed.SLOW;
   }
 
-  public Command getDriveForwardAuto(double time) {
-    return driveForwardAuto.getAuto(time, drivetrain);
+  public void getDriveForwardAuto(double time) {
+    driveForwardAuto.getAuto(time, drivetrain);
   }
   
   public void getPushLeftAuto(double time) {
@@ -122,6 +123,7 @@ public class RobotContainer {
   }
   
   public void getPushRightAuto(double time) {
+    // return new Test(drivetrain); 
     pushRightAuto.runAuto(time, drivetrain);
   }
   

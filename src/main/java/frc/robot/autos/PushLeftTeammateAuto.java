@@ -26,7 +26,7 @@ public class PushLeftTeammateAuto {
         } else if (time < 4.0) {
             drivetrain.applyRequest(() ->
                 drive.withVelocityX(0)
-                .withVelocityY(-0.5)
+                .withVelocityY(0.5)
                 .withRotationalRate(0));
         } else if (time < 8.0) {
             drivetrain.applyRequest(() ->
