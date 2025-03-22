@@ -24,11 +24,11 @@ public class RobotContainer {
   // private final CameraSubsystem cameraSubsystem;
 
   private DriveForwardAuto driveForwardAuto = new DriveForwardAuto();
-  private DriveForwardAuto pushLeftAuto = new DriveForwardAuto();
-  private DriveForwardAuto pushRightAuto = new DriveForwardAuto();
-  private DriveForwardAuto leftPickupAlgaeAuto = new DriveForwardAuto();
-  private DriveForwardAuto middlePickupAlgaeAuto = new DriveForwardAuto();
-  private DriveForwardAuto rightPickupAlgaeAuto = new DriveForwardAuto();
+  private PushLeftTeammateAuto pushLeftAuto = new PushLeftTeammateAuto();
+  private PushRightTeammateAuto pushRightAuto = new PushRightTeammateAuto();
+  private PickupAlgaeLeftAuto leftPickupAlgaeAuto = new PickupAlgaeLeftAuto();
+  private PickupAlgaeMiddleAuto middlePickupAlgaeAuto = new PickupAlgaeMiddleAuto();
+  private PickupAlgaeRightAuto rightPickupAlgaeAuto = new PickupAlgaeRightAuto();
 
   public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
   private final SwerveRequest.RobotCentric drive = new SwerveRequest.RobotCentric()
@@ -117,12 +117,12 @@ public class RobotContainer {
     return driveForwardAuto.getAuto(time, drivetrain);
   }
   
-  public Command getPushLeftAuto(double time) {
-    return pushLeftAuto.getAuto(time, drivetrain);
+  public void getPushLeftAuto(double time) {
+    pushLeftAuto.getAuto(time, drivetrain);
   }
   
-  public Command getPushRightAuto(double time) {
-    return pushRightAuto.getAuto(time, drivetrain);
+  public void getPushRightAuto(double time) {
+    pushRightAuto.runAuto(time, drivetrain);
   }
   
   public Command getLeftPickupAlgaeAuto(double time) {

@@ -7,7 +7,7 @@ package frc.robot;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Threads;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.Timer;
+// import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -15,20 +15,21 @@ public class Robot extends TimedRobot {
   private Command autonomousCommand;
   private final RobotContainer robotContainer;
 
-  private static enum auto {
-    driveForward,
-    pushLeftTeammate,
-    pushRightTeammate,
-    pickupAlgaeLeft,
-    pickupAlgaeMiddle,
-    pickupAlgaeRight
-  };
+  // private static enum auto {
+  //   driveForward,
+  //   pushLeftTeammate,
+  //   pushRightTeammate,
+  //   pickupAlgaeLeft,
+  //   pickupAlgaeMiddle,
+  //   pickupAlgaeRight
+  // };
 
-  private auto selectedAuto = auto.pushRightTeammate;
-  private double startTime;
+  // private auto selectedAuto = auto.pushRightTeammate;
+  // private double startTime;
 
   public Robot() {
     robotContainer = new RobotContainer();
+    robotContainer.setDriverControl();
   }
 
   @Override
@@ -58,56 +59,34 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-    startTime = Timer.getFPGATimestamp();
-    System.out.println("Running autonomous program: " + selectedAuto);
-
-    if (autonomousCommand != null) {
-      autonomousCommand.schedule();
-    }
+    // startTime = Timer.getFPGATimestamp();
+    // System.out.println("Running autonomous program: " + selectedAuto);
   }
 
   @Override
   public void autonomousPeriodic() {
-    switch (selectedAuto) {
-      case driveForward:
-        autonomousCommand = robotContainer.getDriveForwardAuto(Timer.getFPGATimestamp() - startTime);
-        if (autonomousCommand != null) {
-          autonomousCommand.schedule();
-        }
-        break;
-      case pushLeftTeammate:
-        autonomousCommand = robotContainer.getPushLeftAuto(Timer.getFPGATimestamp() - startTime);
-        if (autonomousCommand != null) {
-          autonomousCommand.schedule();
-        }
-        break;
-      case pushRightTeammate:
-        autonomousCommand = robotContainer.getPushRightAuto(Timer.getFPGATimestamp() - startTime);
-        if (autonomousCommand != null) {
-          autonomousCommand.schedule();
-        }
-        break;
-      case pickupAlgaeLeft:
-        autonomousCommand = robotContainer.getLeftPickupAlgaeAuto(Timer.getFPGATimestamp() - startTime);
-        if (autonomousCommand != null) {
-          autonomousCommand.schedule();
-        }
-        break;
-      case pickupAlgaeMiddle:
-        autonomousCommand = robotContainer.getMiddlePickupAlgaeAuto(Timer.getFPGATimestamp() - startTime);
-        if (autonomousCommand != null) {
-          autonomousCommand.schedule();
-        }
-        break;
-      case pickupAlgaeRight:
-        autonomousCommand = robotContainer.getRightPickupAlgaeAuto(Timer.getFPGATimestamp() - startTime);
-        if (autonomousCommand != null) {
-          autonomousCommand.schedule();
-        }
-        break;
-      default:
-        autonomousCommand.schedule();
-    }
+    // switch (selectedAuto) {
+    //   case driveForward:
+    //     robotContainer.getDriveForwardAuto(Timer.getFPGATimestamp() - startTime);
+    //     break;
+    //   case pushLeftTeammate:
+    //     robotContainer.getPushLeftAuto(Timer.getFPGATimestamp() - startTime);
+    //     break;
+    //   case pushRightTeammate:
+    //     robotContainer.getPushRightAuto(Timer.getFPGATimestamp() - startTime);
+    //     break;
+    //   case pickupAlgaeLeft:
+    //     robotContainer.getLeftPickupAlgaeAuto(Timer.getFPGATimestamp() - startTime);
+    //     break;
+    //   case pickupAlgaeMiddle:
+    //     robotContainer.getMiddlePickupAlgaeAuto(Timer.getFPGATimestamp() - startTime);
+    //     break;
+    //   case pickupAlgaeRight:
+    //     robotContainer.getRightPickupAlgaeAuto(Timer.getFPGATimestamp() - startTime);
+    //     break;
+    //   default:
+    //     break;
+    // }
   }
 
   @Override
