@@ -11,10 +11,10 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.auto.AutoCommand;
 import frc.robot.constants.*;
 import frc.robot.subsystems.*;
 import frc.robot.generated.TunerConstants;
-import frc.robot.autos.*;
 
 public class RobotContainer {
   private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(Units.MetersPerSecond);
@@ -22,13 +22,7 @@ public class RobotContainer {
   private final ClawSubsystem clawSubsystem = new ClawSubsystem();
   private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
   private final ClimbingSubsystem climbSubsystem = new ClimbingSubsystem();
-
-  private DriveForwardAuto driveForwardAuto = new DriveForwardAuto();
-  private PushLeftTeammateAuto pushLeftAuto = new PushLeftTeammateAuto();
-  private PushRightTeammateAuto pushRightAuto = new PushRightTeammateAuto();
-  private PickupAlgaeLeftAuto leftPickupAlgaeAuto = new PickupAlgaeLeftAuto();
-  private PickupAlgaeMiddleAuto middlePickupAlgaeAuto = new PickupAlgaeMiddleAuto();
-  private PickupAlgaeRightAuto rightPickupAlgaeAuto = new PickupAlgaeRightAuto();
+  // private final SendableChooser<Command> autoChooser;
 
   public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
   private final SwerveRequest.RobotCentric drive = new SwerveRequest.RobotCentric()
@@ -45,6 +39,10 @@ public class RobotContainer {
 
   public RobotContainer() {
     CameraServer.startAutomaticCapture();
+    CameraServer.startAutomaticCapture();
+
+    // autoChooser = AutoBuilder.buildAutoChooser();
+    // SmartDashboard.putData("Auto Chooser", autoChooser);
   }
 
   public void setDriverControl() {
@@ -112,28 +110,7 @@ public class RobotContainer {
     currentDriveSpeed = DriveSpeed.SLOW;
   }
 
-  public void getDriveForwardAuto(double time) {
-    driveForwardAuto.getAuto(time, drivetrain);
-  }
-  
-  public void getPushLeftAuto(double time) {
-    pushLeftAuto.getAuto(time, drivetrain);
-  }
-  
-  public void getPushRightAuto(double time) {
-    // return new Test(drivetrain); 
-    pushRightAuto.runAuto(time, drivetrain);
-  }
-  
-  public Command getLeftPickupAlgaeAuto(double time) {
-    return leftPickupAlgaeAuto.getAuto(time, drivetrain);
-  }
-  
-  public Command getMiddlePickupAlgaeAuto(double time) {
-    return middlePickupAlgaeAuto.getAuto(time, drivetrain);
-  }
-  
-  public Command getRightPickupAlgaeAuto(double time) {
-    return rightPickupAlgaeAuto.getAuto(time, drivetrain);
+  public Command getAutonomousCommand() {
+    return new AutoCommand(drivetrain);
   }
 }

@@ -11,5 +11,5 @@ public class ClimbConstants {
     public static double LEFT_SPEED_PERCENTAGE = 1.40;
     public static double RIGHT_SPEED_PERCENTAGE = 1.00;
 
-    public static double CLIMB_SPEED = 1; //0.4-0.65
+    public static double CLIMB_SPEED = 1.0;
 }
