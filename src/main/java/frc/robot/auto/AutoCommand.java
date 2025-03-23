@@ -30,7 +30,7 @@ public class AutoCommand extends Command {
     public void execute() {
         drivetrain.setDefaultCommand(
             drivetrain.applyRequest(() ->
-                drive.withVelocityX(-0.4 * SwerveConstants.SPEED_AT_12_VOLTS.in(Units.MetersPerSecond))
+                drive.withVelocityX(0.4 * SwerveConstants.SPEED_AT_12_VOLTS.in(Units.MetersPerSecond))
                 .withVelocityY(0.0 * SwerveConstants.SPEED_AT_12_VOLTS.in(Units.MetersPerSecond))
                 .withRotationalRate(0.0 * SwerveConstants.SPEED_AT_12_VOLTS.in(Units.MetersPerSecond))));
     }
