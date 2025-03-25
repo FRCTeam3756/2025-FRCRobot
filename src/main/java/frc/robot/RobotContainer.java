@@ -11,7 +11,7 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.auto.AutoCommand;
+import frc.robot.auto.ScoreCoralCenter;
 import frc.robot.constants.*;
 import frc.robot.subsystems.*;
 import frc.robot.generated.TunerConstants;
@@ -73,10 +73,10 @@ public class RobotContainer {
         .whileTrue(new InstantCommand(() -> clawSubsystem.tiltWristDown()))
         .onFalse(new InstantCommand(() -> clawSubsystem.tiltWristStop()));        
     Controller.clawIntakeButton
-        .whileTrue(new InstantCommand(() -> clawSubsystem.intakeGamePiece()))
+        .whileTrue(new InstantCommand(() -> clawSubsystem.intakeRollers()))
         .onFalse(new InstantCommand(() -> clawSubsystem.stopRollers()));
     Controller.clawOuttakeButton
-        .whileTrue(new InstantCommand(() -> clawSubsystem.outtakeGamePiece()))
+        .whileTrue(new InstantCommand(() -> clawSubsystem.outtakeRollers()))
         .onFalse(new InstantCommand(() -> clawSubsystem.stopRollers()));
   }
 
@@ -110,6 +110,6 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return new AutoCommand(drivetrain);
+    return new ScoreCoralCenter(drivetrain, elevatorSubsystem, clawSubsystem);
   }
 }
