@@ -24,7 +24,7 @@ public class Controller {
     public static final Trigger blank2 = controller.povRight();
 
     // Face Buttons
-    public static final Trigger blank3 = controller.y();
+    public static final Trigger driveSlugButton = controller.y();
     public static final Trigger clawOuttakeButton = controller.x();
     public static final Trigger driveSlowButton = controller.b();
     public static final Trigger clawIntakeButton = controller.a();

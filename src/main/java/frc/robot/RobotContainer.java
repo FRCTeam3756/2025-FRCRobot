@@ -22,14 +22,15 @@ public class RobotContainer {
   private final ClimbingSubsystem climbSubsystem = new ClimbingSubsystem();
 
   public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
-  private final SwerveRequest.RobotCentric drive = new SwerveRequest.RobotCentric()
+  private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
           .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * Controller.DEADZONE)
           .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
 
   private enum DriveSpeed {
     SLOW,
     STANDARD,
-    TURBO
+    TURBO,
+    SLUG
   }
   
   private DriveSpeed currentDriveSpeed = DriveSpeed.STANDARD;
@@ -50,6 +51,9 @@ public class RobotContainer {
         .onFalse(new InstantCommand(() -> setStandardSpeed()));
     Controller.driveSlowButton
         .whileTrue(new InstantCommand(() -> setSlowSpeed()))
+        .onFalse(new InstantCommand(() -> setStandardSpeed()));
+    Controller.driveSlugButton
+        .whileTrue(new InstantCommand(() -> setSlugSpeed()))
         .onFalse(new InstantCommand(() -> setStandardSpeed()));
     Controller.climbButton
         .whileTrue(new InstantCommand(() -> climbSubsystem.climbing(), climbSubsystem))
@@ -86,6 +90,8 @@ public class RobotContainer {
         break;
       case TURBO:
         speedMultiplier = SwerveConstants.TURBO_DRIVE_MULTIPLIER;
+      case SLUG:
+        speedMultiplier = SwerveConstants.SLUG_DRIVE_MULTIPLIER;
     }
 
     return speedMultiplier;
@@ -101,6 +107,10 @@ public class RobotContainer {
 
   private void setSlowSpeed() {
     currentDriveSpeed = DriveSpeed.SLOW;
+  }
+
+  private void setSlugSpeed() {
+    currentDriveSpeed = DriveSpeed.SLUG;
   }
 
   public Command getAutonomousCommand() {
