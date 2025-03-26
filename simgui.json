@@ -22,7 +22,9 @@
     "types": {
       "/FMSInfo": "FMSInfo",
       "/Shuffleboard/Smart Dashboard/SendableChooser[0]": "String Chooser",
-      "/SmartDashboard/Auto Choices": "String Chooser"
+      "/SmartDashboard/Auto Choices": "String Chooser",
+      "/SmartDashboard/Auto Mode": "String Chooser",
+      "/SmartDashboard/PathPlanner": "Alerts"
     }
   },
   "NetworkTables": {
