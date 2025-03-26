@@ -4,24 +4,24 @@
     {
       "anchor": {
         "x": 8.02425,
-        "y": 4.0737499999999995
+        "y": 7.52525
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.812243433478275,
-        "y": 4.079744650980651
+        "x": 7.28302277546327,
+        "y": 6.9899014949392235
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 6.122999999999999,
-        "y": 4.0737499999999995
+        "x": 5.303999999999999,
+        "y": 5.4875
       },
       "prevControl": {
-        "x": 7.167395943301713,
-        "y": 4.0497489626856416
+        "x": 6.639772804356597,
+        "y": 6.6578280015732645
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,10 +42,10 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": -119.99999999999999
   },
   "reversed": false,
-  "folder": null,
+  "folder": "ScoreCoral",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 180.0

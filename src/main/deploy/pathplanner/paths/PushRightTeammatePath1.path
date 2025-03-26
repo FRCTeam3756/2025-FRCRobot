@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.02425,
-        "y": 0.524749999999999
+        "x": 8.08275,
+        "y": 7.42775
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.048293620152774,
-        "y": 1.2144514080004927
+        "x": 7.728479973080512,
+        "y": 7.388974185657914
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.3527499999999995,
-        "y": 2.61125
+        "x": 6.269250000002038,
+        "y": 7.42775
       },
       "prevControl": {
-        "x": 7.031498444290202,
-        "y": 1.1443945083247025
+        "x": 6.516816551930248,
+        "y": 7.462546585556299
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,10 +42,10 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 119.99999999999999
+    "rotation": 180.0
   },
   "reversed": false,
-  "folder": null,
+  "folder": "PushTeammate",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 180.0
