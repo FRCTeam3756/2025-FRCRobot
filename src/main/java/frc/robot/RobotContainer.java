@@ -6,12 +6,14 @@ package frc.robot;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
+import com.pathplanner.lib.auto.AutoBuilder;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.units.Units;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.auto.ScoreCoralCenter;
 import frc.robot.constants.*;
 import frc.robot.subsystems.*;
 import frc.robot.generated.TunerConstants;
@@ -22,7 +24,7 @@ public class RobotContainer {
   private final ClawSubsystem clawSubsystem = new ClawSubsystem();
   private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
   private final ClimbingSubsystem climbSubsystem = new ClimbingSubsystem();
-  // private final SendableChooser<Command> autoChooser;
+  private final SendableChooser<Command> autoChooser;
 
   public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
   private final SwerveRequest.RobotCentric drive = new SwerveRequest.RobotCentric()
@@ -40,8 +42,8 @@ public class RobotContainer {
   public RobotContainer() {
     CameraServer.startAutomaticCapture();
 
-    // autoChooser = AutoBuilder.buildAutoChooser();
-    // SmartDashboard.putData("Auto Chooser", autoChooser);
+    autoChooser = AutoBuilder.buildAutoChooser();
+    SmartDashboard.putData("Auto Mode", autoChooser);
   }
 
   public void setDriverControl() {
@@ -110,6 +112,6 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return new ScoreCoralCenter(drivetrain, elevatorSubsystem, clawSubsystem);
+    return autoChooser.getSelected();
   }
 }
