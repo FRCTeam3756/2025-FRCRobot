@@ -8,7 +8,6 @@ import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import edu.wpi.first.units.Units;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.constants.*;
 import frc.robot.subsystems.*;
@@ -35,7 +34,7 @@ public class RobotContainer {
   private DriveSpeed currentDriveSpeed = DriveSpeed.STANDARD;
 
   public RobotContainer() {
-    AutoSelector.init();
+
   }
 
   public void setDriverControl() {
@@ -101,9 +100,5 @@ public class RobotContainer {
 
   private void setSlowSpeed() {
     currentDriveSpeed = DriveSpeed.SLOW;
-  }
-
-  public Command getAutonomousCommand() {
-    return AutoSelector.getSelectedAuto();
   }
 }

@@ -4,15 +4,21 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.commands.PathPlannerAuto;
+
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.Threads;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class Robot extends TimedRobot {
-  private Command autonomousCommand;
   private final RobotContainer robotContainer;
+  private final SendableChooser<String> autoChooser = new SendableChooser<>();
+  private Command autonomousCommand;
 
   public Robot() {
     robotContainer = new RobotContainer();
@@ -21,7 +27,21 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
-    CameraServer.startAutomaticCapture();    
+    UsbCamera camera = CameraServer.startAutomaticCapture();
+
+    camera.setResolution(640, 480);
+    camera.setFPS(30);
+
+    CameraServer.startAutomaticCapture(camera);
+
+    autoChooser.setDefaultOption("Anywhere - Drive Forwards", "DriveStraightAuto");
+    autoChooser.addOption("Left Align - Score Coral", "LeftScoreCoralAuto");
+    autoChooser.addOption("Middle Align - Score Coral", "MiddleScoreCoralAuto");
+    autoChooser.addOption("Right Align - Score Coral", "RightScoreCoralAuto");
+    autoChooser.addOption("Left Align - Score 2 Algae", "LeftDoubleAlgaeAuto");
+    autoChooser.addOption("Right Align - Score 2 Algae", "RightDoubleAlgaeAuto");
+
+    SmartDashboard.putData("Auto List", autoChooser);
   }
 
   @Override
@@ -45,12 +65,14 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-    System.out.println("Autonomous init called");
-    autonomousCommand = robotContainer.getAutonomousCommand();
+    String selectedAuto = autoChooser.getSelected();
+    System.out.println(selectedAuto);
 
-    if (autonomousCommand != null) {
-      System.out.println("Scheduling auto command");
-      autonomousCommand.schedule();
+    if (selectedAuto != null) {
+      autonomousCommand = new PathPlannerAuto(selectedAuto);
+      if (autonomousCommand != null) {
+        autonomousCommand.schedule();
+      }
     }
   }
 
