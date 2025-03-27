@@ -11,33 +11,15 @@
           }
         },
         {
-          "type": "parallel",
-          "data": {
-            "commands": []
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "RightDoubleAlgaePath2"
           }
         },
         {
-          "type": "parallel",
-          "data": {
-            "commands": []
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "DoubleAlgaePath3"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": []
           }
         },
         {

@@ -11,9 +11,15 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "named",
           "data": {
-            "commands": []
+            "name": "stop_rollers"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "claw_from_coral_algae_to_top"
           }
         },
         {
@@ -23,21 +29,9 @@
           }
         },
         {
-          "type": "parallel",
-          "data": {
-            "commands": []
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "DoubleAlgaePath3"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": []
           }
         },
         {

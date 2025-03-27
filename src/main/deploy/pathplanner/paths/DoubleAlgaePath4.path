@@ -31,7 +31,26 @@
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "elevator_l3_to_l1",
+      "waypointRelativePos": 0.10035971223021867,
+      "endWaypointRelativePos": null,
+      "command": null
+    },
+    {
+      "name": "claw_from_top_to_processor",
+      "waypointRelativePos": 0.6629496402877647,
+      "endWaypointRelativePos": null,
+      "command": null
+    },
+    {
+      "name": "outtake",
+      "waypointRelativePos": 0.9550359712230162,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,

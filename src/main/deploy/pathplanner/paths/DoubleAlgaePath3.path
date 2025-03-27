@@ -8,20 +8,36 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.087050156692727,
-        "y": 0.31564499105039023
+        "x": 5.959101267159486,
+        "y": 0.29293872166513646
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.352750000004787,
-        "y": 2.5917499999959466
+        "x": 6.0,
+        "y": 1.63625
       },
       "prevControl": {
-        "x": 4.9205781671029,
-        "y": 2.066923058914919
+        "x": 6.079855205271506,
+        "y": 0.6884091578308972
+      },
+      "nextControl": {
+        "x": 5.969424297383844,
+        "y": 1.999168104324881
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.3527499999999995,
+        "y": 2.61125
+      },
+      "prevControl": {
+        "x": 5.5909650596278375,
+        "y": 2.5353976080370195
       },
       "nextControl": null,
       "isLocked": false,
@@ -31,7 +47,20 @@
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "elevator_l1_to_l3",
+      "waypointRelativePos": 0.6327338129496344,
+      "endWaypointRelativePos": null,
+      "command": null
+    },
+    {
+      "name": "intake",
+      "waypointRelativePos": 0.8212230215827353,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,

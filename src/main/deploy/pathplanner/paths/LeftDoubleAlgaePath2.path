@@ -47,7 +47,20 @@
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "claw_from_top_to_processor",
+      "waypointRelativePos": 1.2712230215827303,
+      "endWaypointRelativePos": null,
+      "command": null
+    },
+    {
+      "name": "outtake",
+      "waypointRelativePos": 1.7287769784172706,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,

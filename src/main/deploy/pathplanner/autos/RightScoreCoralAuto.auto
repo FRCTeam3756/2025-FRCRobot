@@ -9,12 +9,6 @@
           "data": {
             "pathName": "RightScoreCoralPath"
           }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": []
-          }
         }
       ]
     }
