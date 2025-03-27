@@ -111,8 +111,4 @@ public class RobotContainer {
   private void setSlugSpeed() {
     currentDriveSpeed = DriveSpeed.SLUG;
   }
-
-  public Command getAutonomousCommand() {
-    return AutoSelector.getSelectedAuto();
-  }
 }
