@@ -39,19 +39,19 @@
       "command": null
     },
     {
-      "name": "claw_from_base_to_coral_algae",
+      "name": "claw from top to coral algae",
       "waypointRelativePos": 0.7679856115107899,
       "endWaypointRelativePos": null,
       "command": null
     },
     {
-      "name": "claw_from_coral_algae_to_top",
+      "name": "",
       "waypointRelativePos": 1.0,
       "endWaypointRelativePos": null,
       "command": null
     },
     {
-      "name": "stop_rollers",
+      "name": "",
       "waypointRelativePos": 1.0,
       "endWaypointRelativePos": null,
       "command": null

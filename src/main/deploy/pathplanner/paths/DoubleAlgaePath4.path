@@ -33,13 +33,13 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "elevator_l3_to_l1",
+      "name": "",
       "waypointRelativePos": 0.10035971223021867,
       "endWaypointRelativePos": null,
       "command": null
     },
     {
-      "name": "claw_from_top_to_processor",
+      "name": "claw from top to processor",
       "waypointRelativePos": 0.6629496402877647,
       "endWaypointRelativePos": null,
       "command": null

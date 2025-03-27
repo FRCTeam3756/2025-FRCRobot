@@ -33,13 +33,13 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "claw_from_top_to_trough",
+      "name": "claw from top to trough",
       "waypointRelativePos": 0.46151079136690265,
       "endWaypointRelativePos": null,
       "command": null
     },
     {
-      "name": "elevator_l1_to_trough",
+      "name": "elevator from base to trough",
       "waypointRelativePos": 0.5953237410071913,
       "endWaypointRelativePos": null,
       "command": null
@@ -51,7 +51,7 @@
       "command": null
     },
     {
-      "name": "stop_rollers",
+      "name": "",
       "waypointRelativePos": 1.0,
       "endWaypointRelativePos": null,
       "command": null

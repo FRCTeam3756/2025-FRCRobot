@@ -22,6 +22,10 @@ public class ElevatorSubsystem extends SubsystemBase {
     CANConstants.elevatorMotor.set(0);
   }
 
+  public void autoElevator(double speed) {
+    CANConstants.elevatorMotor.set(speed);
+  }
+
   @Override
   public void periodic() {}
 }

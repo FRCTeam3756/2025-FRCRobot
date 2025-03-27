@@ -49,7 +49,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "claw_from_top_to_processor",
+      "name": "claw from top to processor",
       "waypointRelativePos": 1.2712230215827303,
       "endWaypointRelativePos": null,
       "command": null

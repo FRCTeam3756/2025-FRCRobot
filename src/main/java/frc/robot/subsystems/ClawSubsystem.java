@@ -17,8 +17,13 @@ public class ClawSubsystem extends SubsystemBase {
   public void tiltWristDown() {
     CANConstants.wristMotor.set(ClawConstants.WRIST_DOWN_SPEED);
   }
+
   public void tiltWristStop() {
     CANConstants.wristMotor.set(0.0);
+  }
+  
+  public void autoTiltWrist(double speed) {
+    CANConstants.wristMotor.set(speed);
   }
 
   public void intakeRollers() {

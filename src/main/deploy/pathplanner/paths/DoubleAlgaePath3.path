@@ -49,7 +49,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "elevator_l1_to_l3",
+      "name": "elevator from base to top algae",
       "waypointRelativePos": 0.6327338129496344,
       "endWaypointRelativePos": null,
       "command": null

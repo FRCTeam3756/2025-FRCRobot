@@ -5,10 +5,13 @@
 package frc.robot;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
+import com.pathplanner.lib.auto.NamedCommands;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+
+import frc.robot.commands.*;
 import frc.robot.constants.*;
 import frc.robot.subsystems.*;
 import frc.robot.generated.TunerConstants;
@@ -35,7 +38,15 @@ public class RobotContainer {
   private DriveSpeed currentDriveSpeed = DriveSpeed.STANDARD;
 
   public RobotContainer() {
+    NamedCommands.registerCommand("intake", new ClawCommand(clawSubsystem, 1.0, true));
+    NamedCommands.registerCommand("outtake", new ClawCommand(clawSubsystem, 1.0, false));
 
+    NamedCommands.registerCommand("claw from top to trough", new WristCommand(clawSubsystem, -0.08, 1.0));
+    NamedCommands.registerCommand("claw from top to coral algae", new WristCommand(clawSubsystem, -0.08, 0.3));
+    NamedCommands.registerCommand("claw from top to processor", new WristCommand(clawSubsystem, -0.08, 0.8));
+
+    NamedCommands.registerCommand("elevator from base to trough", new ElevatorCommand(elevatorSubsystem, 0.5, 1.0));
+    NamedCommands.registerCommand("elevator from base to top algae", new ElevatorCommand(elevatorSubsystem, 0.5, 1.0));
   }
 
   public void setDriverControl() {
@@ -89,8 +100,10 @@ public class RobotContainer {
         break;
       case TURBO:
         speedMultiplier = SwerveConstants.TURBO_DRIVE_MULTIPLIER;
+        break;
       case SLUG:
         speedMultiplier = SwerveConstants.SLUG_DRIVE_MULTIPLIER;
+        break;
     }
 
     return speedMultiplier;

@@ -11,18 +11,6 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "stop_rollers"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "claw_from_coral_algae_to_top"
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "LeftDoubleAlgaePath2"

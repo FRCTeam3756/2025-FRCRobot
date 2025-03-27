@@ -33,7 +33,7 @@ public class SwerveConstants {
     public static final double TURBO_DRIVE_MULTIPLIER = 1;
     public static final double STANDARD_DRIVE_MULTIPLIER = 0.5;
     public static final double SLOW_DRIVE_MULTIPLIER = 0.25;
-    public static final double SLUG_DRIVE_MULTIPLIER = 0.05;
+    public static final double SLUG_DRIVE_MULTIPLIER = 0.10;
 
     private static final Slot0Configs STEER_GJONNS = new Slot0Configs()
         .withKP(STEER_MODULE_KP).withKI(STEER_MODULE_KI).withKD(STEER_MODULE_KD)
