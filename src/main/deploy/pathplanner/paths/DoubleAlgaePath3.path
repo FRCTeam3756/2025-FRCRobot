@@ -49,7 +49,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "elevator from base to top algae",
+      "name": "elevatorFromBaseToTopAlgae",
       "waypointRelativePos": 0.6327338129496344,
       "endWaypointRelativePos": null,
       "command": null
@@ -62,8 +62,8 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 5.9,
+    "maxAcceleration": 5.9,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,

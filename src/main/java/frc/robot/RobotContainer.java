@@ -41,12 +41,12 @@ public class RobotContainer {
     NamedCommands.registerCommand("intake", new ClawCommand(clawSubsystem, 1.0, true));
     NamedCommands.registerCommand("outtake", new ClawCommand(clawSubsystem, 1.0, false));
 
-    NamedCommands.registerCommand("claw from top to trough", new WristCommand(clawSubsystem, -0.08, 1.0));
-    NamedCommands.registerCommand("claw from top to coral algae", new WristCommand(clawSubsystem, -0.08, 0.3));
-    NamedCommands.registerCommand("claw from top to processor", new WristCommand(clawSubsystem, -0.08, 0.8));
+    NamedCommands.registerCommand("clawFromTopToTrough", new WristCommand(clawSubsystem, -0.08, 1.0));
+    NamedCommands.registerCommand("clawFromTopToCoralAlgae", new WristCommand(clawSubsystem, -0.08, 0.3));
+    NamedCommands.registerCommand("clawFromTopToProcessor", new WristCommand(clawSubsystem, -0.08, 0.8));
 
-    NamedCommands.registerCommand("elevator from base to trough", new ElevatorCommand(elevatorSubsystem, 0.5, 1.0));
-    NamedCommands.registerCommand("elevator from base to top algae", new ElevatorCommand(elevatorSubsystem, 0.5, 1.0));
+    NamedCommands.registerCommand("elevatorFromBaseToTrough", new ElevatorCommand(elevatorSubsystem, 0.5, 1.0));
+    NamedCommands.registerCommand("elevatorFromBaseToTopAlgae", new ElevatorCommand(elevatorSubsystem, 0.5, 1.0));
   }
 
   public void setDriverControl() {
@@ -86,6 +86,8 @@ public class RobotContainer {
     Controller.clawOuttakeButton
         .whileTrue(new InstantCommand(() -> clawSubsystem.outtakeRollers()))
         .onFalse(new InstantCommand(() -> clawSubsystem.stopRollers()));
+    Controller.resetGyroScope
+        .onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
   }
 
   private double getCurrentSpeedMultiplier() {

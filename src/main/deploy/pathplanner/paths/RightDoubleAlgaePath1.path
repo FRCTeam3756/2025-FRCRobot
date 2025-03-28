@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.0535,
-        "y": 7.505749999999999
+        "x": 7.5855,
+        "y": 7.52525
       },
       "prevControl": null,
       "nextControl": {
-        "x": 8.604763609234348,
-        "y": 7.643960663563779
+        "x": 8.136763609234343,
+        "y": 7.66346066356378
       },
       "isLocked": false,
       "linkedName": null
@@ -39,27 +39,15 @@
       "command": null
     },
     {
-      "name": "claw from top to coral algae",
+      "name": "clawFromTopToCoralAlgae",
       "waypointRelativePos": 0.7679856115107899,
-      "endWaypointRelativePos": null,
-      "command": null
-    },
-    {
-      "name": "",
-      "waypointRelativePos": 1.0,
-      "endWaypointRelativePos": null,
-      "command": null
-    },
-    {
-      "name": "",
-      "waypointRelativePos": 1.0,
       "endWaypointRelativePos": null,
       "command": null
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 5.9,
+    "maxAcceleration": 5.9,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,

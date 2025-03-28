@@ -8,8 +8,8 @@ public class ClimbConstants {
     public static int LEFT_MOTOR_INVERSION = -1;
     public static int RIGHT_MOTOR_INVERSION = -1;
 
-    public static double LEFT_SPEED_PERCENTAGE = 1.40;
-    public static double RIGHT_SPEED_PERCENTAGE = 1.00;
+    public static double LEFT_SPEED_PERCENTAGE = 1.00;
+    public static double RIGHT_SPEED_PERCENTAGE = 0.90;
 
     public static double CLIMB_SPEED = 1.0;
 }

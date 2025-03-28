@@ -18,8 +18,8 @@ public class Controller {
     public static final Trigger blank = controller.rightStick();
 
     // D-Pad
-    public static final Trigger elevatorUpButton = controller.povDown();
-    public static final Trigger elevatorDownButton = controller.povUp();
+    public static final Trigger elevatorDownButton = controller.povDown();
+    public static final Trigger elevatorUpButton = controller.povUp();
     public static final Trigger blank1 = controller.povLeft();
     public static final Trigger blank2 = controller.povRight();
 
@@ -37,5 +37,5 @@ public class Controller {
 
     // Top Buttons
     public static final Trigger climbButton = controller.start();
-    public static final Trigger blank6 = controller.back();
+    public static final Trigger resetGyroScope = controller.back();
 }

@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.02425,
-        "y": 4.0737499999999995
+        "x": 7.605,
+        "y": 4.0445
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.812243433478275,
-        "y": 4.079744650980651
+        "x": 5.392993433478275,
+        "y": 4.050494650980652
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 6.122999999999999,
-        "y": 4.0737499999999995
+        "x": 5.6160000000000005,
+        "y": 4.0445
       },
       "prevControl": {
-        "x": 7.167395943301713,
-        "y": 4.0497489626856416
+        "x": 6.660395943301714,
+        "y": 4.020498962685642
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,13 +33,13 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "claw from top to trough",
+      "name": "clawFromTopToTrough",
       "waypointRelativePos": 0.061510791366906556,
       "endWaypointRelativePos": null,
       "command": null
     },
     {
-      "name": "elevator from base to trough",
+      "name": "elevatorFromBaseToTrough",
       "waypointRelativePos": 0.19244604316546762,
       "endWaypointRelativePos": null,
       "command": null
@@ -49,17 +49,11 @@
       "waypointRelativePos": 0.9464028776978388,
       "endWaypointRelativePos": null,
       "command": null
-    },
-    {
-      "name": "",
-      "waypointRelativePos": 1.0,
-      "endWaypointRelativePos": null,
-      "command": null
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 5.9,
+    "maxAcceleration": 5.9,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,

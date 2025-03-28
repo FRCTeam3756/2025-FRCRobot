@@ -35,11 +35,13 @@ public class Robot extends TimedRobot {
     CameraServer.startAutomaticCapture(camera);
 
     autoChooser.setDefaultOption("Anywhere - Drive Forwards", "DriveStraightAuto");
-    autoChooser.addOption("Left Align - Score Coral", "LeftScoreCoralAuto");
     autoChooser.addOption("Middle Align - Score Coral", "MiddleScoreCoralAuto");
-    autoChooser.addOption("Right Align - Score Coral", "RightScoreCoralAuto");
+    autoChooser.addOption("Left Align - Score Coral", "LeftScoreCoralAuto");
     autoChooser.addOption("Left Align - Score 2 Algae", "LeftDoubleAlgaeAuto");
+    autoChooser.addOption("Left Align - Push Teammate", "LeftPushTeammateAuto");
+    autoChooser.addOption("Right Align - Score Coral", "RightScoreCoralAuto");
     autoChooser.addOption("Right Align - Score 2 Algae", "RightDoubleAlgaeAuto");
+    autoChooser.addOption("Right Align - Push Teammate", "RightPushTeammateAuto");
 
     SmartDashboard.putData("Auto List", autoChooser);
   }

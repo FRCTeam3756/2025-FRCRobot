@@ -15,12 +15,6 @@
           "data": {
             "pathName": "PushRightTeammatePath2"
           }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": []
-          }
         }
       ]
     }
