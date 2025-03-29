@@ -40,7 +40,7 @@ public class RobotContainer {
 
   public RobotContainer() {
     NamedCommands.registerCommand("intake", new ClawCommand(clawSubsystem, 1, 0.30, true));
-    NamedCommands.registerCommand("outtake", new ClawCommand(clawSubsystem, 1, 0.30, false));
+    NamedCommands.registerCommand("outtake", new ClawCommand(clawSubsystem, 2, 0.40, false));
 
     NamedCommands.registerCommand("clawFromTopToTrough", new WristCommand(clawSubsystem, -0.08, 1));
     NamedCommands.registerCommand("clawFromTopToCoralAlgae", new WristCommand(clawSubsystem, -0.08, 0.3));
@@ -61,6 +61,7 @@ public class RobotContainer {
         .whileTrue(new InstantCommand(() -> setTurboSpeed()))
         .onFalse(new InstantCommand(() -> setStandardSpeed()));
     Controller.driveSlowButton
+    
         .whileTrue(new InstantCommand(() -> setSlowSpeed()))
         .onFalse(new InstantCommand(() -> setStandardSpeed()));
     Controller.driveSlugButton
