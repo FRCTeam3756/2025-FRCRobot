@@ -7,9 +7,9 @@ import frc.robot.subsystems.ElevatorSubsystem;
 
 public class ElevatorCommand extends Command {
     private final ElevatorSubsystem elevator;
-    private final Timer timer = new Timer();
     private final double duration, power;
     private boolean reversing = false;
+    private double startTime;
 
     public ElevatorCommand(ElevatorSubsystem elevator, double power, double duration) {
         this.power = power;
@@ -20,21 +20,19 @@ public class ElevatorCommand extends Command {
 
     @Override
     public void initialize() {
-        timer.reset();
-        timer.start();
+        startTime = Timer.getFPGATimestamp();
     }
 
     @Override
     public void execute() {
         if (!reversing) {
-            if (timer.get() < duration) {
+            if (Timer.getFPGATimestamp() < duration) {
                 elevator.autoElevator(power);
             } else {
                 reversing = true;
-                timer.reset();
             }
         } else {
-            if (timer.get() < duration) {
+            if (((Timer.getFPGATimestamp() - startTime) - duration) < duration) {
                 elevator.autoElevator(-power);
             }
         }
@@ -42,7 +40,7 @@ public class ElevatorCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        return reversing && timer.get() >= duration;
+        return reversing && ((Timer.getFPGATimestamp() - startTime) >= duration);
     }
 
     @Override

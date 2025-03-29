@@ -8,7 +8,7 @@ import frc.robot.subsystems.ClawSubsystem;
 public class ClawCommand extends Command {
     private final ClawSubsystem claw;
     private final boolean intake;
-    private final Timer timer = new Timer();
+    private double startTime;
     private final double duration;
 
     public ClawCommand(ClawSubsystem claw, double duration, boolean intake) {
@@ -20,8 +20,7 @@ public class ClawCommand extends Command {
 
     @Override
     public void initialize() {
-        timer.reset();
-        timer.start();
+        startTime = Timer.getFPGATimestamp();
     }
 
     @Override
@@ -35,7 +34,7 @@ public class ClawCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        return timer.get() >= duration;
+        return (Timer.getFPGATimestamp() - startTime) >= duration;
     }
 
     @Override

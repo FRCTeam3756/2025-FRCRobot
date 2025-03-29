@@ -36,13 +36,23 @@
       "name": "clawFromTopToProcessor",
       "waypointRelativePos": 0.6629496402877647,
       "endWaypointRelativePos": null,
-      "command": null
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "clawFromTopToProcessor"
+        }
+      }
     },
     {
       "name": "outtake",
       "waypointRelativePos": 0.9550359712230162,
       "endWaypointRelativePos": null,
-      "command": null
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "outtake"
+        }
+      }
     }
   ],
   "globalConstraints": {

@@ -36,13 +36,23 @@
       "name": "clawFromTopToCoralAlgae",
       "waypointRelativePos": 0.7377697841726629,
       "endWaypointRelativePos": null,
-      "command": null
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "clawFromTopToCoralAlgae"
+        }
+      }
     },
     {
       "name": "intake",
       "waypointRelativePos": 0.8197841726618644,
       "endWaypointRelativePos": null,
-      "command": null
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "intake"
+        }
+      }
     }
   ],
   "globalConstraints": {

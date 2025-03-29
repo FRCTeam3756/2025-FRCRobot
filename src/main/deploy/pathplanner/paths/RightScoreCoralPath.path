@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 5.0992500000000005,
-        "y": 4.999999999999999
+        "x": 5.15775,
+        "y": 5.1365
       },
       "prevControl": {
-        "x": 6.147737822758735,
-        "y": 6.294438611374256
+        "x": 6.206237822758735,
+        "y": 6.430938611374256
       },
       "nextControl": null,
       "isLocked": false,
@@ -36,25 +36,34 @@
       "name": "clawFromTopToTrough",
       "waypointRelativePos": 0.46151079136690265,
       "endWaypointRelativePos": null,
-      "command": null
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "clawFromTopToTrough"
+        }
+      }
     },
     {
       "name": "elevatorFromBaseToTrough",
       "waypointRelativePos": 0.5953237410071913,
       "endWaypointRelativePos": null,
-      "command": null
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "elevatorFromBaseToTrough"
+        }
+      }
     },
     {
       "name": "outtake",
       "waypointRelativePos": 0.9651079136690611,
       "endWaypointRelativePos": null,
-      "command": null
-    },
-    {
-      "name": "",
-      "waypointRelativePos": 1.0,
-      "endWaypointRelativePos": null,
-      "command": null
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "outtake"
+        }
+      }
     }
   ],
   "globalConstraints": {

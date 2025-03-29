@@ -52,13 +52,23 @@
       "name": "elevatorFromBaseToTopAlgae",
       "waypointRelativePos": 0.6327338129496344,
       "endWaypointRelativePos": null,
-      "command": null
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "elevatorFromBaseToTopAlgae"
+        }
+      }
     },
     {
       "name": "intake",
       "waypointRelativePos": 0.8212230215827353,
       "endWaypointRelativePos": null,
-      "command": null
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "intake"
+        }
+      }
     }
   ],
   "globalConstraints": {
