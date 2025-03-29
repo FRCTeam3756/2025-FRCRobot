@@ -34,7 +34,7 @@
   "eventMarkers": [
     {
       "name": "clawFromTopToTrough",
-      "waypointRelativePos": 0.061510791366906556,
+      "waypointRelativePos": 0.04665012406947132,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
@@ -42,6 +42,12 @@
           "name": "clawFromTopToTrough"
         }
       }
+    },
+    {
+      "name": "elevatorFromBaseToTopAlgae",
+      "waypointRelativePos": 0.1518610421836185,
+      "endWaypointRelativePos": null,
+      "command": null
     },
     {
       "name": "outtake",

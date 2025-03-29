@@ -40,14 +40,15 @@ public class RobotContainer {
 
   public RobotContainer() {
     NamedCommands.registerCommand("intake", new ClawCommand(clawSubsystem, 1, 0.30, true));
-    NamedCommands.registerCommand("outtake", new ClawCommand(clawSubsystem, 2, 0.40, false));
+    NamedCommands.registerCommand("outtake", new ClawCommand(clawSubsystem, 3, 0.20, false));
 
     NamedCommands.registerCommand("clawFromTopToTrough", new WristCommand(clawSubsystem, -0.08, 1));
+    // NamedCommands.registerCommand("clawFromTopToTrough", new WristCommand(clawSubsystem, -0.20, 1));
     NamedCommands.registerCommand("clawFromTopToCoralAlgae", new WristCommand(clawSubsystem, -0.08, 0.3));
     NamedCommands.registerCommand("clawFromTopToProcessor", new WristCommand(clawSubsystem, -0.08, 0.8));
 
     NamedCommands.registerCommand("elevatorFromBaseToTrough", new ElevatorCommand(elevatorSubsystem, 0.5, 1));
-    NamedCommands.registerCommand("elevatorFromBaseToTopAlgae", new ElevatorCommand(elevatorSubsystem, 0.5, 1));
+    NamedCommands.registerCommand("elevatorFromBaseToTopAlgae", new ElevatorCommand(elevatorSubsystem, 0.5, 2));
   }
 
   public void setDriverControl() {

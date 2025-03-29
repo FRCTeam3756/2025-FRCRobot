@@ -8,7 +8,6 @@ import frc.robot.subsystems.ClawSubsystem;
 public class WristCommand extends Command {
     private final ClawSubsystem claw;
     private final double duration, power;
-    private boolean reversing = false;
     private double startTime;
 
     public WristCommand(ClawSubsystem claw, double power, double duration) {
@@ -25,14 +24,10 @@ public class WristCommand extends Command {
 
     @Override
     public void execute() {
-        if (!reversing) {
-            if ((Timer.getFPGATimestamp() - startTime) < duration) {
-                claw.autoTiltWrist(power);
-            } else {
-                reversing = true;
-            }
+        if ((Timer.getFPGATimestamp() - startTime) < duration) {
+            claw.autoTiltWrist(power);
         } else {
-            if (((Timer.getFPGATimestamp() - startTime) - duration) < duration) {
+            if ((Timer.getFPGATimestamp() - startTime) < duration * 2) {
                 claw.autoTiltWrist(-power);
             }
         }
@@ -40,7 +35,7 @@ public class WristCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        return reversing && ((Timer.getFPGATimestamp() - startTime) >= duration);
+        return (Timer.getFPGATimestamp() - startTime) >= duration * 2;
     }
 
     @Override

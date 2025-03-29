@@ -36,13 +36,14 @@ public class Robot extends TimedRobot {
 
     autoChooser.setDefaultOption("Anywhere - Drive Forwards", "DriveStraightAuto");
     autoChooser.addOption("Middle Align - Score Coral", "MiddleScoreCoralAuto");
+    autoChooser.addOption("Middle Align - Score Coral From Pole", "MiddleScoreCoralFromPoleAuto");
     autoChooser.addOption("Left Align - Score Coral", "LeftScoreCoralAuto");
     autoChooser.addOption("Left Align - Score 2 Algae", "LeftDoubleAlgaeAuto");
     autoChooser.addOption("Left Align - Push Teammate", "LeftPushTeammateAuto");
     autoChooser.addOption("Right Align - Score Coral", "RightScoreCoralAuto");
     autoChooser.addOption("Right Align - Score 2 Algae", "RightDoubleAlgaeAuto");
     autoChooser.addOption("Right Align - Push Teammate", "RightPushTeammateAuto");
-    autoChooser.addOption("Right Align - Score Coral and Through Reef", "RightScoreCoralAndThroughReef");
+    autoChooser.addOption("Right Align - Score Coral and Through Reef", "RightScoreCoralAndThroughReefAuto");
 
     SmartDashboard.putData("Auto List", autoChooser);
   }
