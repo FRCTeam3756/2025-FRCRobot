@@ -34,6 +34,14 @@ public class ClawSubsystem extends SubsystemBase {
     setRollerMotorSpeeds(ClawConstants.OUTTAKE_SPEED);
   }
 
+  public void autoIntakeRollers(double power) {
+    setRollerMotorSpeeds(power);
+  }
+
+  public void autoOuttakeRollers(double power) {
+    setRollerMotorSpeeds(power);
+  }
+
   public void stopRollers() {
     setRollerMotorSpeeds(0.0);
   }

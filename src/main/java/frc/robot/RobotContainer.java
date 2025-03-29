@@ -39,8 +39,8 @@ public class RobotContainer {
   private DriveSpeed currentDriveSpeed = DriveSpeed.STANDARD;
 
   public RobotContainer() {
-    NamedCommands.registerCommand("intake", new ClawCommand(clawSubsystem, 1, true));
-    NamedCommands.registerCommand("outtake", new ClawCommand(clawSubsystem, 1, false));
+    NamedCommands.registerCommand("intake", new ClawCommand(clawSubsystem, 1, 0.30, true));
+    NamedCommands.registerCommand("outtake", new ClawCommand(clawSubsystem, 1, 0.30, false));
 
     NamedCommands.registerCommand("clawFromTopToTrough", new WristCommand(clawSubsystem, -0.08, 1));
     NamedCommands.registerCommand("clawFromTopToCoralAlgae", new WristCommand(clawSubsystem, -0.08, 0.3));

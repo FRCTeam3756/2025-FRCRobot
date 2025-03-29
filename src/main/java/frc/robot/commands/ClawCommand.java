@@ -9,12 +9,13 @@ public class ClawCommand extends Command {
     private final ClawSubsystem claw;
     private final boolean intake;
     private double startTime;
-    private final double duration;
+    private final double duration, power;
 
-    public ClawCommand(ClawSubsystem claw, double duration, boolean intake) {
+    public ClawCommand(ClawSubsystem claw, double duration, double power, boolean intake) {
         this.intake = intake;
         this.duration = duration;
         this.claw = claw;
+        this.power = power;
         addRequirements(claw);
     }
 
@@ -26,9 +27,9 @@ public class ClawCommand extends Command {
     @Override
     public void execute() {
         if (intake) {
-            claw.intakeRollers();
+            claw.autoIntakeRollers(power);
         } else {
-            claw.outtakeRollers();
+            claw.autoOuttakeRollers(power);
         }
     }
 
