@@ -26,7 +26,7 @@ public class ElevatorCommand extends Command {
     @Override
     public void execute() {
         if (!reversing) {
-            if (Timer.getFPGATimestamp() < duration) {
+            if ((Timer.getFPGATimestamp() - startTime) < duration) {
                 elevator.autoElevator(power);
             } else {
                 reversing = true;
