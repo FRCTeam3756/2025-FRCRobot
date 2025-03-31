@@ -20,6 +20,9 @@ public class ElevatorSubsystem extends SubsystemBase {
   public ElevatorSubsystem() {
     elevatorEncoder.setPosition(0);
   }
+
+  @Override
+  public void periodic() {}
   
   public void elevatorUp() {
     if (elevatorEncoder.getPosition() < ElevatorConstants.MAX_HEIGHT) {
@@ -50,7 +53,4 @@ public class ElevatorSubsystem extends SubsystemBase {
       elevatorStop();
     }
   }
-
-  @Override
-  public void periodic() {}
 }

@@ -16,6 +16,8 @@ public class ClimbingSubsystem extends SubsystemBase {
   private final TalonSRX leftPaddle = new TalonSRX(CANConstants.LEFT_CLIMB_MOTOR_ID);
   private final TalonSRX rightPaddle = new TalonSRX(CANConstants.RIGHT_CLIMB_MOTOR_ID);
 
+  public ClimbingSubsystem() {}
+
   @Override
   public void periodic() {}
 

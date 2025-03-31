@@ -23,6 +23,9 @@ public class ClawSubsystem extends SubsystemBase {
     wristEncoder.setPosition(0);
   }
 
+  @Override
+  public void periodic() {}
+
   public void tiltWristUp() {
     if (wristEncoder.getPosition() < ClawConstants.WRIST_MAX_HEIGHT) {
       wristMotor.set(ClawConstants.WRIST_UP_SPEED);
@@ -76,10 +79,5 @@ public class ClawSubsystem extends SubsystemBase {
   private void setRollerMotorSpeeds(double speed) {
     leftMotor.set(speed);
     rightMotor.set(-speed);
-  }
-
-  @Override
-  public void periodic() {
-    
   }
 }
