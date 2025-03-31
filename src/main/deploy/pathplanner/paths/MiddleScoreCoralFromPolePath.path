@@ -74,7 +74,7 @@
     "rotation": 180.0
   },
   "reversed": false,
-  "folder": "ScoreCoral",
+  "folder": "Coral",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 180.0

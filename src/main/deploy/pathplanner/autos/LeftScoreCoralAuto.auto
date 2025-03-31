@@ -26,6 +26,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "ScoreCoral",
+  "folder": "Coral",
   "choreoAuto": false
 }

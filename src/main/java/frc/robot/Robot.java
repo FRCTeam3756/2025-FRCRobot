@@ -35,6 +35,7 @@ public class Robot extends TimedRobot {
     CameraServer.startAutomaticCapture(camera);
 
     autoChooser.setDefaultOption("Anywhere - Drive Forwards", "DriveStraightAuto");
+    autoChooser.addOption("Middle Align - Grab Algae", "MiddleReefAlgaeAuto");
     autoChooser.addOption("Middle Align - Score Coral", "MiddleScoreCoralAuto");
     autoChooser.addOption("Middle Align - Score Coral From Pole", "MiddleScoreCoralFromPoleAuto");
     autoChooser.addOption("Left Align - Score Coral", "LeftScoreCoralAuto");

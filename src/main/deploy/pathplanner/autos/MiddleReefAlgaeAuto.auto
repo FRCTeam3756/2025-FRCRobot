@@ -7,19 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "RightScoreCoralPath"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "BackThroughReefPath"
+            "pathName": "MiddleReefAlgaePath1"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "Coral",
+  "folder": "Algae",
   "choreoAuto": false
 }

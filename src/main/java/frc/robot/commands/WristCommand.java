@@ -7,13 +7,14 @@ import frc.robot.subsystems.ClawSubsystem;
 
 public class WristCommand extends Command {
     private final ClawSubsystem claw;
-    private final double duration, power;
+    private final double duration, power, timeout;
     private double startTime;
 
-    public WristCommand(ClawSubsystem claw, double power, double duration) {
+    public WristCommand(ClawSubsystem claw, double power, double duration, double timeout) {
         this.power = power;
         this.duration = duration;
         this.claw = claw;
+        this.timeout = timeout;
         addRequirements(claw);
     }
 
@@ -27,7 +28,7 @@ public class WristCommand extends Command {
         if ((Timer.getFPGATimestamp() - startTime) < duration) {
             claw.autoTiltWrist(power);
         } else {
-            if ((Timer.getFPGATimestamp() - startTime) < duration * 2) {
+            if (((Timer.getFPGATimestamp() - startTime) + timeout) < (duration * 2) + timeout) {
                 claw.autoTiltWrist(-power);
             }
         }
@@ -35,7 +36,7 @@ public class WristCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        return (Timer.getFPGATimestamp() - startTime) >= duration * 2;
+        return ((Timer.getFPGATimestamp() - startTime) + timeout) >= ((duration * 2) + timeout);
     }
 
     @Override

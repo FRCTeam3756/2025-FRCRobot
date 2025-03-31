@@ -3,14 +3,14 @@
   "robotLength": 0.86,
   "holonomicMode": true,
   "pathFolders": [
-    "DoubleAlgae",
+    "Algae",
     "PushTeammate",
-    "ScoreCoral"
+    "Coral"
   ],
   "autoFolders": [
-    "DoubleAlgae",
+    "Algae",
     "PushTeammate",
-    "ScoreCoral"
+    "Coral"
   ],
   "defaultMaxVel": 5.9,
   "defaultMaxAccel": 5.9,

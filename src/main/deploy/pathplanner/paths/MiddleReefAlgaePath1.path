@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.6635,
-        "y": 4.0445
+        "x": 7.581264916467782,
+        "y": 4.024999999999999
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.451493433478275,
-        "y": 4.050494650980652
+        "x": 7.831024214923731,
+        "y": 4.035967809024244
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.762249999999999,
-        "y": 4.0445
+        "x": 5.759248210023867,
+        "y": 4.024999999999999
       },
       "prevControl": {
-        "x": 6.806645943301713,
-        "y": 4.020498962685642
+        "x": 7.513576106799956,
+        "y": 4.009575978864885
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,24 +33,46 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "clawFromTopToTrough",
-      "waypointRelativePos": 0.061510791366906556,
+      "name": "clawAwayFromElevator",
+      "waypointRelativePos": 0,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
         "data": {
-          "name": "clawFromTopToTrough"
+          "name": "clawAwayFromElevator"
         }
       }
     },
     {
-      "name": "outtake",
-      "waypointRelativePos": 0.9464028776978388,
+      "name": "elevatorFromBaseToBottomAlgae",
+      "waypointRelativePos": 0.1498759305210849,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
         "data": {
-          "name": "outtake"
+          "name": "elevatorFromBaseToBottomAlgae"
+        }
+      }
+    },
+    {
+      "name": "clawFromTopToReefAlgae",
+      "waypointRelativePos": 0.7811414392059458,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "clawFromTopToReefAlgae"
+        }
+      }
+    },
+    {
+      "name": "intake",
+      "waypointRelativePos": 0.8049627791563279,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "intake"
         }
       }
     }
@@ -68,7 +90,7 @@
     "rotation": 180.0
   },
   "reversed": false,
-  "folder": "Coral",
+  "folder": "Algae",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 180.0
