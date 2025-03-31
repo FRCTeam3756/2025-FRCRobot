@@ -7,4 +7,7 @@ package frc.robot.constants;
 public class ElevatorConstants {
     public static final int MOTOR_MAX_AMPERAGE = 60;
     public static final double ELEVATOR_SPEED = 1.0;
+
+    public static final double MAX_HEIGHT = 10000; // 630000
+    public static final double MIN_HEIGHT = 0;
 }
