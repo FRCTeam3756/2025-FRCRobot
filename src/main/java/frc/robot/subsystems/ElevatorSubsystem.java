@@ -14,7 +14,7 @@ import frc.robot.constants.ElevatorConstants;
 import frc.robot.constants.CANConstants;
 
 public class ElevatorSubsystem extends SubsystemBase {
-  public static final SparkMax elevatorMotor = new SparkMax(CANConstants.ELEVATOR_MOTOR_ID, MotorType.kBrushless);
+  private final SparkMax elevatorMotor = new SparkMax(CANConstants.ELEVATOR_MOTOR_ID, MotorType.kBrushless);
   private RelativeEncoder elevatorEncoder = elevatorMotor.getEncoder();
 
   public ElevatorSubsystem() {
@@ -42,9 +42,9 @@ public class ElevatorSubsystem extends SubsystemBase {
   }
 
   public void autoElevator(double speed) {
-    if (speed > 0 && elevatorEncoder.getPosition() < ElevatorConstants.MAX_HEIGHT) {
+    if ((speed > 0) && (elevatorEncoder.getPosition() < ElevatorConstants.MAX_HEIGHT)) {
       elevatorMotor.set(speed);
-    } else if (speed < 0 && elevatorEncoder.getPosition() > ElevatorConstants.MIN_HEIGHT) {
+    } else if ((speed < 0) && (elevatorEncoder.getPosition() > ElevatorConstants.MIN_HEIGHT)) {
       elevatorMotor.set(speed);
     } else {
       elevatorStop();

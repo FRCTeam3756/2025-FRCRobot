@@ -13,8 +13,8 @@ import frc.robot.constants.ClimbConstants;
 import frc.robot.constants.CANConstants;
 
 public class ClimbingSubsystem extends SubsystemBase {
-  public static final TalonSRX leftPaddle = new TalonSRX(CANConstants.LEFT_CLIMB_MOTOR_ID);
-  public static final TalonSRX rightPaddle = new TalonSRX(CANConstants.RIGHT_CLIMB_MOTOR_ID);
+  private final TalonSRX leftPaddle = new TalonSRX(CANConstants.LEFT_CLIMB_MOTOR_ID);
+  private final TalonSRX rightPaddle = new TalonSRX(CANConstants.RIGHT_CLIMB_MOTOR_ID);
 
   @Override
   public void periodic() {}

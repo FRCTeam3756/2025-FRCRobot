@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 
@@ -13,16 +14,29 @@ import frc.robot.constants.CANConstants;
 import frc.robot.constants.ClawConstants;
 
 public class ClawSubsystem extends SubsystemBase {
-  public static final SparkMax wristMotor = new SparkMax(CANConstants.WRIST_MOTOR_ID, MotorType.kBrushless);
-  public static final SparkMax leftMotor = new SparkMax(CANConstants.LEFT_CLAW_MOTOR_ID, MotorType.kBrushless);
-  public static final SparkMax rightMotor = new SparkMax(CANConstants.RIGHT_CLAW_MOTOR_ID, MotorType.kBrushless);
+  private final SparkMax wristMotor = new SparkMax(CANConstants.WRIST_MOTOR_ID, MotorType.kBrushless);
+  private final SparkMax leftMotor = new SparkMax(CANConstants.LEFT_CLAW_MOTOR_ID, MotorType.kBrushless);
+  private final SparkMax rightMotor = new SparkMax(CANConstants.RIGHT_CLAW_MOTOR_ID, MotorType.kBrushless);
+  private final RelativeEncoder wristEncoder = wristMotor.getEncoder();
+
+  public ClawSubsystem() {
+    wristEncoder.setPosition(0);
+  }
 
   public void tiltWristUp() {
-    wristMotor.set(ClawConstants.WRIST_UP_SPEED);
+    if (wristEncoder.getPosition() < ClawConstants.WRIST_MAX_HEIGHT) {
+      wristMotor.set(ClawConstants.WRIST_UP_SPEED);
+    } else {
+      tiltWristStop();
+    }
   }
 
   public void tiltWristDown() {
-    wristMotor.set(ClawConstants.WRIST_DOWN_SPEED);
+    if (wristEncoder.getPosition() > ClawConstants.WRIST_MIN_HEIGHT) {
+      wristMotor.set(ClawConstants.WRIST_UP_SPEED);
+    } else {
+      tiltWristStop();
+    }
   }
 
   public void tiltWristStop() {
@@ -30,7 +44,13 @@ public class ClawSubsystem extends SubsystemBase {
   }
   
   public void autoTiltWrist(double speed) {
-    wristMotor.set(speed);
+    if ((speed > 0) && (wristEncoder.getPosition() < ClawConstants.WRIST_MAX_HEIGHT)) {
+      wristMotor.set(speed);
+    } else if ((speed < 0) && (wristEncoder.getPosition() > ClawConstants.WRIST_MIN_HEIGHT)) {
+      wristMotor.set(speed);
+    } else {
+      tiltWristStop();
+    }
   }
 
   public void intakeRollers() {
