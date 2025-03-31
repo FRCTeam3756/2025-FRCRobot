@@ -5,22 +5,44 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.constants.CANConstants;
 import frc.robot.constants.ClawConstants;
+import frc.robot.constants.ElevatorConstants;
 
 public class ClawSubsystem extends SubsystemBase {
-  private final SparkMax wristMotor = new SparkMax(CANConstants.WRIST_MOTOR_ID, MotorType.kBrushless);
-  private final SparkMax leftMotor = new SparkMax(CANConstants.LEFT_CLAW_MOTOR_ID, MotorType.kBrushless);
-  private final SparkMax rightMotor = new SparkMax(CANConstants.RIGHT_CLAW_MOTOR_ID, MotorType.kBrushless);
-  private final RelativeEncoder wristEncoder = wristMotor.getEncoder();
+  private final SparkMax wristMotor;
+  private final SparkMax leftMotor;
+  private final SparkMax rightMotor;
+  private final RelativeEncoder wristEncoder;
+  private final SparkMaxConfig wristConfig;
 
   public ClawSubsystem() {
+    wristMotor = new SparkMax(CANConstants.WRIST_MOTOR_ID, ClawConstants.MOTOR_TYPE);
+    leftMotor = new SparkMax(CANConstants.LEFT_CLAW_MOTOR_ID, ClawConstants.MOTOR_TYPE);
+    rightMotor = new SparkMax(CANConstants.RIGHT_CLAW_MOTOR_ID, ClawConstants.MOTOR_TYPE);
+    wristEncoder = wristMotor.getEncoder();
+    wristConfig = new SparkMaxConfig();
+
     wristEncoder.setPosition(0);
+
+    wristConfig
+        .closedLoopRampRate(ClawConstants.MOTOR_RAMP_RATE)
+        .idleMode(ClawConstants.IDLE_MODE)
+        .smartCurrentLimit(ClawConstants.MOTOR_MAX_AMPERAGE)
+        .closedLoop
+            .feedbackSensor(ClawConstants.FEEDBACK_SENSOR)
+            .p(ClawConstants.P)
+            .i(ClawConstants.I)
+            .d(ClawConstants.D)
+            .velocityFF(ClawConstants.FF)
+            .outputRange(ClawConstants.MINIMUM_OUTPUT, ClawConstants.MAXIMUM_OUTPUT);
+
+    wristMotor.configure(wristConfig, ElevatorConstants.RESET_MODE, ElevatorConstants.PERSIST_MODE);
   }
 
   @Override

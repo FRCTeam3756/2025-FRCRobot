@@ -5,7 +5,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.SparkMax;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -14,11 +14,30 @@ import frc.robot.constants.ElevatorConstants;
 import frc.robot.constants.CANConstants;
 
 public class ElevatorSubsystem extends SubsystemBase {
-  private final SparkMax elevatorMotor = new SparkMax(CANConstants.ELEVATOR_MOTOR_ID, MotorType.kBrushless);
-  private RelativeEncoder elevatorEncoder = elevatorMotor.getEncoder();
+  private final SparkMax elevatorMotor;
+  private RelativeEncoder elevatorEncoder;
+  private SparkMaxConfig elevatorConfig;
 
   public ElevatorSubsystem() {
+    elevatorMotor = new SparkMax(CANConstants.ELEVATOR_MOTOR_ID, ElevatorConstants.MOTOR_TYPE);
+    elevatorEncoder = elevatorMotor.getEncoder();
+    elevatorConfig = new SparkMaxConfig();
+
     elevatorEncoder.setPosition(0);
+
+    elevatorConfig
+        .closedLoopRampRate(ElevatorConstants.MOTOR_RAMP_RATE)
+        .idleMode(ElevatorConstants.IDLE_MODE)
+        .smartCurrentLimit(ElevatorConstants.MOTOR_MAX_AMPERAGE)
+        .closedLoop
+            .feedbackSensor(ElevatorConstants.FEEDBACK_SENSOR)
+            .p(ElevatorConstants.P)
+            .i(ElevatorConstants.I)
+            .d(ElevatorConstants.D)
+            .velocityFF(ElevatorConstants.FF)
+            .outputRange(ElevatorConstants.MINIMUM_OUTPUT, ElevatorConstants.MAXIMUM_OUTPUT);
+
+    elevatorMotor.configure(elevatorConfig, ElevatorConstants.RESET_MODE, ElevatorConstants.PERSIST_MODE);
   }
 
   @Override

@@ -20,13 +20,14 @@ import frc.robot.generated.TunerConstants;
 public class RobotContainer {
   private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(Units.MetersPerSecond);
   private double MaxAngularRate = Units.RotationsPerSecond.of(0.75).in(Units.RadiansPerSecond);
+
   private final ClawSubsystem clawSubsystem = new ClawSubsystem();
   private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
   private final ClimbingSubsystem climbSubsystem = new ClimbingSubsystem();
 
   public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
   private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
-          .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * Controller.DEADZONE)
+          .withDeadband(MaxSpeed * Controller.DEADZONE).withRotationalDeadband(MaxAngularRate * Controller.DEADZONE)
           .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
 
   private enum DriveSpeed {
@@ -56,9 +57,9 @@ public class RobotContainer {
   public void setDriverControl() {
     drivetrain.setDefaultCommand(
         drivetrain.applyRequest(() ->
-            drive.withVelocityX(-Controller.controller.getLeftY() * getCurrentSpeedMultiplier() * SwerveConstants.SPEED_AT_12_VOLTS.in(Units.MetersPerSecond))
-            .withVelocityY(-Controller.controller.getLeftX() * getCurrentSpeedMultiplier() * SwerveConstants.SPEED_AT_12_VOLTS.in(Units.MetersPerSecond))
-            .withRotationalRate(-Controller.controller.getRightX() * getCurrentSpeedMultiplier() * SwerveConstants.SPEED_AT_12_VOLTS.in(Units.MetersPerSecond))));
+            drive.withVelocityX(-Controller.controller.getLeftY() * getCurrentSpeedMultiplier() * TunerConstants.kSpeedAt12Volts.in(Units.MetersPerSecond))
+            .withVelocityY(-Controller.controller.getLeftX() * getCurrentSpeedMultiplier() * TunerConstants.kSpeedAt12Volts.in(Units.MetersPerSecond))
+            .withRotationalRate(-Controller.controller.getRightX() * getCurrentSpeedMultiplier() * TunerConstants.kSpeedAt12Volts.in(Units.MetersPerSecond))));
     
     Controller.driveTurboButton
         .whileTrue(new InstantCommand(() -> setTurboSpeed()))

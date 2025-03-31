@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 public class Controller {
     public static final int CONTROLLER_PORT = 0;
-    public static final double DEADZONE = 0.05;
+    public static final double DEADZONE = 0.1;
 
     public static final CommandXboxController controller = new CommandXboxController(Controller.CONTROLLER_PORT);
 
