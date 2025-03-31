@@ -15,8 +15,8 @@ import frc.robot.constants.CANConstants;
 
 public class ElevatorSubsystem extends SubsystemBase {
   private final SparkMax elevatorMotor;
-  private RelativeEncoder elevatorEncoder;
-  private SparkMaxConfig elevatorConfig;
+  private final RelativeEncoder elevatorEncoder;
+  private final SparkMaxConfig elevatorConfig;
 
   public ElevatorSubsystem() {
     elevatorMotor = new SparkMax(CANConstants.ELEVATOR_MOTOR_ID, ElevatorConstants.MOTOR_TYPE);

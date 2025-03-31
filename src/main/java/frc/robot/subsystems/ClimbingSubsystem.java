@@ -13,26 +13,32 @@ import frc.robot.constants.ClimbConstants;
 import frc.robot.constants.CANConstants;
 
 public class ClimbingSubsystem extends SubsystemBase {
-  private final TalonSRX leftPaddle;
-  private final TalonSRX rightPaddle;
+  private final TalonSRX leftPaddle, rightPaddle;
 
   public ClimbingSubsystem() {
     leftPaddle = new TalonSRX(CANConstants.LEFT_CLIMB_MOTOR_ID);
     rightPaddle = new TalonSRX(CANConstants.RIGHT_CLIMB_MOTOR_ID);
+
+    leftPaddle.setInverted(ClimbConstants.LEFT_MOTOR_INVERTED);
+    rightPaddle.setInverted(ClimbConstants.RIGHT_MOTOR_INVERTED);
+
+    leftPaddle.configOpenloopRamp(ClimbConstants.RAMP_RATE, ClimbConstants.ERROR_CHECK_TIMEOUT);
+    leftPaddle.configOpenloopRamp(ClimbConstants.RAMP_RATE, ClimbConstants.ERROR_CHECK_TIMEOUT);
+
+    leftPaddle.configClosedloopRamp(ClimbConstants.RAMP_RATE, ClimbConstants.ERROR_CHECK_TIMEOUT);
+    leftPaddle.configClosedloopRamp(ClimbConstants.RAMP_RATE, ClimbConstants.ERROR_CHECK_TIMEOUT);
   }
 
   @Override
   public void periodic() {}
 
   public void climbing() {
-    leftPaddle.set(ControlMode.PercentOutput,
-        ClimbConstants.LEFT_MOTOR_INVERSION * (ClimbConstants.CLIMB_SPEED * ClimbConstants.LEFT_SPEED_PERCENTAGE));
-    rightPaddle.set(ControlMode.PercentOutput,
-        ClimbConstants.RIGHT_MOTOR_INVERSION * (ClimbConstants.CLIMB_SPEED * ClimbConstants.RIGHT_SPEED_PERCENTAGE));
+    leftPaddle.set(ControlMode.PercentOutput, ClimbConstants.CLIMB_SPEED * ClimbConstants.LEFT_SPEED_PERCENTAGE);
+    rightPaddle.set(ControlMode.PercentOutput, ClimbConstants.CLIMB_SPEED * ClimbConstants.RIGHT_SPEED_PERCENTAGE);
   }
 
   public void stopClimbing() {
-    leftPaddle.set(ControlMode.PercentOutput, 0);
-    rightPaddle.set(ControlMode.PercentOutput, 0);
+    leftPaddle.set(ControlMode.Velocity, 0);
+    rightPaddle.set(ControlMode.Velocity, 0);
   }
 }
