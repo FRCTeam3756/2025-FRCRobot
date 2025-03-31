@@ -4,26 +4,31 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkMax;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.constants.ElevatorConstants;
 import frc.robot.constants.CANConstants;
 
 public class ElevatorSubsystem extends SubsystemBase {
+  public static final SparkMax elevatorMotor = new SparkMax(CANConstants.ELEVATOR_MOTOR_ID, MotorType.kBrushless);
+
   public void elevatorUp() {
-    CANConstants.elevatorMotor.set(ElevatorConstants.ELEVATOR_SPEED);
+    elevatorMotor.set(ElevatorConstants.ELEVATOR_SPEED);
   }
 
   public void elevatorDown() {
-    CANConstants.elevatorMotor.set(-ElevatorConstants.ELEVATOR_SPEED);
+    elevatorMotor.set(-ElevatorConstants.ELEVATOR_SPEED);
   }
 
   public void elevatorStop() {
-    CANConstants.elevatorMotor.set(0);
+    elevatorMotor.set(0);
   }
 
   public void autoElevator(double speed) {
-    CANConstants.elevatorMotor.set(speed);
+    elevatorMotor.set(speed);
   }
 
   @Override

@@ -4,26 +4,33 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkMax;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.constants.CANConstants;
 import frc.robot.constants.ClawConstants;
 
 public class ClawSubsystem extends SubsystemBase {
+  public static final SparkMax wristMotor = new SparkMax(CANConstants.WRIST_MOTOR_ID, MotorType.kBrushless);
+  public static final SparkMax leftMotor = new SparkMax(CANConstants.LEFT_CLAW_MOTOR_ID, MotorType.kBrushless);
+  public static final SparkMax rightMotor = new SparkMax(CANConstants.RIGHT_CLAW_MOTOR_ID, MotorType.kBrushless);
+
   public void tiltWristUp() {
-    CANConstants.wristMotor.set(ClawConstants.WRIST_UP_SPEED);
+    wristMotor.set(ClawConstants.WRIST_UP_SPEED);
   }
 
   public void tiltWristDown() {
-    CANConstants.wristMotor.set(ClawConstants.WRIST_DOWN_SPEED);
+    wristMotor.set(ClawConstants.WRIST_DOWN_SPEED);
   }
 
   public void tiltWristStop() {
-    CANConstants.wristMotor.set(0.0);
+    wristMotor.set(0.0);
   }
   
   public void autoTiltWrist(double speed) {
-    CANConstants.wristMotor.set(speed);
+    wristMotor.set(speed);
   }
 
   public void intakeRollers() {
@@ -47,8 +54,8 @@ public class ClawSubsystem extends SubsystemBase {
   }
 
   private void setRollerMotorSpeeds(double speed) {
-    CANConstants.leftMotor.set(speed);
-    CANConstants.rightMotor.set(-speed);
+    leftMotor.set(speed);
+    rightMotor.set(-speed);
   }
 
   @Override
