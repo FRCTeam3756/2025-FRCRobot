@@ -8,6 +8,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.constants.CANConstants;
@@ -46,22 +47,24 @@ public class ClawSubsystem extends SubsystemBase {
   }
 
   @Override
-  public void periodic() {}
+  public void periodic() {
+    SmartDashboard.putNumber("Wrist Encoder", wristEncoder.getPosition());
+  }
 
   public void tiltWristUp() {
-    if (wristEncoder.getPosition() < ClawConstants.WRIST_MAX_HEIGHT) {
+    // if (wristEncoder.getPosition() < ClawConstants.WRIST_MAX_HEIGHT) {
       wristMotor.set(ClawConstants.WRIST_UP_SPEED);
-    } else {
-      tiltWristStop();
-    }
+    // } else {
+    //   tiltWristStop();
+    // }
   }
 
   public void tiltWristDown() {
-    if (wristEncoder.getPosition() > ClawConstants.WRIST_MIN_HEIGHT) {
+    // if (wristEncoder.getPosition() > ClawConstants.WRIST_MIN_HEIGHT) {
       wristMotor.set(ClawConstants.WRIST_UP_SPEED);
-    } else {
-      tiltWristStop();
-    }
+    // } else {
+    //   tiltWristStop();
+    // }
   }
 
   public void tiltWristStop() {
@@ -69,13 +72,13 @@ public class ClawSubsystem extends SubsystemBase {
   }
   
   public void autoTiltWrist(double speed) {
-    if ((speed > 0) && (wristEncoder.getPosition() < ClawConstants.WRIST_MAX_HEIGHT)) {
+    // if ((speed > 0) && (wristEncoder.getPosition() < ClawConstants.WRIST_MAX_HEIGHT)) {
       wristMotor.set(speed);
-    } else if ((speed < 0) && (wristEncoder.getPosition() > ClawConstants.WRIST_MIN_HEIGHT)) {
-      wristMotor.set(speed);
-    } else {
-      tiltWristStop();
-    }
+    // } else if ((speed < 0) && (wristEncoder.getPosition() > ClawConstants.WRIST_MIN_HEIGHT)) {
+    //   wristMotor.set(speed);
+    // } else {
+    //   tiltWristStop();
+    // }
   }
 
   public void intakeRollers() {

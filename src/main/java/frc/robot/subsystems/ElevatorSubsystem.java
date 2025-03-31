@@ -8,6 +8,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.SparkMax;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.constants.ElevatorConstants;
@@ -41,22 +42,24 @@ public class ElevatorSubsystem extends SubsystemBase {
   }
 
   @Override
-  public void periodic() {}
+  public void periodic() {
+    SmartDashboard.putNumber("Elevator Encoder", elevatorEncoder.getPosition());
+  }
   
   public void elevatorUp() {
-    if (elevatorEncoder.getPosition() < ElevatorConstants.MAX_HEIGHT) {
+    // if (elevatorEncoder.getPosition() < ElevatorConstants.MAX_HEIGHT) {
       elevatorMotor.set(ElevatorConstants.ELEVATOR_SPEED);
-    } else {
-      elevatorStop();
-    }
+    // } else {
+    //   elevatorStop();
+    // }
   }
 
   public void elevatorDown() {
-    if (elevatorEncoder.getPosition() > ElevatorConstants.MIN_HEIGHT) {
+    // if (elevatorEncoder.getPosition() > ElevatorConstants.MIN_HEIGHT) {
       elevatorMotor.set(-ElevatorConstants.ELEVATOR_SPEED);
-    } else {
-      elevatorStop();
-    }
+    // } else {
+    //   elevatorStop();
+    // }
   }
 
   public void elevatorStop() {
@@ -64,12 +67,12 @@ public class ElevatorSubsystem extends SubsystemBase {
   }
 
   public void autoElevator(double speed) {
-    if ((speed > 0) && (elevatorEncoder.getPosition() < ElevatorConstants.MAX_HEIGHT)) {
+    // if ((speed > 0) && (elevatorEncoder.getPosition() < ElevatorConstants.MAX_HEIGHT)) {
       elevatorMotor.set(speed);
-    } else if ((speed < 0) && (elevatorEncoder.getPosition() > ElevatorConstants.MIN_HEIGHT)) {
-      elevatorMotor.set(speed);
-    } else {
-      elevatorStop();
-    }
+    // } else if ((speed < 0) && (elevatorEncoder.getPosition() > ElevatorConstants.MIN_HEIGHT)) {
+    //   elevatorMotor.set(speed);
+    // } else {
+    //   elevatorStop();
+    // }
   }
 }

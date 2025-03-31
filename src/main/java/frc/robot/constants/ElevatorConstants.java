@@ -28,12 +28,12 @@ public class ElevatorConstants {
     public static final double P = 0.10;
     public static final double I = 0;
     public static final double D = 0.002;
-    public static final double FF = 0.2;
+    public static final double FF = 0.3;
 
-    public static final double MAX_HEIGHT = 10000; // 630000
-    public static final double MIN_HEIGHT = 0;
+    // public static final double MAX_HEIGHT = 110; // 110
+    // public static final double MIN_HEIGHT = 0;
 
-    public static final double ELEVATOR_L1_HEIGHT = 100;
-    public static final double ELEVATOR_BOTTOM_ALGAE_HEIGHT = 4000;
-    public static final double ELEVATOR_TOP_ALGAE_HEIGHT = 7000;
+    // public static final double ELEVATOR_L1_HEIGHT = 20;
+    // public static final double ELEVATOR_BOTTOM_ALGAE_HEIGHT = 50;
+    // public static final double ELEVATOR_TOP_ALGAE_HEIGHT = 80;
 }
