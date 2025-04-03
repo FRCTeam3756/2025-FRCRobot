@@ -33,7 +33,7 @@ public class ClawConstants {
     public static final double WRIST_DOWN_SPEED = -0.15;
 
     public static final double INTAKE_SPEED = 0.4;
-    public static final double OUTTAKE_SPEED = -0.8;
+    public static final double OUTTAKE_SPEED = -1.0;
 
     // public static final double WRIST_MIN_HEIGHT = -400;
     // public static final double WRIST_MAX_HEIGHT = 0;

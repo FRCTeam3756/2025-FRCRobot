@@ -33,8 +33,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "clawFromTopToTrough",
-      "waypointRelativePos": 0.46151079136690265,
+      "name": "clawAwayFromElevator",
+      "waypointRelativePos": 0.6660049627791554,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
@@ -45,7 +45,7 @@
     },
     {
       "name": "elevatorFromBaseToTrough",
-      "waypointRelativePos": 0.5953237410071913,
+      "waypointRelativePos": 0.8248138957816333,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",

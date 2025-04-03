@@ -6,8 +6,6 @@ package frc.robot;
 
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.Threads;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -17,35 +15,17 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class Robot extends TimedRobot {
   private final RobotContainer robotContainer;
-  private final SendableChooser<String> autoChooser = new SendableChooser<>();
+  private SendableChooser<String> autoChooser = new SendableChooser<>();
   private Command autonomousCommand;
 
   public Robot() {
     robotContainer = new RobotContainer();
-    robotContainer.setDriverControl();
   }
 
   @Override
   public void robotInit() {
-    UsbCamera camera = CameraServer.startAutomaticCapture();
-
-    camera.setResolution(640, 480);
-    camera.setFPS(30);
-
-    CameraServer.startAutomaticCapture(camera);
-
-    autoChooser.setDefaultOption("Anywhere - Drive Forwards", "DriveStraightAuto");
-    autoChooser.addOption("Middle Align - Grab Algae", "MiddleReefAlgaeAuto");
-    autoChooser.addOption("Middle Align - Score Coral", "MiddleScoreCoralAuto");
-    autoChooser.addOption("Middle Align - Score Coral From Pole", "MiddleScoreCoralFromPoleAuto");
-    autoChooser.addOption("Left Align - Score Coral", "LeftScoreCoralAuto");
-    autoChooser.addOption("Left Align - Score 2 Algae", "LeftDoubleAlgaeAuto");
-    autoChooser.addOption("Left Align - Push Teammate", "LeftPushTeammateAuto");
-    autoChooser.addOption("Right Align - Score Coral", "RightScoreCoralAuto");
-    autoChooser.addOption("Right Align - Score 2 Algae", "RightDoubleAlgaeAuto");
-    autoChooser.addOption("Right Align - Push Teammate", "RightPushTeammateAuto");
-    autoChooser.addOption("Right Align - Score Coral and Through Reef", "RightScoreCoralAndThroughReefAuto");
-
+    robotContainer.enableSwitchableChannel(true);
+    autoChooser = robotContainer.buildAutoChooser();
     SmartDashboard.putData("Auto List", autoChooser);
   }
 
@@ -95,7 +75,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    robotContainer.setDriverControl();
   }
 
   @Override

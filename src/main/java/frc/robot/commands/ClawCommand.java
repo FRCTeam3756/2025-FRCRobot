@@ -31,9 +31,9 @@ public class ClawCommand extends Command {
     @Override
     public void execute() {
         if (intake) {
-            claw.autoIntakeRollers(power);
+            claw.setRollerMotorSpeeds(power);
         } else {
-            claw.autoOuttakeRollers(power);
+            claw.setRollerMotorSpeeds(-power);
         }
     }
 

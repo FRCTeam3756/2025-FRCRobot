@@ -34,14 +34,13 @@ public class ClawSubsystem extends SubsystemBase {
     wristConfig
         .closedLoopRampRate(ClawConstants.MOTOR_RAMP_RATE)
         .idleMode(ClawConstants.IDLE_MODE)
-        .smartCurrentLimit(ClawConstants.MOTOR_MAX_AMPERAGE)
-        .closedLoop
-            .feedbackSensor(ClawConstants.FEEDBACK_SENSOR)
-            .p(ClawConstants.P)
-            .i(ClawConstants.I)
-            .d(ClawConstants.D)
-            .velocityFF(ClawConstants.FF)
-            .outputRange(ClawConstants.MINIMUM_OUTPUT, ClawConstants.MAXIMUM_OUTPUT);
+        .smartCurrentLimit(ClawConstants.MOTOR_MAX_AMPERAGE).closedLoop
+        .feedbackSensor(ClawConstants.FEEDBACK_SENSOR)
+        .p(ClawConstants.P)
+        .i(ClawConstants.I)
+        .d(ClawConstants.D)
+        .velocityFF(ClawConstants.FF)
+        .outputRange(ClawConstants.MINIMUM_OUTPUT, ClawConstants.MAXIMUM_OUTPUT);
 
     wristMotor.configure(wristConfig, ElevatorConstants.RESET_MODE, ElevatorConstants.PERSIST_MODE);
   }
@@ -53,31 +52,33 @@ public class ClawSubsystem extends SubsystemBase {
 
   public void tiltWristUp() {
     // if (wristEncoder.getPosition() < ClawConstants.WRIST_MAX_HEIGHT) {
-      wristMotor.set(ClawConstants.WRIST_UP_SPEED);
+    wristMotor.set(ClawConstants.WRIST_UP_SPEED);
     // } else {
-    //   tiltWristStop();
+    // tiltWristStop();
     // }
   }
 
   public void tiltWristDown() {
     // if (wristEncoder.getPosition() > ClawConstants.WRIST_MIN_HEIGHT) {
-      wristMotor.set(ClawConstants.WRIST_UP_SPEED);
+    wristMotor.set(ClawConstants.WRIST_DOWN_SPEED);
     // } else {
-    //   tiltWristStop();
+    // tiltWristStop();
     // }
   }
 
   public void tiltWristStop() {
     wristMotor.set(0.0);
   }
-  
+
   public void autoTiltWrist(double speed) {
-    // if ((speed > 0) && (wristEncoder.getPosition() < ClawConstants.WRIST_MAX_HEIGHT)) {
-      wristMotor.set(speed);
-    // } else if ((speed < 0) && (wristEncoder.getPosition() > ClawConstants.WRIST_MIN_HEIGHT)) {
-    //   wristMotor.set(speed);
+    // if ((speed > 0) && (wristEncoder.getPosition() <
+    // ClawConstants.WRIST_MAX_HEIGHT)) {
+    wristMotor.set(speed);
+    // } else if ((speed < 0) && (wristEncoder.getPosition() >
+    // ClawConstants.WRIST_MIN_HEIGHT)) {
+    // wristMotor.set(speed);
     // } else {
-    //   tiltWristStop();
+    // tiltWristStop();
     // }
   }
 
@@ -89,19 +90,11 @@ public class ClawSubsystem extends SubsystemBase {
     setRollerMotorSpeeds(ClawConstants.OUTTAKE_SPEED);
   }
 
-  public void autoIntakeRollers(double power) {
-    setRollerMotorSpeeds(power);
-  }
-
-  public void autoOuttakeRollers(double power) {
-    setRollerMotorSpeeds(power);
-  }
-
   public void stopRollers() {
     setRollerMotorSpeeds(0.0);
   }
 
-  private void setRollerMotorSpeeds(double speed) {
+  public void setRollerMotorSpeeds(double speed) {
     leftMotor.set(speed);
     rightMotor.set(-speed);
   }

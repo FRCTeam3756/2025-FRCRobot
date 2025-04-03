@@ -9,7 +9,11 @@ import com.pathplanner.lib.auto.NamedCommands;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.units.Units;
+import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 import frc.robot.commands.*;
@@ -40,21 +44,12 @@ public class RobotContainer {
   private DriveSpeed currentDriveSpeed = DriveSpeed.STANDARD;
 
   public RobotContainer() {
-    NamedCommands.registerCommand("intake", new ClawCommand(clawSubsystem, 1, 0.30, true));
-    NamedCommands.registerCommand("outtake", new ClawCommand(clawSubsystem, 3, 0.20, false));
-
-    NamedCommands.registerCommand("clawAwayFromElevator", new WristCommand(clawSubsystem, -0.08, 0.3, 0.0));
-    NamedCommands.registerCommand("clawFromTopToTrough", new WristCommand(clawSubsystem, -0.08, 0.8, 0.0));
-    NamedCommands.registerCommand("clawFromTopToCoralAlgae", new WristCommand(clawSubsystem, -0.08, 0.3, 0.0));
-    NamedCommands.registerCommand("clawFromTopToReefAlgae", new WristCommand(clawSubsystem, -0.15, 1.2, 2.0));
-    NamedCommands.registerCommand("clawFromTopToProcessor", new WristCommand(clawSubsystem, -0.08, 0.8, 0.0));
-
-    NamedCommands.registerCommand("elevatorFromBaseToTrough", new ElevatorCommand(elevatorSubsystem, 0.5, 1));
-    NamedCommands.registerCommand("elevatorFromBaseToBottomAlgae", new ElevatorCommand(elevatorSubsystem, 0.5, 4));
-    NamedCommands.registerCommand("elevatorFromBaseToTopAlgae", new ElevatorCommand(elevatorSubsystem, 0.5, 5));
+    setupCamera();
+    registerNamedCommands();
+    configureButtonBindings();
   }
 
-  public void setDriverControl() {
+  private void configureButtonBindings() {
     drivetrain.setDefaultCommand(
         drivetrain.applyRequest(() ->
             drive.withVelocityX(-Controller.controller.getLeftY() * getCurrentSpeedMultiplier() * TunerConstants.kSpeedAt12Volts.in(Units.MetersPerSecond))
@@ -131,5 +126,55 @@ public class RobotContainer {
 
   private void setSlugSpeed() {
     currentDriveSpeed = DriveSpeed.SLUG;
+  }
+
+  public SendableChooser<String> buildAutoChooser() {
+    SendableChooser<String> autoChooser = new SendableChooser<>();
+
+    autoChooser.setDefaultOption("Anywhere - Drive Forwards", "DriveStraightAuto");
+    autoChooser.addOption("Middle Align - Grab Algae", "MiddleReefAlgaeAuto");
+    autoChooser.addOption("Middle Align - Score Coral", "MiddleScoreCoralAuto");
+    autoChooser.addOption("Middle Align - Score Coral From Pole", "MiddleScoreCoralFromPoleAuto");
+    autoChooser.addOption("Left Align - Score Coral", "LeftScoreCoralAuto");
+    autoChooser.addOption("Left Align - Score 2 Algae", "LeftDoubleAlgaeAuto");
+    autoChooser.addOption("Left Align - Push Teammate", "LeftPushTeammateAuto");
+    autoChooser.addOption("Right Align - Score Coral", "RightScoreCoralAuto");
+    autoChooser.addOption("Right Align - Score 2 Algae", "RightDoubleAlgaeAuto");
+    autoChooser.addOption("Right Align - Push Teammate", "RightPushTeammateAuto");
+    autoChooser.addOption("Right Align - Score Coral and Through Reef", "RightScoreCoralAndThroughReefAuto");
+
+    return autoChooser;
+  }
+
+  private void registerNamedCommands() {
+    NamedCommands.registerCommand("intake", new ClawCommand(clawSubsystem, 1, 0.30, true));
+    NamedCommands.registerCommand("outtake", new ClawCommand(clawSubsystem, 3, 0.20, false));
+
+    NamedCommands.registerCommand("clawAwayFromElevator", new WristCommand(clawSubsystem, -0.08, 0.3, 0.0));
+    NamedCommands.registerCommand("clawFromTopToTrough", new WristCommand(clawSubsystem, -0.08, 0.8, 0.0));
+    NamedCommands.registerCommand("clawFromTopToCoralAlgae", new WristCommand(clawSubsystem, -0.08, 0.3, 0.0));
+    NamedCommands.registerCommand("clawFromTopToReefAlgae", new WristCommand(clawSubsystem, -0.15, 1.2, 2.0));
+    NamedCommands.registerCommand("clawFromTopToProcessor", new WristCommand(clawSubsystem, -0.08, 0.8, 0.0));
+
+    NamedCommands.registerCommand("elevatorFromBaseToTrough", new ElevatorCommand(elevatorSubsystem, 0.5, 1));
+    NamedCommands.registerCommand("elevatorFromBaseToBottomAlgae", new ElevatorCommand(elevatorSubsystem, 0.5, 4));
+    NamedCommands.registerCommand("elevatorFromBaseToTopAlgae", new ElevatorCommand(elevatorSubsystem, 0.5, 5));
+  }
+
+  private void setupCamera() {
+    UsbCamera camera = CameraServer.startAutomaticCapture();
+
+    camera.setResolution(640, 480);
+    camera.setFPS(30);
+
+    CameraServer.startAutomaticCapture(camera);
+  }
+
+  public void enableSwitchableChannel(boolean enable) {
+    try (PowerDistribution powerDistributionHub = new PowerDistribution()) {
+      powerDistributionHub.setSwitchableChannel(enable);
+    } catch (Exception e) {
+      System.out.println("PDH Error:" + e);
+    }
   }
 }

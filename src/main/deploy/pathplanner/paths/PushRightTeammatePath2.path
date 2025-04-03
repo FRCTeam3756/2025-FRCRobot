@@ -32,12 +32,12 @@
     },
     {
       "anchor": {
-        "x": 6.1,
-        "y": 4.0055
+        "x": 5.885963114754098,
+        "y": 3.9950307377049183
       },
       "prevControl": {
-        "x": 6.346918075793368,
-        "y": 4.126998263738733
+        "x": 6.132881190547466,
+        "y": 4.11652900144365
       },
       "nextControl": null,
       "isLocked": false,
@@ -47,7 +47,26 @@
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "clawAwayFromElevator",
+      "waypointRelativePos": 1.5178933153274743,
+      "endWaypointRelativePos": null,
+      "command": null
+    },
+    {
+      "name": "elevatorFromBaseToTrough",
+      "waypointRelativePos": 1.6421336934503763,
+      "endWaypointRelativePos": null,
+      "command": null
+    },
+    {
+      "name": "outtake",
+      "waypointRelativePos": 1.847400405131671,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 5.9,
     "maxAcceleration": 5.9,

@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.595250000000001,
-        "y": 0.515
+        "x": 5.232424593967518,
+        "y": 5.232
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.2882216714815,
-        "y": 0.8344525863333871
+        "x": 5.0505,
+        "y": 6.774500000000001
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.232424593967518,
-        "y": 2.803
+        "x": 1.7647500000000003,
+        "y": 5.84825
       },
       "prevControl": {
-        "x": 6.336895151096429,
-        "y": 1.5903089542174917
+        "x": 3.2760000000000007,
+        "y": 6.365000000000001
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,8 +33,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "clawFromTopToTrough",
-      "waypointRelativePos": 0.49316546762589775,
+      "name": "clawFromTopToCoralAlgae",
+      "waypointRelativePos": 0.6282878411910665,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
@@ -44,19 +44,8 @@
       }
     },
     {
-      "name": "elevatorFromBaseToTrough",
-      "waypointRelativePos": 0.7780575539568324,
-      "endWaypointRelativePos": null,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "elevatorFromBaseToTrough"
-        }
-      }
-    },
-    {
-      "name": "outtake",
-      "waypointRelativePos": 0.9535971223021544,
+      "name": "intake",
+      "waypointRelativePos": 0.8585607940446667,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
@@ -76,13 +65,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 119.99999999999999
+    "rotation": 180.0
   },
   "reversed": false,
   "folder": "Coral",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": -119.99999999999999
   },
   "useDefaultConstraints": true
 }
