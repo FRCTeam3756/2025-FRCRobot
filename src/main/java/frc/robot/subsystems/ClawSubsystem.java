@@ -8,7 +8,6 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.constants.CANConstants;
@@ -46,9 +45,7 @@ public class ClawSubsystem extends SubsystemBase {
   }
 
   @Override
-  public void periodic() {
-    SmartDashboard.putNumber("Wrist Encoder", wristEncoder.getPosition());
-  }
+  public void periodic() {}
 
   public void tiltWristUp() {
     // if (wristEncoder.getPosition() < ClawConstants.WRIST_MAX_HEIGHT) {

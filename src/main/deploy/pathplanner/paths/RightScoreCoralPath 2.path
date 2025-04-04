@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.232424593967518,
-        "y": 5.232
+        "x": 5.175,
+        "y": 5.175
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.0505,
-        "y": 6.774500000000001
+        "x": 4.9930754060324825,
+        "y": 6.7175
       },
       "isLocked": false,
       "linkedName": null
@@ -39,7 +39,7 @@
       "command": {
         "type": "named",
         "data": {
-          "name": "clawFromTopToTrough"
+          "name": "clawFromTopToCoralAlgae"
         }
       }
     },
@@ -50,7 +50,7 @@
       "command": {
         "type": "named",
         "data": {
-          "name": "outtake"
+          "name": "intake"
         }
       }
     }

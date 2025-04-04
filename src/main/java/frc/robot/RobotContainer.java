@@ -134,7 +134,6 @@ public class RobotContainer {
     autoChooser.setDefaultOption("Anywhere - Drive Forwards", "DriveStraightAuto");
     autoChooser.addOption("Middle Align - Grab Algae", "MiddleReefAlgaeAuto");
     autoChooser.addOption("Middle Align - Score Coral", "MiddleScoreCoralAuto");
-    autoChooser.addOption("Middle Align - Score Coral From Pole", "MiddleScoreCoralFromPoleAuto");
     autoChooser.addOption("Left Align - Score Coral", "LeftScoreCoralAuto");
     autoChooser.addOption("Left Align - Score 2 Algae", "LeftDoubleAlgaeAuto");
     autoChooser.addOption("Left Align - Push Teammate", "LeftPushTeammateAuto");
@@ -152,7 +151,7 @@ public class RobotContainer {
 
     NamedCommands.registerCommand("clawAwayFromElevator", new WristCommand(clawSubsystem, -0.08, 0.3, 0.0));
     NamedCommands.registerCommand("clawFromTopToTrough", new WristCommand(clawSubsystem, -0.08, 0.8, 0.0));
-    NamedCommands.registerCommand("clawFromTopToCoralAlgae", new WristCommand(clawSubsystem, -0.08, 0.3, 0.0));
+    NamedCommands.registerCommand("clawFromTopToCoralAlgae", new WristCommand(clawSubsystem, -0.08, 1.0, 0.0));
     NamedCommands.registerCommand("clawFromTopToReefAlgae", new WristCommand(clawSubsystem, -0.15, 1.2, 2.0));
     NamedCommands.registerCommand("clawFromTopToProcessor", new WristCommand(clawSubsystem, -0.08, 0.8, 0.0));
 
