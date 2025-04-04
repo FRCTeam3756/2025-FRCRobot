@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "RightScoreCoralPath"
+            "pathName": "LeftScoreCoralPath"
           }
         },
         {
@@ -19,7 +19,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "RightScoreCoralPath 2"
+            "pathName": "LeftToReefPath"
           }
         }
       ]

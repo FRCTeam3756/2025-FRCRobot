@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.138,
-        "y": 5.146
+        "x": 5.215,
+        "y": 2.874
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.9560754060324825,
-        "y": 6.6885
+        "x": 5.5847500000000005,
+        "y": 2.09525
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.7647500000000003,
-        "y": 5.84825
+        "x": 6.795750000000001,
+        "y": 6.374750000000001
       },
       "prevControl": {
-        "x": 3.2760000000000007,
-        "y": 6.365000000000001
+        "x": 7.5075,
+        "y": 3.5862499999999993
       },
       "nextControl": null,
       "isLocked": false,
@@ -31,30 +31,7 @@
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [
-    {
-      "name": "clawFromTopToCoralAlgae",
-      "waypointRelativePos": 0.6282878411910665,
-      "endWaypointRelativePos": null,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "clawFromTopToCoralAlgae"
-        }
-      }
-    },
-    {
-      "name": "intake",
-      "waypointRelativePos": 0.8585607940446667,
-      "endWaypointRelativePos": null,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "intake"
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 5.9,
     "maxAcceleration": 5.9,
@@ -65,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 0.8680514497454982
   },
   "reversed": false,
   "folder": "Coral",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -119.99999999999999
+    "rotation": 119.99999999999999
   },
   "useDefaultConstraints": true
 }
