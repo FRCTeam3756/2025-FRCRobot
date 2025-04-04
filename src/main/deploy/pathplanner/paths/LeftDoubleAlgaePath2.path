@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.90125,
+        "x": 1.7647500000000003,
         "y": 2.182249999999999
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.1509073836886436,
+        "x": 2.014407383688644,
         "y": 2.195333989060735
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "LeftGroundAlgaePickupPosition"
     },
     {
       "anchor": {
@@ -41,7 +41,7 @@
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "ProcessorPosition"
     }
   ],
   "rotationTargets": [],

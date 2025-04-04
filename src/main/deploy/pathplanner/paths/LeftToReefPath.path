@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.215,
-        "y": 2.874
+        "x": 5.11875,
+        "y": 2.90375
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.5847500000000005,
-        "y": 2.09525
+        "x": 5.488500000000001,
+        "y": 2.125
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "LeftCoralScoringPosition"
     },
     {
       "anchor": {
-        "x": 6.795750000000001,
-        "y": 6.374750000000001
+        "x": 6.63975,
+        "y": 6.6964999999999995
       },
       "prevControl": {
-        "x": 7.5075,
-        "y": 3.5862499999999993
+        "x": 6.824999999999999,
+        "y": 2.971999999999998
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "RightDefensiveEndPosition"
     }
   ],
   "rotationTargets": [],
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.8680514497454982
+    "rotation": 0.0
   },
   "reversed": false,
   "folder": "Coral",

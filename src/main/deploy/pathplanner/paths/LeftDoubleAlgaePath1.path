@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.08275,
-        "y": 0.5442499999999996
+        "x": 7.57575,
+        "y": 0.5052499999999998
       },
       "prevControl": null,
       "nextControl": {
-        "x": 8.915622207601455,
-        "y": 0.3328380083400536
+        "x": 8.408622207601454,
+        "y": 0.2938380083400538
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "LeftRobotStartingPosition"
     },
     {
       "anchor": {
-        "x": 1.9305,
-        "y": 2.1725
+        "x": 1.7647500000000003,
+        "y": 2.182249999999999
       },
       "prevControl": {
-        "x": 2.1900325803261143,
-        "y": 2.1023768388288944
+        "x": 2.0242825803261146,
+        "y": 2.1121268388288934
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "LeftGroundAlgaePickupPosition"
     }
   ],
   "rotationTargets": [],

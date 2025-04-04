@@ -12,20 +12,20 @@
         "y": 4.61975
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "RightCoralScoringPosition"
     },
     {
       "anchor": {
-        "x": 6.659249999999999,
-        "y": 6.7452499999999995
+        "x": 6.63975,
+        "y": 6.6964999999999995
       },
       "prevControl": {
-        "x": 4.7482500000000005,
-        "y": 6.90125
+        "x": 4.728750000000002,
+        "y": 6.8525
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "RightDefensiveEndPosition"
     }
   ],
   "rotationTargets": [],

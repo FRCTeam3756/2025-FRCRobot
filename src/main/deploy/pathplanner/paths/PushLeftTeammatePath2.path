@@ -32,16 +32,16 @@
     },
     {
       "anchor": {
-        "x": 5.840250000000001,
-        "y": 4.0055
+        "x": 5.78175,
+        "y": 4.0445
       },
       "prevControl": {
-        "x": 6.396834806953236,
-        "y": 3.960903278657178
+        "x": 6.338334806953235,
+        "y": 3.9999032786571784
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "MiddleCoralScoringPosition"
     }
   ],
   "rotationTargets": [],

@@ -12,7 +12,7 @@
         "y": 0.29293872166513646
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "ProcessorPosition"
     },
     {
       "anchor": {
@@ -32,16 +32,16 @@
     },
     {
       "anchor": {
-        "x": 5.3527499999999995,
-        "y": 2.61125
+        "x": 5.1675,
+        "y": 2.864749999999999
       },
       "prevControl": {
-        "x": 5.5909650596278375,
-        "y": 2.5353976080370195
+        "x": 5.4057150596278385,
+        "y": 2.7888976080370185
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "LeftReefAlgaePickupPosition"
     }
   ],
   "rotationTargets": [],
