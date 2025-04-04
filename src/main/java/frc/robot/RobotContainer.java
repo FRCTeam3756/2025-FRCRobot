@@ -141,7 +141,7 @@ public class RobotContainer {
     autoChooser.addOption("Right Align - Score Coral", "RightScoreCoralAuto");
     autoChooser.addOption("Right Align - Score 2 Algae", "RightDoubleAlgaeAuto");
     autoChooser.addOption("Right Align - Push Teammate", "RightPushTeammateAuto");
-    autoChooser.addOption("Right Align - Score Coral and Through Reef", "RightScoreCoralAndThroughReefAuto");
+    autoChooser.addOption("Right Align - Score Coral and To Reef", "RightScoreCoralAndToReefAuto");
 
     return autoChooser;
   }
