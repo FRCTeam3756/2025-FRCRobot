@@ -23,7 +23,7 @@ import frc.robot.generated.TunerConstants;
 
 public class RobotContainer {
   private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(Units.MetersPerSecond);
-  private double MaxAngularRate = Units.RotationsPerSecond.of(0.75).in(Units.RadiansPerSecond);
+  private double MaxAngularRate = Units.RotationsPerSecond.of(1.0).in(Units.RadiansPerSecond);
 
   private final ClawSubsystem clawSubsystem = new ClawSubsystem();
   private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
@@ -52,9 +52,9 @@ public class RobotContainer {
   private void configureButtonBindings() {
     drivetrain.setDefaultCommand(
         drivetrain.applyRequest(() ->
-            drive.withVelocityX(-Controller.controller.getLeftY() * getCurrentSpeedMultiplier() * TunerConstants.kSpeedAt12Volts.in(Units.MetersPerSecond))
-            .withVelocityY(-Controller.controller.getLeftX() * getCurrentSpeedMultiplier() * TunerConstants.kSpeedAt12Volts.in(Units.MetersPerSecond))
-            .withRotationalRate(-Controller.controller.getRightX() * getCurrentSpeedMultiplier() * TunerConstants.kSpeedAt12Volts.in(Units.MetersPerSecond))));
+            drive.withVelocityX(-Controller.controller.getLeftY() * getCurrentSpeedMultiplier() * MaxSpeed)
+            .withVelocityY(-Controller.controller.getLeftX() * getCurrentSpeedMultiplier() * MaxSpeed)
+            .withRotationalRate(-Controller.controller.getRightX() * getCurrentSpeedMultiplier() * MaxAngularRate)));
     
     Controller.driveTurboButton
         .whileTrue(new InstantCommand(() -> setTurboSpeed()))
@@ -151,7 +151,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("outtake", new ClawCommand(clawSubsystem, 3, 0.20, false));
 
     NamedCommands.registerCommand("clawAwayFromElevator", new WristCommand(clawSubsystem, -0.08, 0.3, 0.0));
-    NamedCommands.registerCommand("clawFromTopToTrough", new WristCommand(clawSubsystem, -0.08, 0.8, 0.0));
+    NamedCommands.registerCommand("clawFromTopToTrough", new WristCommand(clawSubsystem, -0.08, 1.2, 0.0));
     NamedCommands.registerCommand("clawFromTopToCoralAlgae", new WristCommand(clawSubsystem, -0.08, 1.0, 0.0));
     NamedCommands.registerCommand("clawFromTopToReefAlgae", new WristCommand(clawSubsystem, -0.15, 1.2, 2.0));
     NamedCommands.registerCommand("clawFromTopToProcessor", new WristCommand(clawSubsystem, -0.08, 0.8, 0.0));
