@@ -4,12 +4,14 @@
 
 package frc.robot.subsystems;
 
+import java.io.IOException;
 import java.util.function.Supplier;
+
+import org.json.simple.parser.ParseException;
 
 import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.swerve.SwerveRequest;
-
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
@@ -20,7 +22,6 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
-
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
 
 public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Subsystem {
@@ -33,10 +34,12 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     public CommandSwerveDrivetrain(SwerveDrivetrainConstants drivetrainConstants,
             SwerveModuleConstants<?, ?, ?>... modules) {
         super(drivetrainConstants, modules);
-        configureAutoBuilder();
+        try {
+            configureAutoBuilder();
+        } catch (IOException | ParseException e) {}
     }
 
-    private void configureAutoBuilder() {
+    private void configureAutoBuilder() throws IOException, ParseException {
         try {
             RobotConfig config = RobotConfig.fromGUISettings();
             AutoBuilder.configure(
@@ -54,9 +57,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                     config,
                     () -> DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red,
                     this);
-        } catch (Exception ex) {
+        } catch (IOException | ParseException e) {
             DriverStation.reportError("Failed to load PathPlanner config and configure AutoBuilder",
-                    ex.getStackTrace());
+                    e.getStackTrace());
         }
     }
 

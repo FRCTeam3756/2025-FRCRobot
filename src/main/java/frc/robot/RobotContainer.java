@@ -4,10 +4,9 @@
 
 package frc.robot;
 
-import com.pathplanner.lib.auto.NamedCommands;
-
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
+import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
@@ -15,15 +14,19 @@ import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-
-import frc.robot.commands.*;
-import frc.robot.constants.*;
-import frc.robot.subsystems.*;
+import frc.robot.commands.ClawCommand;
+import frc.robot.commands.ElevatorCommand;
+import frc.robot.commands.WristCommand;
+import frc.robot.constants.SwerveConstants;
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.ClawSubsystem;
+import frc.robot.subsystems.ClimbingSubsystem;
+import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.ElevatorSubsystem;
 
 public class RobotContainer {
-  private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(Units.MetersPerSecond);
-  private double MaxAngularRate = Units.RotationsPerSecond.of(1.0).in(Units.RadiansPerSecond);
+  private final double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(Units.MetersPerSecond);
+  private final double MaxAngularRate = Units.RotationsPerSecond.of(1.0).in(Units.RadiansPerSecond);
 
   private final ClawSubsystem clawSubsystem = new ClawSubsystem();
   private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
@@ -95,18 +98,10 @@ public class RobotContainer {
     double speedMultiplier = SwerveConstants.STANDARD_DRIVE_MULTIPLIER;
 
     switch (currentDriveSpeed) {
-      case SLOW:
-        speedMultiplier = SwerveConstants.SLOW_DRIVE_MULTIPLIER;
-        break;
-      case STANDARD:
-        speedMultiplier = SwerveConstants.STANDARD_DRIVE_MULTIPLIER;
-        break;
-      case TURBO:
-        speedMultiplier = SwerveConstants.TURBO_DRIVE_MULTIPLIER;
-        break;
-      case SLUG:
-        speedMultiplier = SwerveConstants.SLUG_DRIVE_MULTIPLIER;
-        break;
+      case SLOW -> speedMultiplier = SwerveConstants.SLOW_DRIVE_MULTIPLIER;
+      case STANDARD -> speedMultiplier = SwerveConstants.STANDARD_DRIVE_MULTIPLIER;
+      case TURBO -> speedMultiplier = SwerveConstants.TURBO_DRIVE_MULTIPLIER;
+      case SLUG -> speedMultiplier = SwerveConstants.SLUG_DRIVE_MULTIPLIER;
     }
 
     return speedMultiplier;
