@@ -5,7 +5,22 @@
 package frc.robot.constants;
 
 public class CANConstants {
-    // 1 - 12 = Krakens, Falcons, CANCoders
+    public static final int REV_PDH_ID = 0;
+
+    public static final int FRONT_LEFT_DRIVE_MOTOR_ID = 1;
+    public static final int FRONT_RIGHT_DRIVE_MOTOR_ID = 2;
+    public static final int BACK_LEFT_DRIVE_MOTOR_ID = 3;
+    public static final int BACK_RIGHT_DRIVE_MOTOR_ID = 4;
+
+    public static final int FRONT_LEFT_TURN_MOTOR_ID = 5;
+    public static final int FRONT_RIGHT_TURN_MOTOR_ID = 6;
+    public static final int BACK_LEFT_TURN_MOTOR_ID = 7;
+    public static final int BACK_RIGHT_TURN_MOTOR_ID = 8;
+
+    public static final int FRONT_LEFT_ENCODER_ID = 9;
+    public static final int FRONT_RIGHT_ENCODER_ID = 10;
+    public static final int BACK_LEFT_ENCODER_ID = 11;
+    public static final int BACK_RIGHT_ENCODER_ID = 12;
 
     public static final int PIGEON_ID = 13;
 
@@ -17,7 +32,4 @@ public class CANConstants {
     public static final int WRIST_MOTOR_ID = 17;
     public static final int LEFT_CLAW_MOTOR_ID = 18;
     public static final int RIGHT_CLAW_MOTOR_ID = 19;
-    
-    public static final String CAN_BUS_NAME = "rio";
-    public static final String CAN_LOG_PATH = "./logs/canbus.hoot";
 }

@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.522750000000001,
-        "y": 4.61975
+        "x": 6.555803936954148,
+        "y": 5.133999300627729
       },
       "isLocked": false,
       "linkedName": "RightCoralScoringPosition"
@@ -20,8 +20,8 @@
         "y": 6.6964999999999995
       },
       "prevControl": {
-        "x": 4.728750000000002,
-        "y": 6.8525
+        "x": 6.59681700327511,
+        "y": 6.23431700327511
       },
       "nextControl": null,
       "isLocked": false,

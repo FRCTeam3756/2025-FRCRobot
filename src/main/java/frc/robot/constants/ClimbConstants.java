@@ -18,7 +18,7 @@ public class ClimbConstants {
     public static ResetMode RESET_MODE = ResetMode.kNoResetSafeParameters;
     public static PersistMode PERSIST_MODE = PersistMode.kPersistParameters;
 
-    public static final int ERROR_CHECK_TIMEOUT = 10; // ms
+    public static final int ERROR_CHECK_TIMEOUT = 20; // ms
     public static final double RAMP_RATE = 0.0;
     public static final int MOTOR_MAX_AMPERAGE = 60;
 

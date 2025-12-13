@@ -20,14 +20,12 @@ public class Robot extends TimedRobot {
 
   public Robot() {
     robotContainer = new RobotContainer();
-  }
-
-  @Override
-  public void robotInit() {
-    robotContainer.enableSwitchableChannel(true);
     autoChooser = robotContainer.buildAutoChooser();
     SmartDashboard.putData("Auto List", autoChooser);
   }
+
+  @Override
+  public void robotInit() {}
 
   @Override
   public void robotPeriodic() {
@@ -37,16 +35,13 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void disabledInit() {
-  } // TODO: STOP EVERYTHING!!!
+  public void disabledInit() {}
 
   @Override
-  public void disabledPeriodic() {
-  }
+  public void disabledPeriodic() {}
 
   @Override
-  public void disabledExit() {
-  }
+  public void disabledExit() {}
 
   @Override
   public void autonomousInit() {
@@ -62,9 +57,7 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void autonomousPeriodic() {
-    
-  }
+  public void autonomousPeriodic() {}
 
   @Override
   public void autonomousExit() {
@@ -74,14 +67,11 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void teleopInit() {
-  }
+  public void teleopInit() {}
 
   @Override
-  public void teleopPeriodic() {
-  }
+  public void teleopPeriodic() {}
 
   @Override
-  public void teleopExit() {
-  }
+  public void teleopExit() {}
 }
