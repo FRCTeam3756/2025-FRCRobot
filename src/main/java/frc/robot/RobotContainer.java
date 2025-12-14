@@ -15,11 +15,11 @@ import frc.robot.commands.ElevatorCommand;
 import frc.robot.commands.WristCommand;
 import frc.robot.constants.SwerveConstants;
 import frc.robot.generated.TunerConstants;
-import frc.robot.hardware.REVPowerDistributionHub;
 import frc.robot.subsystems.ClawSubsystem;
 import frc.robot.subsystems.ClimbingSubsystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.PowerSubsystem;
 
 public class RobotContainer {
 
@@ -43,7 +43,7 @@ public class RobotContainer {
     }
 
     private DriveSpeed currentDriveSpeed = DriveSpeed.STANDARD;
-    private final REVPowerDistributionHub powerDistributionHub = new REVPowerDistributionHub();
+    private final PowerSubsystem powerDistributionHub = new PowerSubsystem();
 
     public RobotContainer() {
         powerDistributionHub.clearStickyFaults();
