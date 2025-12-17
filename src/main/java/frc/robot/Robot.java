@@ -4,7 +4,7 @@
 
 package frc.robot;
 
-import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.commands.PathfindingCommand;
 
 import edu.wpi.first.wpilibj.Threads;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -22,6 +22,7 @@ public class Robot extends TimedRobot {
     robotContainer = new RobotContainer();
     autoChooser = robotContainer.buildAutoChooser();
     SmartDashboard.putData("Auto List", autoChooser);
+    PathfindingCommand.warmupCommand().schedule();
   }
 
   @Override
@@ -34,6 +35,7 @@ public class Robot extends TimedRobot {
     Threads.setCurrentThreadPriority(false, 10);
   }
 
+
   @Override
   public void disabledInit() {}
 
@@ -44,20 +46,16 @@ public class Robot extends TimedRobot {
   public void disabledExit() {}
 
   @Override
-  public void autonomousInit() {
-    String selectedAuto = autoChooser.getSelected();
-    System.out.println(selectedAuto);
-
-    if (selectedAuto != null) {
-      autonomousCommand = new PathPlannerAuto(selectedAuto);
-      if (autonomousCommand != null) {
-        autonomousCommand.schedule();
-      }
-    }
-  }
+  public void autonomousInit() {}
 
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+    String selectedAuto = autoChooser.getSelected();
+
+    if (selectedAuto != null) {
+      robotContainer.jetson.setSelectedAuto(selectedAuto);
+    }
+  }
 
   @Override
   public void autonomousExit() {

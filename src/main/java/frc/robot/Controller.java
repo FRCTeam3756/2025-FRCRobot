@@ -4,8 +4,8 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class Controller {
     public static final int CONTROLLER_PORT = 0;
@@ -32,8 +32,8 @@ public class Controller {
     // Back Buttons
     public static final Trigger clawTiltUp = controller.rightBumper();
     public static final Trigger clawTiltDown = controller.leftBumper();
-    public static final Trigger blank4 = controller.leftTrigger();
-    public static final Trigger blank5 = controller.rightTrigger();
+    public static final Trigger blank3 = controller.leftTrigger();
+    public static final Trigger blank4 = controller.rightTrigger();
 
     // Top Buttons
     public static final Trigger climbButton = controller.start();

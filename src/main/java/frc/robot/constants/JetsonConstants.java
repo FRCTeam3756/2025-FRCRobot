@@ -13,22 +13,19 @@ public class JetsonConstants {
         ROBOT_ENABLED("robot/mode/enabled"),
         ROBOT_DISABLED("robot/mode/disabled"),
         ROBOT_ESTOP("robot/mode/estop"),
-        
         ROBOT_AUTO("robot/mode/auto"),
         ROBOT_TELEOP("robot/mode/teleop"),
         ROBOT_TEST("robot/mode/test"),
-
         ROBOT_ALLIANCE("robot/alliance"),
         ROBOT_MATCH_TIME("robot/match_time"),
         ROBOT_START_LOCATION("robot/start_location"),
-
         ROBOT_POSE_X("robot/pose/x"),
         ROBOT_POSE_Y("robot/pose/y"),
         ROBOT_POSE_ROT("robot/pose/theta"),
-
         ROBOT_VELOCITY_X("robot/velocity/vx"),
         ROBOT_VELOCITY_Y("robot/velocity/vy"),
-        ROBOT_VELOCITY_ANGLE("robot/velocity/vtheta");
+        ROBOT_VELOCITY_ROTATIONS("robot/velocity/vomega"),
+        USER_SELECTED_AUTO("ds/auto/selection");
 
         private final String key;
 
@@ -42,48 +39,51 @@ public class JetsonConstants {
     }
 
     public enum JetsonToRio {
-        DESIRED_VX("jetson/command/vx"),
-        DESIRED_VY("jetson/command/vy"),
-        DESIRED_VTHETA("jetson/command/vtheta"),
-        DESIRED_TURBO_STATE("jetson/command/turbo"),
+        DESIRED_VX("jetson/command/vx", EntryType.DOUBLE),
+        DESIRED_VY("jetson/command/vy", EntryType.DOUBLE),
+        DESIRED_VTHETA("jetson/command/vtheta", EntryType.DOUBLE),
+        DESIRED_TURBO_STATE("jetson/command/turbo", EntryType.BOOLEAN),
+        DESIRED_INTAKE("jetson/command/intake", EntryType.BOOLEAN),
+        DESIRED_OUTTAKE("jetson/command/outtake", EntryType.BOOLEAN),
+        DESIRED_SHOOT("jetson/command/shoot", EntryType.BOOLEAN),
+        DESIRED_SHOOT_SPEED("jetson/command/shoot_rpm", EntryType.DOUBLE),
+        DESIRED_ELEVATOR_MODE("jetson/command/elevator_mode", EntryType.STRING),
+        DESIRED_ELEVATOR_SETPOINT("jetson/command/elevator_setpoint", EntryType.DOUBLE),
+        DESIRED_WRIST_ANGLE("jetson/command/wrist_angle", EntryType.DOUBLE),
+        DESIRED_INTAKE_STATE("jetson/command/intake_state", EntryType.BOOLEAN),
+        DESIRED_CLIMB("jetson/command/climb", EntryType.BOOLEAN),
+        DESIRED_CLIMB_SETPOINT("jetson/command/climb_setpoint", EntryType.DOUBLE),
+        PATH_ACTIVE("jetson/path/active", EntryType.BOOLEAN),
+        PATH_NAME("jetson/path/name", EntryType.STRING),
+        PATH_PROGRESS("jetson/path/progress", EntryType.DOUBLE),
+        PATH_COMPLETE("jetson/path/complete", EntryType.BOOLEAN),
+        AUTO_OBJECTIVE("jetson/strategy/objective", EntryType.STRING),
+        AUTO_SUBTARGET("jetson/strategy/subtarget", EntryType.STRING),
+        AUTO_PRIORITY("jetson/strategy/priority", EntryType.DOUBLE),
 
-        DESIRED_INTAKE ("jetson/command/intake"),
-        DESIRED_OUTTAKE("jetson/command/outtake"),
-        DESIRED_SHOOT("jetson/command/shoot"),
-        DESIRED_SHOOT_SPEED("jetson/command/shoot_rpm"),
+        MESSAGE("debug/message", EntryType.STRING),
+        TIMESTAMP("debug/timestamp", EntryType.DOUBLE);
 
-        DESIRED_ELEVATOR_MODE("jetson/command/elevator_mode"),
-        DESIRED_ELEVATOR_SETPOINT("jetson/command/elevator_setpoint"),
-
-        DESIRED_WRIST_MODE("jetson/command/wrist_mode"),
-        DESIRED_WRIST_ANGLE("jetson/command/wrist_angle"),
-
-        DESIRED_ARM_MODE("jetson/command/arm_mode"),
-        DESIRED_ARM_SETPOINT("jetson/command/arm_setpoint"),
-
-        DESIRED_CLIMB("jetson/command/climb"),
-        DESIRED_CLIMB_SETPOINT("jetson/command/climb_setpoint"),
-
-        PATH_ACTIVE("jetson/path/active"),
-        PATH_NAME("jetson/path/name"),
-        PATH_PROGRESS("jetson/path/progress"),
-        PATH_COMPLETE("jetson/path/complete"),
-
-        AUTO_OBJECTIVE("jetson/strategy/objective"),
-        AUTO_SUBTARGET("jetson/strategy/subtarget"),
-        AUTO_PRIORITY("jetson/strategy/priority"),
-
-        MESSAGE("debug/message"),
-        TIMESTAMP("debug/timestamp");
+        public enum EntryType {
+            BOOLEAN,
+            DOUBLE,
+            STRING
+        }
 
         private final String key;
+        private final EntryType type;
 
-        JetsonToRio(String key) {
+        JetsonToRio(String key, EntryType type) {
             this.key = key;
+            this.type = type;
         }
 
         public String key() {
             return key;
+        }
+
+        public EntryType type() {
+            return type;
         }
     }
 

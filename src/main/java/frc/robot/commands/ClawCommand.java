@@ -6,7 +6,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-
 import frc.robot.subsystems.ClawSubsystem;
 
 public class ClawCommand extends Command {
@@ -43,7 +42,5 @@ public class ClawCommand extends Command {
     }
 
     @Override
-    public void end(boolean interrupted) {
-        claw.stopRollers();
-    }
+    public void end(boolean interrupted) {}
 }

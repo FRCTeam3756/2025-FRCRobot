@@ -5,71 +5,57 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
-import frc.robot.constants.ElevatorConstants;
 import frc.robot.constants.CANConstants;
+import frc.robot.constants.ElevatorConstants;
 
 public class ElevatorSubsystem extends SubsystemBase {
-  private final SparkMax elevatorMotor;
-  private final RelativeEncoder elevatorEncoder;
-  private final SparkMaxConfig elevatorConfig;
 
-  public ElevatorSubsystem() {
-    elevatorMotor = new SparkMax(CANConstants.ELEVATOR_MOTOR_ID, ElevatorConstants.MOTOR_TYPE);
-    elevatorEncoder = elevatorMotor.getEncoder();
-    elevatorConfig = new SparkMaxConfig();
+    private final SparkMax elevatorMotor;
+    private final RelativeEncoder elevatorEncoder;
+    private final SparkMaxConfig elevatorConfig;
 
-    elevatorEncoder.setPosition(0);
+    public ElevatorSubsystem() {
+        elevatorMotor = new SparkMax(CANConstants.ELEVATOR_MOTOR_ID, ElevatorConstants.MOTOR_TYPE);
+        elevatorEncoder = elevatorMotor.getEncoder();
+        elevatorConfig = new SparkMaxConfig();
 
-    elevatorConfig
-        .closedLoopRampRate(ElevatorConstants.MOTOR_RAMP_RATE)
-        .idleMode(ElevatorConstants.IDLE_MODE)
-        .smartCurrentLimit(ElevatorConstants.MOTOR_MAX_AMPERAGE)
-        .closedLoop
-            .feedbackSensor(ElevatorConstants.FEEDBACK_SENSOR)
-            .p(ElevatorConstants.P)
-            .i(ElevatorConstants.I)
-            .d(ElevatorConstants.D)
-            .velocityFF(ElevatorConstants.FF)
-            .outputRange(ElevatorConstants.MINIMUM_OUTPUT, ElevatorConstants.MAXIMUM_OUTPUT);
+        elevatorEncoder.setPosition(0);
 
-    elevatorMotor.configure(elevatorConfig, ElevatorConstants.RESET_MODE, ElevatorConstants.PERSIST_MODE);
-  }
+        elevatorConfig
+                .closedLoopRampRate(ElevatorConstants.MOTOR_RAMP_RATE)
+                .idleMode(ElevatorConstants.IDLE_MODE)
+                .smartCurrentLimit(ElevatorConstants.MOTOR_MAX_AMPERAGE).closedLoop
+                .feedbackSensor(ElevatorConstants.FEEDBACK_SENSOR)
+                .p(ElevatorConstants.P)
+                .i(ElevatorConstants.I)
+                .d(ElevatorConstants.D)
+                .velocityFF(ElevatorConstants.FF)
+                .outputRange(ElevatorConstants.MINIMUM_OUTPUT, ElevatorConstants.MAXIMUM_OUTPUT);
 
-  @Override
-  public void periodic() {}
-  
-  public void elevatorUp() {
-    // if (elevatorEncoder.getPosition() < ElevatorConstants.MAX_HEIGHT) {
-      elevatorMotor.set(ElevatorConstants.ELEVATOR_SPEED);
-    // } else {
-    //   elevatorStop();
-    // }
-  }
+        elevatorMotor.configure(elevatorConfig, ElevatorConstants.RESET_MODE, ElevatorConstants.PERSIST_MODE);
+    }
 
-  public void elevatorDown() {
-    // if (elevatorEncoder.getPosition() > ElevatorConstants.MIN_HEIGHT) {
-      elevatorMotor.set(-ElevatorConstants.ELEVATOR_SPEED);
-    // } else {
-    //   elevatorStop();
-    // }
-  }
+    @Override
+    public void periodic() {
+    }
 
-  public void elevatorStop() {
-    elevatorMotor.set(0);
-  }
+    public void elevatorUp() {
+        elevatorMotor.set(ElevatorConstants.ELEVATOR_SPEED);
+    }
 
-  public void autoElevator(double speed) {
-    // if ((speed > 0) && (elevatorEncoder.getPosition() < ElevatorConstants.MAX_HEIGHT)) {
-      elevatorMotor.set(speed);
-    // } else if ((speed < 0) && (elevatorEncoder.getPosition() > ElevatorConstants.MIN_HEIGHT)) {
-    //   elevatorMotor.set(speed);
-    // } else {
-    //   elevatorStop();
-    // }
-  }
+    public void elevatorDown() {
+        elevatorMotor.set(-ElevatorConstants.ELEVATOR_SPEED);
+    }
+
+    public void elevatorStop() {
+        elevatorMotor.set(0);
+    }
+
+    public void autoElevator(double speed) {
+        elevatorMotor.set(speed);
+    }
 }

@@ -15,11 +15,13 @@ import frc.robot.commands.ElevatorCommand;
 import frc.robot.commands.WristCommand;
 import frc.robot.constants.SwerveConstants;
 import frc.robot.generated.TunerConstants;
+import frc.robot.io.PowerDistributionHub;
 import frc.robot.subsystems.ClawSubsystem;
 import frc.robot.subsystems.ClimbingSubsystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.ElevatorSubsystem;
-import frc.robot.subsystems.PowerSubsystem;
+import frc.robot.subsystems.JetsonSubsystem;
+import frc.robot.subsystems.OdometrySubsystem;
 
 public class RobotContainer {
 
@@ -31,6 +33,8 @@ public class RobotContainer {
     private final ClimbingSubsystem climbSubsystem = new ClimbingSubsystem();
 
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+    private final OdometrySubsystem odometry = new OdometrySubsystem(drivetrain);
+    public final JetsonSubsystem jetson = new JetsonSubsystem(odometry);
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
             .withDeadband(MaxSpeed * Controller.DEADZONE).withRotationalDeadband(MaxAngularRate * Controller.DEADZONE)
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
@@ -43,7 +47,7 @@ public class RobotContainer {
     }
 
     private DriveSpeed currentDriveSpeed = DriveSpeed.STANDARD;
-    private final PowerSubsystem powerDistributionHub = new PowerSubsystem();
+    private final PowerDistributionHub powerDistributionHub = new PowerDistributionHub();
 
     public RobotContainer() {
         powerDistributionHub.clearStickyFaults();
