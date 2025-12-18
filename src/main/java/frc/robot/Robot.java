@@ -4,8 +4,16 @@
 
 package frc.robot;
 
+import org.littletonrobotics.junction.LogFileUtil;
+import org.littletonrobotics.junction.Logger;
+import org.littletonrobotics.junction.networktables.NT4Publisher;
+import org.littletonrobotics.junction.wpilog.WPILOGWriter;
+
+import com.ctre.phoenix6.SignalLogger;
 import com.pathplanner.lib.commands.PathfindingCommand;
 
+import edu.wpi.first.wpilibj.DataLogManager;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.Threads;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -23,6 +31,19 @@ public class Robot extends TimedRobot {
     autoChooser = robotContainer.buildAutoChooser();
     SmartDashboard.putData("Auto List", autoChooser);
     PathfindingCommand.warmupCommand().schedule();
+
+    DataLogManager.start();
+    Logger.recordMetadata("Team", "3756");
+    Logger.recordMetadata("Robot", "RamFerno Swerve");
+
+    if (RobotBase.isReal()) {
+        Logger.addDataReceiver(new WPILOGWriter(
+                LogFileUtil.findReplayLog()));
+    } else {
+        Logger.addDataReceiver(new NT4Publisher());
+    }
+
+    SignalLogger.start();
   }
 
   @Override

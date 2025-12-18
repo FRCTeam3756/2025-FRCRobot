@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.function.Supplier;
 
 import org.json.simple.parser.ParseException;
+import org.littletonrobotics.junction.Logger;
 
 import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants;
@@ -78,5 +79,16 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                 hasAppliedOperatorPerspective = true;
             });
         }
+
+        var state = getState();
+
+        Logger.recordOutput("Swerve/Pose", state.Pose);
+        Logger.recordOutput("Swerve/ChassisSpeeds", state.Speeds);
+
+        Logger.recordOutput("Swerve/OdometryX", state.Pose.getX());
+        Logger.recordOutput("Swerve/OdometryY", state.Pose.getY());
+        Logger.recordOutput("Swerve/HeadingDeg", state.Pose.getRotation().getDegrees());
+
+        Logger.recordOutput("Swerve/ModuleStates", state.ModuleStates);
     }
 }
