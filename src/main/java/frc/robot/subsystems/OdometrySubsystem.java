@@ -3,14 +3,20 @@
 // the license viewable in the root directory of this project.
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.numbers.N1;
+import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.constants.LimelightConstants;
 import frc.robot.generated.LimelightHelpers;
 
 public class OdometrySubsystem extends SubsystemBase {
+
     private final CommandSwerveDrivetrain drivetrain;
+    private String activeLimelight = null;
 
     public OdometrySubsystem(CommandSwerveDrivetrain drivetrain) {
         this.drivetrain = drivetrain;
@@ -18,7 +24,7 @@ public class OdometrySubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-      updateOdometry();
+        updateOdometry();
     }
 
     public Pose2d getPose() {
@@ -30,19 +36,122 @@ public class OdometrySubsystem extends SubsystemBase {
     }
 
     public void updateOdometry() {
-        LimelightHelpers.SetRobotOrientation("limelight", getPose().getRotation().getDegrees(), 0, 0, 0, 0, 0);
-        LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
+        double headingDeg = getPose().getRotation().getDegrees();
 
-        boolean reject = false;
-        if (mt2.tagCount == 0) {
-            reject = true;
+        LimelightHelpers.SetRobotOrientation(
+                LimelightConstants.LIMELIGHT_3G_NAME,
+                headingDeg,
+                0, 0, 0, 0, 0
+        );
+
+        LimelightHelpers.SetRobotOrientation(
+                LimelightConstants.LIMELIGHT_3_NAME,
+                headingDeg, 0, 0, 0, 0, 0
+        );
+
+        LimelightHelpers.PoseEstimate pose3G
+                = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(
+                        LimelightConstants.LIMELIGHT_3G_NAME
+                );
+
+        LimelightHelpers.PoseEstimate pose3
+                = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(
+                        LimelightConstants.LIMELIGHT_3_NAME
+                );
+
+        LimelightHelpers.PoseEstimate bestEstimate
+                = selectMoreConfidentEstimate(pose3G, pose3);
+
+        if (bestEstimate == null) {
+            return;
         }
-        if (!reject) {
-            drivetrain.addVisionMeasurement(
-                    mt2.pose,
-                    mt2.timestampSeconds,
-                    VecBuilder.fill(0.7, 0.7, 9999999)
-            );
+
+        var visionStdDevs = calculateDistanceBasedStdDevs(bestEstimate);
+
+        drivetrain.addVisionMeasurement(
+                bestEstimate.pose,
+                bestEstimate.timestampSeconds,
+                visionStdDevs
+        );
+    }
+
+    private LimelightHelpers.PoseEstimate selectMoreConfidentEstimate(LimelightHelpers.PoseEstimate limelight3, LimelightHelpers.PoseEstimate limelight3g) {
+
+        if (limelight3 == null && limelight3g == null) {
+            return null;
         }
+        if (limelight3 == null) {
+            return (limelight3g.tagCount > 0) ? limelight3g : null;
+        }
+        if (limelight3g == null) {
+            return (limelight3.tagCount > 0) ? limelight3 : null;
+        }
+
+        boolean limelight3Valid = limelight3.tagCount > 0;
+        boolean limelight3gValid = limelight3g.tagCount > 0;
+
+        if (!limelight3Valid && !limelight3gValid) {
+            return null;
+        }
+        if (limelight3Valid && !limelight3gValid) {
+            return limelight3;
+        }
+        if (!limelight3Valid && limelight3gValid) {
+            return limelight3g;
+        }
+
+        if (limelight3.tagCount != limelight3g.tagCount) {
+            return (limelight3.tagCount > limelight3g.tagCount) ? limelight3 : limelight3g;
+        }
+
+        return (limelight3.timestampSeconds > limelight3g.timestampSeconds) ? limelight3 : limelight3g;
+    }
+
+    private static Matrix<N3, N1> calculateDistanceBasedStdDevs(
+            LimelightHelpers.PoseEstimate estimate
+    ) {
+        double avgDistanceMeters = 0.0;
+        double avgAmbiguity = 0.0;
+
+        for (var tag : estimate.rawFiducials) {
+            avgDistanceMeters += tag.distToCamera;
+            avgAmbiguity += tag.ambiguity;
+        }
+
+        int tagCount = estimate.rawFiducials.length;
+
+        avgDistanceMeters /= tagCount;
+        avgAmbiguity /= tagCount;
+
+        double distanceFactor
+                = 1.0 + (avgDistanceMeters * LimelightConstants.VISION_DISTANCE_SCALING_FACTOR);
+
+        double tagCountFactor
+                = 1.0 / Math.sqrt(tagCount);
+
+        double ambiguityFactor
+                = 1.0 + avgAmbiguity;
+
+        double xyStdDev
+                = distanceFactor * tagCountFactor * ambiguityFactor;
+
+        xyStdDev = Math.max(
+                LimelightConstants.MIN_VISION_STD_DEV,
+                Math.min(xyStdDev, LimelightConstants.MAX_VISION_STD_DEV)
+        );
+
+        return VecBuilder.fill(
+                xyStdDev,
+                xyStdDev,
+                999999.0
+        );
+    }
+
+    public void setActiveLimelight(String limelight) {
+        activeLimelight = limelight;
+    }
+
+    public String getActiveLimelight() {
+        return activeLimelight;
     }
 }
