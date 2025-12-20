@@ -110,6 +110,7 @@ public class VisionSubsystem extends SubsystemBase {
                 0.0 // end velocity
         );
 
+        Pathfinding.setGoalPosition(targetPose.getTranslation());
         Pathfinding.setDynamicObstacles(getDynamicObstacles(), drivetrain.getState().Pose.getTranslation());
 
         activePathCommand.schedule();
