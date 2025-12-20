@@ -117,6 +117,9 @@ public class JetsonIO {
 
                 case STRING ->
                     commands.put(command, entry.getString(""));
+
+                case DOUBLE_ARRAY -> 
+                        commands.put(command, entry.getDoubleArray(new double[0]));
             }
         }
     }
@@ -135,6 +138,10 @@ public class JetsonIO {
 
     public String getString(JetsonToRio key) {
         return (String) commands.get(key);
+    }
+
+    public double[] getDoubleArray(JetsonToRio key) {
+        return (double[]) commands.get(key);
     }
 
     public void setSelectedAuto(String selectedAuto) {

@@ -1,13 +1,20 @@
 package frc.robot.subsystems;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathConstraints;
+import com.pathplanner.lib.pathfinding.Pathfinding;
 
+import edu.wpi.first.math.Pair;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.util.Units;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.constants.RobotConstants;
+import frc.robot.constants.RulebookConstants;
 import frc.robot.constants.connection.NetworkConstants.JetsonToRio;
 import frc.robot.io.JetsonIO;
 
@@ -15,6 +22,7 @@ public class VisionSubsystem extends SubsystemBase {
 
     private final JetsonIO jetson;
 
+    private final CommandSwerveDrivetrain drivetrain;
     private final ClawSubsystem clawSubsystem;
     private final ClimbingSubsystem climbingSubsystem;
     private final ElevatorSubsystem elevatorSubsystem;
@@ -24,7 +32,8 @@ public class VisionSubsystem extends SubsystemBase {
 
     private Command activePathCommand;
 
-    public VisionSubsystem(OdometrySubsystem odometrySubsystem, ClawSubsystem clawSubsystem, ClimbingSubsystem climbingSubsystem, ElevatorSubsystem elevatorSubsystem) {
+    public VisionSubsystem(CommandSwerveDrivetrain drivetrain, OdometrySubsystem odometrySubsystem, ClawSubsystem clawSubsystem, ClimbingSubsystem climbingSubsystem, ElevatorSubsystem elevatorSubsystem) {
+        this.drivetrain = drivetrain;
         this.clawSubsystem = clawSubsystem;
         this.climbingSubsystem = climbingSubsystem;
         this.elevatorSubsystem = elevatorSubsystem;
@@ -55,6 +64,32 @@ public class VisionSubsystem extends SubsystemBase {
         );
     }
 
+    public List<Pair<Translation2d, Translation2d>> getDynamicObstacles() {
+        List<Pair<Translation2d, Translation2d>> obstacles = new ArrayList<>();
+
+        double[] xPositions = jetson.getDoubleArray(JetsonToRio.OTHER_ROBOT_XS);
+        double[] yPositions = jetson.getDoubleArray(JetsonToRio.OTHER_ROBOT_YS);
+
+        for (int i = 0; i < xPositions.length; i++) {
+            double centerX = xPositions[i];
+            double centerY = yPositions[i];
+
+            Translation2d minCorner = new Translation2d(
+                centerX - RulebookConstants.MAX_ROBOT_WIDTH / 2.0,
+                centerY - RulebookConstants.MAX_ROBOT_LENGTH / 2.0
+            );
+
+            Translation2d maxCorner = new Translation2d(
+                centerX + RulebookConstants.MAX_ROBOT_WIDTH / 2.0,
+                centerY + RulebookConstants.MAX_ROBOT_LENGTH / 2.0
+            );
+
+            obstacles.add(new Pair<>(minCorner, maxCorner));
+        }
+
+        return obstacles;
+    }
+
     private void applyDriveCommands(double x, double y, double theta) {
         if (humanDriverControl) {
             return;
@@ -63,10 +98,10 @@ public class VisionSubsystem extends SubsystemBase {
         Pose2d targetPose = new Pose2d(x, y, new Rotation2d(theta));
 
         PathConstraints constraints = new PathConstraints(
-                3.0, // max velocity (m/s)
-                4.0, // max acceleration (m/s^2)
-                Units.degreesToRadians(540), // max angular velocity (rad/s)
-                Units.degreesToRadians(720) // max angular acceleration (rad/s^2)
+                RobotConstants.MAX_AUTONOMOUS_VELOCITY,
+                RobotConstants.MAX_AUTONOMOUS_ACCELERATION,
+                RobotConstants.MAX_AUTONOMOUS_ANGULAR_VELOCITY,
+                RobotConstants.MAX_AUTONOMOUS_ANGULAR_ACCELERATION
         );
 
         activePathCommand = AutoBuilder.pathfindToPose(
@@ -74,6 +109,8 @@ public class VisionSubsystem extends SubsystemBase {
                 constraints,
                 0.0 // end velocity
         );
+
+        Pathfinding.setDynamicObstacles(getDynamicObstacles(), drivetrain.getState().Pose.getTranslation());
 
         activePathCommand.schedule();
     }

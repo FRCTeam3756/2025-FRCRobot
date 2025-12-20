@@ -36,7 +36,7 @@ public class OdometrySubsystem extends SubsystemBase {
     }
 
     public void updateOdometry() {
-        double headingDeg = getPose().getRotation().getDegrees();
+        double headingDeg = drivetrain.getPigeon2().getYaw().getValueAsDouble();
 
         LimelightHelpers.SetRobotOrientation(
                 VisionConstants.LIMELIGHT_3G_NAME,
@@ -73,6 +73,8 @@ public class OdometrySubsystem extends SubsystemBase {
                 bestEstimate.timestampSeconds,
                 visionStdDevs
         );
+
+        drivetrain.registerTelemetry(null);
     }
 
     private LimelightHelpers.PoseEstimate selectMoreConfidentEstimate(LimelightHelpers.PoseEstimate limelight3, LimelightHelpers.PoseEstimate limelight3g) {

@@ -23,7 +23,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
-import frc.robot.constants.PathplannerConstants;
+import frc.robot.constants.RobotConstants;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
 
 public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Subsystem {
@@ -45,18 +45,18 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
     private void configureAutoBuilder() throws IOException, ParseException {
         ModuleConfig moduleConfig = new ModuleConfig(
-                PathplannerConstants.WHEEL_RADIUS,
-                PathplannerConstants.MAX_DRIVE_VELOCITY,
-                PathplannerConstants.WHEEL_COF,
-                PathplannerConstants.DRIVE_MOTOR,
-                PathplannerConstants.DRIVE_CURRENT_LIMIT,
-                PathplannerConstants.NUM_MOTORS
+                RobotConstants.WHEEL_RADIUS,
+                RobotConstants.MAX_DRIVE_VELOCITY,
+                RobotConstants.WHEEL_COF,
+                RobotConstants.DRIVE_MOTOR,
+                RobotConstants.DRIVE_CURRENT_LIMIT,
+                RobotConstants.NUM_MOTORS
         );
         RobotConfig robotConfig = new RobotConfig(
-                PathplannerConstants.ROBOT_TOTAL_MASS,
-                PathplannerConstants.ROBOT_MOMENT_OF_INERTIA,
+                RobotConstants.ROBOT_TOTAL_MASS,
+                RobotConstants.ROBOT_MOMENT_OF_INERTIA,
                 moduleConfig,
-                PathplannerConstants.ROBOT_WIDTH
+                RobotConstants.ROBOT_WIDTH
         );
 
         AutoBuilder.configure(

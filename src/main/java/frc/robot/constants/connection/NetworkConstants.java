@@ -46,6 +46,8 @@ public class NetworkConstants {
         DESIRED_ELEVATOR_SETPOINT("jetson/command/elevator_setpoint", EntryType.INTEGER),
         DESIRED_WRIST_ANGLE("jetson/command/wrist_angle", EntryType.DOUBLE),
         DESIRED_CLIMB("jetson/command/climb", EntryType.BOOLEAN),
+        OTHER_ROBOT_XS("jetson/obstacles/robots/x", EntryType.DOUBLE_ARRAY),
+        OTHER_ROBOT_YS("jetson/obstacles/robots/y", EntryType.DOUBLE_ARRAY),
         PATH_ACTIVE("jetson/path/active", EntryType.BOOLEAN),
         PATH_NAME("jetson/path/name", EntryType.STRING),
         PATH_PROGRESS("jetson/path/progress", EntryType.DOUBLE),
@@ -61,7 +63,8 @@ public class NetworkConstants {
             BOOLEAN,
             DOUBLE,
             INTEGER,
-            STRING
+            STRING,
+            DOUBLE_ARRAY
         }
 
         private final String key;

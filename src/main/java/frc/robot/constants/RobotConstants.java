@@ -6,7 +6,7 @@ import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.LinearVelocity;
 
-public class PathplannerConstants {
+public class RobotConstants {
     public static final double ROBOT_TOTAL_MASS = 60; //kg
 
     public static final Distance WHEEL_RADIUS = Distance.ofBaseUnits(0.051, Units.Meters); // m
@@ -22,4 +22,9 @@ public class PathplannerConstants {
     private static final double ANGULAR_ACCELERATION_FEEDFORWARD = 4; // V/(rad/s^2)
     private static final double LINEAR_ACCELERATION_FEEDFORWARD = 4; // V/(m/s^2)
     public static final double ROBOT_MOMENT_OF_INERTIA = ROBOT_TOTAL_MASS * (DIAGONAL_WHEEL_CENTRE_DISTANCE / 2) * (ANGULAR_ACCELERATION_FEEDFORWARD / LINEAR_ACCELERATION_FEEDFORWARD); // KG*M^2
+
+    public static final double MAX_AUTONOMOUS_VELOCITY = 3.0; // m/s
+    public static final double MAX_AUTONOMOUS_ACCELERATION = 4.0; // m/s^2
+    public static final double MAX_AUTONOMOUS_ANGULAR_VELOCITY = 3 * Math.PI; // rad/s
+    public static final double MAX_AUTONOMOUS_ANGULAR_ACCELERATION = 4 * Math.PI; // rad/s^2
 }
