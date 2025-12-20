@@ -2,9 +2,9 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the license viewable in the root directory of this project.
 
-package frc.robot.constants;
+package frc.robot.constants.connection;
 
-public class CANConstants {
+public class PortConstants {
     public static final int REV_PDH_ID = 0;
 
     public static final int FRONT_LEFT_DRIVE_MOTOR_ID = 1;

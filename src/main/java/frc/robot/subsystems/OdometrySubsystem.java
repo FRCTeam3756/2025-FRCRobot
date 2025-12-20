@@ -10,7 +10,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.constants.LimelightConstants;
+import frc.robot.constants.subsystems.VisionConstants;
 import frc.robot.generated.LimelightHelpers;
 
 public class OdometrySubsystem extends SubsystemBase {
@@ -39,24 +39,24 @@ public class OdometrySubsystem extends SubsystemBase {
         double headingDeg = getPose().getRotation().getDegrees();
 
         LimelightHelpers.SetRobotOrientation(
-                LimelightConstants.LIMELIGHT_3G_NAME,
+                VisionConstants.LIMELIGHT_3G_NAME,
                 headingDeg,
                 0, 0, 0, 0, 0
         );
 
         LimelightHelpers.SetRobotOrientation(
-                LimelightConstants.LIMELIGHT_3_NAME,
+                VisionConstants.LIMELIGHT_3_NAME,
                 headingDeg, 0, 0, 0, 0, 0
         );
 
         LimelightHelpers.PoseEstimate pose3G
                 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(
-                        LimelightConstants.LIMELIGHT_3G_NAME
+                        VisionConstants.LIMELIGHT_3G_NAME
                 );
 
         LimelightHelpers.PoseEstimate pose3
                 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(
-                        LimelightConstants.LIMELIGHT_3_NAME
+                        VisionConstants.LIMELIGHT_3_NAME
                 );
 
         LimelightHelpers.PoseEstimate bestEstimate
@@ -124,7 +124,7 @@ public class OdometrySubsystem extends SubsystemBase {
         avgAmbiguity /= tagCount;
 
         double distanceFactor
-                = 1.0 + (avgDistanceMeters * LimelightConstants.VISION_DISTANCE_SCALING_FACTOR);
+                = 1.0 + (avgDistanceMeters * VisionConstants.VISION_DISTANCE_SCALING_FACTOR);
 
         double tagCountFactor
                 = 1.0 / Math.sqrt(tagCount);
@@ -136,8 +136,8 @@ public class OdometrySubsystem extends SubsystemBase {
                 = distanceFactor * tagCountFactor * ambiguityFactor;
 
         xyStdDev = Math.max(
-                LimelightConstants.MIN_VISION_STD_DEV,
-                Math.min(xyStdDev, LimelightConstants.MAX_VISION_STD_DEV)
+                VisionConstants.MIN_VISION_STD_DEV,
+                Math.min(xyStdDev, VisionConstants.MAX_VISION_STD_DEV)
         );
 
         return VecBuilder.fill(

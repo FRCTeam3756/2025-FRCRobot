@@ -5,22 +5,19 @@ package frc.robot;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
-import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.commands.ClawCommand;
-import frc.robot.commands.ElevatorCommand;
-import frc.robot.commands.WristCommand;
-import frc.robot.constants.SwerveConstants;
+import frc.robot.constants.subsystems.DriveConstants;
 import frc.robot.generated.TunerConstants;
-import frc.robot.io.PowerDistributionHub;
+import frc.robot.io.ControllerIO;
+import frc.robot.io.JetsonIO;
+import frc.robot.io.PowerDistributionIO;
 import frc.robot.subsystems.ClawSubsystem;
 import frc.robot.subsystems.ClimbingSubsystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.ElevatorSubsystem;
-import frc.robot.subsystems.JetsonSubsystem;
 import frc.robot.subsystems.OdometrySubsystem;
 
 public class RobotContainer {
@@ -34,9 +31,9 @@ public class RobotContainer {
 
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
     private final OdometrySubsystem odometry = new OdometrySubsystem(drivetrain);
-    public final JetsonSubsystem jetson = new JetsonSubsystem(odometry);
+    public final JetsonIO jetson = new JetsonIO(odometry);
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
-            .withDeadband(MaxSpeed * Controller.DEADZONE).withRotationalDeadband(MaxAngularRate * Controller.DEADZONE)
+            .withDeadband(MaxSpeed * ControllerIO.DEADZONE).withRotationalDeadband(MaxAngularRate * ControllerIO.DEADZONE)
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
 
     private enum DriveSpeed {
@@ -47,68 +44,67 @@ public class RobotContainer {
     }
 
     private DriveSpeed currentDriveSpeed = DriveSpeed.STANDARD;
-    private final PowerDistributionHub powerDistributionHub = new PowerDistributionHub();
+    private final PowerDistributionIO powerDistributionHub = new PowerDistributionIO();
 
     public RobotContainer() {
         powerDistributionHub.clearStickyFaults();
         powerDistributionHub.setSwitchableChannel(false);
-        registerNamedCommands();
         configureButtonBindings();
     }
 
     private void configureButtonBindings() {
         drivetrain.setDefaultCommand(
                 drivetrain.applyRequest(()
-                        -> drive.withVelocityX(-Controller.controller.getLeftY() * getCurrentSpeedMultiplier() * MaxSpeed)
-                        .withVelocityY(-Controller.controller.getLeftX() * getCurrentSpeedMultiplier() * MaxSpeed)
-                        .withRotationalRate(-Controller.controller.getRightX() * getCurrentSpeedMultiplier() * MaxAngularRate)));
+                        -> drive.withVelocityX(-ControllerIO.controller.getLeftY() * getCurrentSpeedMultiplier() * MaxSpeed)
+                        .withVelocityY(-ControllerIO.controller.getLeftX() * getCurrentSpeedMultiplier() * MaxSpeed)
+                        .withRotationalRate(-ControllerIO.controller.getRightX() * getCurrentSpeedMultiplier() * MaxAngularRate)));
 
-        Controller.driveTurboButton
+        ControllerIO.driveTurboButton
                 .whileTrue(new InstantCommand(() -> setTurboSpeed()))
                 .onFalse(new InstantCommand(() -> setStandardSpeed()));
-        Controller.driveSlowButton
+        ControllerIO.driveSlowButton
                 .whileTrue(new InstantCommand(() -> setSlowSpeed()))
                 .onFalse(new InstantCommand(() -> setStandardSpeed()));
-        Controller.driveSlugButton
+        ControllerIO.driveSlugButton
                 .whileTrue(new InstantCommand(() -> setSlugSpeed()))
                 .onFalse(new InstantCommand(() -> setStandardSpeed()));
-        Controller.climbButton
+        ControllerIO.climbButton
                 .whileTrue(new InstantCommand(() -> climbSubsystem.climbing(), climbSubsystem))
                 .onFalse(new InstantCommand(() -> climbSubsystem.stopClimbing(), climbSubsystem));
-        Controller.elevatorUpButton
+        ControllerIO.elevatorUpButton
                 .whileTrue(new InstantCommand(() -> elevatorSubsystem.elevatorUp()))
                 .onFalse(new InstantCommand(() -> elevatorSubsystem.elevatorStop()));
-        Controller.elevatorDownButton
+        ControllerIO.elevatorDownButton
                 .whileTrue(new InstantCommand(() -> elevatorSubsystem.elevatorDown()))
                 .onFalse(new InstantCommand(() -> elevatorSubsystem.elevatorStop()));
-        Controller.clawTiltUp
+        ControllerIO.clawTiltUp
                 .whileTrue(new InstantCommand(() -> clawSubsystem.tiltWristUp()))
                 .onFalse(new InstantCommand(() -> clawSubsystem.tiltWristStop()));
-        Controller.clawTiltDown
+        ControllerIO.clawTiltDown
                 .whileTrue(new InstantCommand(() -> clawSubsystem.tiltWristDown()))
                 .onFalse(new InstantCommand(() -> clawSubsystem.tiltWristStop()));
-        Controller.clawIntakeButton
+        ControllerIO.clawIntakeButton
                 .whileTrue(new InstantCommand(() -> clawSubsystem.intakeRollers()))
                 .onFalse(new InstantCommand(() -> clawSubsystem.stopRollers()));
-        Controller.clawOuttakeButton
+        ControllerIO.clawOuttakeButton
                 .whileTrue(new InstantCommand(() -> clawSubsystem.outtakeRollers()))
                 .onFalse(new InstantCommand(() -> clawSubsystem.stopRollers()));
-        Controller.resetGyroScope
+        ControllerIO.resetGyroScope
                 .onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
     }
 
     private double getCurrentSpeedMultiplier() {
-        double speedMultiplier = SwerveConstants.STANDARD_DRIVE_MULTIPLIER;
+        double speedMultiplier = DriveConstants.STANDARD_DRIVE_MULTIPLIER;
 
         switch (currentDriveSpeed) {
             case SLOW ->
-                speedMultiplier = SwerveConstants.SLOW_DRIVE_MULTIPLIER;
+                speedMultiplier = DriveConstants.SLOW_DRIVE_MULTIPLIER;
             case STANDARD ->
-                speedMultiplier = SwerveConstants.STANDARD_DRIVE_MULTIPLIER;
+                speedMultiplier = DriveConstants.STANDARD_DRIVE_MULTIPLIER;
             case TURBO ->
-                speedMultiplier = SwerveConstants.TURBO_DRIVE_MULTIPLIER;
+                speedMultiplier = DriveConstants.TURBO_DRIVE_MULTIPLIER;
             case SLUG ->
-                speedMultiplier = SwerveConstants.SLUG_DRIVE_MULTIPLIER;
+                speedMultiplier = DriveConstants.SLUG_DRIVE_MULTIPLIER;
         }
 
         return speedMultiplier;
@@ -146,20 +142,5 @@ public class RobotContainer {
         autoChooser.addOption("Right Align - Score Coral and To Reef", "RightScoreCoralAndToReefAuto");
 
         return autoChooser;
-    }
-
-    private void registerNamedCommands() {
-        NamedCommands.registerCommand("intake", new ClawCommand(clawSubsystem, 1, 0.30, true));
-        NamedCommands.registerCommand("outtake", new ClawCommand(clawSubsystem, 3, 0.20, false));
-
-        NamedCommands.registerCommand("clawAwayFromElevator", new WristCommand(clawSubsystem, -0.08, 0.3, 0.0));
-        NamedCommands.registerCommand("clawFromTopToTrough", new WristCommand(clawSubsystem, -0.08, 1.2, 0.0));
-        NamedCommands.registerCommand("clawFromTopToCoralAlgae", new WristCommand(clawSubsystem, -0.08, 1.0, 0.0));
-        NamedCommands.registerCommand("clawFromTopToReefAlgae", new WristCommand(clawSubsystem, -0.15, 1.2, 2.0));
-        NamedCommands.registerCommand("clawFromTopToProcessor", new WristCommand(clawSubsystem, -0.08, 0.8, 0.0));
-
-        NamedCommands.registerCommand("elevatorFromBaseToTrough", new ElevatorCommand(elevatorSubsystem, 0.5, 1));
-        NamedCommands.registerCommand("elevatorFromBaseToBottomAlgae", new ElevatorCommand(elevatorSubsystem, 0.5, 4));
-        NamedCommands.registerCommand("elevatorFromBaseToTopAlgae", new ElevatorCommand(elevatorSubsystem, 0.5, 5));
     }
 }

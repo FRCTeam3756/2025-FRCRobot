@@ -4,20 +4,19 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
-import frc.robot.constants.ClimbConstants;
-import frc.robot.constants.CANConstants;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.constants.connection.PortConstants;
+import frc.robot.constants.subsystems.ClimbConstants;
 
 public class ClimbingSubsystem extends SubsystemBase {
   private final TalonSRX leftPaddle, rightPaddle;
 
   public ClimbingSubsystem() {
-    leftPaddle = new TalonSRX(CANConstants.LEFT_CLIMB_MOTOR_ID);
-    rightPaddle = new TalonSRX(CANConstants.RIGHT_CLIMB_MOTOR_ID);
+    leftPaddle = new TalonSRX(PortConstants.LEFT_CLIMB_MOTOR_ID);
+    rightPaddle = new TalonSRX(PortConstants.RIGHT_CLIMB_MOTOR_ID);
 
     leftPaddle.setInverted(ClimbConstants.LEFT_MOTOR_INVERTED);
     rightPaddle.setInverted(ClimbConstants.RIGHT_MOTOR_INVERTED);

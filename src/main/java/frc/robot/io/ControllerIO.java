@@ -2,16 +2,16 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the license viewable in the root directory of this project.
 
-package frc.robot;
+package frc.robot.io;
 
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
-public class Controller {
+public class ControllerIO {
     public static final int CONTROLLER_PORT = 0;
     public static final double DEADZONE = 0.1;
 
-    public static final CommandXboxController controller = new CommandXboxController(Controller.CONTROLLER_PORT);
+    public static final CommandXboxController controller = new CommandXboxController(ControllerIO.CONTROLLER_PORT);
 
     // Joysticks
     public static final Trigger driveTurboButton = controller.leftStick();

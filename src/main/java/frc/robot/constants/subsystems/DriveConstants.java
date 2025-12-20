@@ -2,11 +2,11 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the license viewable in the root directory of this project.
 
-package frc.robot.constants;
+package frc.robot.constants.subsystems;
 
 import com.pathplanner.lib.config.PIDConstants;
 
-public class SwerveConstants {
+public class DriveConstants {
     public static final PIDConstants PATHPLANNER_DRIVE_PID = new PIDConstants(3.0, 0.0, 0.0);
     public static final PIDConstants PATHPLANNER_STEER_PID = new PIDConstants(4.0, 0.0, 0.1);
 

@@ -9,10 +9,9 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
-import frc.robot.constants.CANConstants;
-import frc.robot.constants.ClawConstants;
-import frc.robot.constants.ElevatorConstants;
+import frc.robot.constants.connection.PortConstants;
+import frc.robot.constants.subsystems.ClawConstants;
+import frc.robot.constants.subsystems.ElevatorConstants;
 
 public class ClawSubsystem extends SubsystemBase {
   private final SparkMax wristMotor;
@@ -22,9 +21,9 @@ public class ClawSubsystem extends SubsystemBase {
   private final SparkMaxConfig wristConfig;
 
   public ClawSubsystem() {
-    wristMotor = new SparkMax(CANConstants.WRIST_MOTOR_ID, ClawConstants.MOTOR_TYPE);
-    leftMotor = new SparkMax(CANConstants.LEFT_CLAW_MOTOR_ID, ClawConstants.MOTOR_TYPE);
-    rightMotor = new SparkMax(CANConstants.RIGHT_CLAW_MOTOR_ID, ClawConstants.MOTOR_TYPE);
+    wristMotor = new SparkMax(PortConstants.WRIST_MOTOR_ID, ClawConstants.MOTOR_TYPE);
+    leftMotor = new SparkMax(PortConstants.LEFT_CLAW_MOTOR_ID, ClawConstants.MOTOR_TYPE);
+    rightMotor = new SparkMax(PortConstants.RIGHT_CLAW_MOTOR_ID, ClawConstants.MOTOR_TYPE);
     wristEncoder = wristMotor.getEncoder();
     wristConfig = new SparkMaxConfig();
 

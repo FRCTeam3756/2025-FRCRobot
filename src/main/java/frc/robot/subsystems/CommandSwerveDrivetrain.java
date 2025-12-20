@@ -1,7 +1,6 @@
 // Copyright (c) FRC Team 3756 RamFerno.
 // Open Source Software; you can modify and/or share it under the terms of
 // the license viewable in the root directory of this project.
-
 package frc.robot.subsystems;
 
 import java.io.IOException;
@@ -14,6 +13,7 @@ import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
@@ -23,9 +23,11 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import frc.robot.constants.PathplannerConstants;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
 
 public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Subsystem {
+
     private static final Rotation2d blueAlliancePerspectiveRotation = Rotation2d.kZero;
     private static final Rotation2d redAlliancePerspectiveRotation = Rotation2d.k180deg;
     private boolean hasAppliedOperatorPerspective = false;
@@ -37,31 +39,40 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         super(drivetrainConstants, modules);
         try {
             configureAutoBuilder();
-        } catch (IOException | ParseException e) {}
+        } catch (IOException | ParseException e) {
+        }
     }
 
     private void configureAutoBuilder() throws IOException, ParseException {
-        try {
-            RobotConfig config = RobotConfig.fromGUISettings();
-            AutoBuilder.configure(
-                    () -> getState().Pose,
-                    this::resetPose,
-                    () -> getState().Speeds,
+        ModuleConfig moduleConfig = new ModuleConfig(
+                PathplannerConstants.WHEEL_RADIUS,
+                PathplannerConstants.MAX_DRIVE_VELOCITY,
+                PathplannerConstants.WHEEL_COF,
+                PathplannerConstants.DRIVE_MOTOR,
+                PathplannerConstants.DRIVE_CURRENT_LIMIT,
+                PathplannerConstants.NUM_MOTORS
+        );
+        RobotConfig robotConfig = new RobotConfig(
+                PathplannerConstants.ROBOT_TOTAL_MASS,
+                PathplannerConstants.ROBOT_MOMENT_OF_INERTIA,
+                moduleConfig,
+                PathplannerConstants.ROBOT_WIDTH
+        );
 
-                    (speeds, feedforwards) -> setControl(
-                            pathApplyRobotSpeeds.withSpeeds(speeds)
-                                    .withWheelForceFeedforwardsX(feedforwards.robotRelativeForcesXNewtons())
-                                    .withWheelForceFeedforwardsY(feedforwards.robotRelativeForcesYNewtons())),
-                    new PPHolonomicDriveController(
-                            new PIDConstants(3.3, 0, 0), //3.0, 0.0, 0.0
-                            new PIDConstants(3, 0, 0)),
-                    config,
-                    () -> DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red,
-                    this);
-        } catch (IOException | ParseException e) {
-            DriverStation.reportError("Failed to load PathPlanner config and configure AutoBuilder",
-                    e.getStackTrace());
-        }
+        AutoBuilder.configure(
+                () -> getState().Pose,
+                this::resetPose,
+                () -> getState().Speeds,
+                (speeds, feedforwards) -> setControl(
+                        pathApplyRobotSpeeds.withSpeeds(speeds)
+                                .withWheelForceFeedforwardsX(feedforwards.robotRelativeForcesXNewtons())
+                                .withWheelForceFeedforwardsY(feedforwards.robotRelativeForcesYNewtons())),
+                new PPHolonomicDriveController(
+                        new PIDConstants(3.3, 0, 0), //3.0, 0.0, 0.0
+                        new PIDConstants(3, 0, 0)),
+                robotConfig,
+                () -> DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red,
+                this);
     }
 
     public Command applyRequest(Supplier<SwerveRequest> requestSupplier) {

@@ -1,39 +1,38 @@
 // Copyright (c) FRC Team 3756 RamFerno.
 // Open Source Software; you can modify and/or share it under the terms of
 // the license viewable in the root directory of this project.
-package frc.robot.subsystems;
+
+package frc.robot.io;
 
 import java.util.EnumMap;
-import java.util.Map;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.constants.JetsonConstants;
-import frc.robot.constants.JetsonConstants.JetsonToRio;
-import frc.robot.constants.JetsonConstants.RioToJetson;
+import frc.robot.constants.connection.NetworkConstants;
+import frc.robot.constants.connection.NetworkConstants.JetsonToRio;
+import frc.robot.constants.connection.NetworkConstants.RioToJetson;
+import frc.robot.subsystems.OdometrySubsystem;
 
-public class JetsonSubsystem extends SubsystemBase {
+public class JetsonIO {
+
     private String selectedAuto = "";
+
     private final OdometrySubsystem odometry;
     private final NetworkTable rioToJetsonTable;
     private final NetworkTable jetsonToRioTable;
 
-    public JetsonSubsystem(OdometrySubsystem odometry) {
+    private final EnumMap<JetsonToRio, Object> commands =
+            new EnumMap<>(JetsonToRio.class);
+
+    public JetsonIO(OdometrySubsystem odometry) {
         NetworkTableInstance inst = NetworkTableInstance.getDefault();
-        rioToJetsonTable = inst.getTable(JetsonConstants.NETWORK_TABLE_NAME);
-        jetsonToRioTable = inst.getTable(JetsonConstants.NETWORK_TABLE_NAME);
+        rioToJetsonTable = inst.getTable(NetworkConstants.NETWORK_TABLE_NAME);
+        jetsonToRioTable = inst.getTable(NetworkConstants.NETWORK_TABLE_NAME);
         this.odometry = odometry;
     }
 
-    @Override
-    public void periodic() {
-        publishRobotState();
-        readJetsonCommands();
-    }
-
-    private void publishRobotState() {
+    public void publishRobotState() {
         rioToJetsonTable
                 .getEntry(RioToJetson.ROBOT_ENABLED.key())
                 .setBoolean(DriverStation.isEnabled());
@@ -91,7 +90,7 @@ public class JetsonSubsystem extends SubsystemBase {
 
         rioToJetsonTable
                 .getEntry(RioToJetson.ROBOT_VELOCITY_Y.key())
-                .setDouble(odometry.getChassisSpeeds().vxMetersPerSecond);
+                .setDouble(odometry.getChassisSpeeds().vyMetersPerSecond);
 
         rioToJetsonTable
                 .getEntry(RioToJetson.ROBOT_VELOCITY_ROTATIONS.key())
@@ -102,25 +101,40 @@ public class JetsonSubsystem extends SubsystemBase {
                 .setString(selectedAuto);
     }
 
-    public Map<JetsonToRio, Object> readJetsonCommands() {
-        EnumMap<JetsonToRio, Object> data = new EnumMap<>(JetsonToRio.class);
-
+    public void readJetsonCommands() {
         for (JetsonToRio command : JetsonToRio.values()) {
             var entry = jetsonToRioTable.getEntry(command.key());
 
             switch (command.type()) {
                 case BOOLEAN ->
-                    data.put(command, entry.getBoolean(false));
+                    commands.put(command, entry.getBoolean(false));
 
                 case DOUBLE ->
-                    data.put(command, entry.getDouble(0.0));
+                    commands.put(command, entry.getDouble(0.0));
+
+                case INTEGER ->
+                    commands.put(command, entry.getInteger(0));
 
                 case STRING ->
-                    data.put(command, entry.getString(""));
+                    commands.put(command, entry.getString(""));
             }
         }
+    }
 
-        return data;
+    public int getInteger(JetsonToRio key) {
+        return (int) commands.get(key);
+    }
+
+    public double getDouble(JetsonToRio key) {
+        return (double) commands.get(key);
+    }
+
+    public boolean getBoolean(JetsonToRio key) {
+        return (boolean) commands.get(key);
+    }
+
+    public String getString(JetsonToRio key) {
+        return (String) commands.get(key);
     }
 
     public void setSelectedAuto(String selectedAuto) {

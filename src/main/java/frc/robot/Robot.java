@@ -11,6 +11,7 @@ import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
 import com.ctre.phoenix6.SignalLogger;
 import com.pathplanner.lib.commands.PathfindingCommand;
+import com.pathplanner.lib.pathfinding.Pathfinding;
 
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.RobotBase;
@@ -20,6 +21,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.generated.LocalADStarAK;
 
 public class Robot extends TimedRobot {
   private final RobotContainer robotContainer;
@@ -28,9 +30,12 @@ public class Robot extends TimedRobot {
 
   public Robot() {
     robotContainer = new RobotContainer();
-    autoChooser = robotContainer.buildAutoChooser();
-    SmartDashboard.putData("Auto List", autoChooser);
-    PathfindingCommand.warmupCommand().schedule();
+
+    autoChooser = robotContainer.buildAutoChooser(); // Create auto selector
+    SmartDashboard.putData("Auto List", autoChooser); // Display it to SmartDashboard
+
+    Pathfinding.setPathfinder(new LocalADStarAK()); // Set the Pathfinder to be compatible with AdvantageKit
+    PathfindingCommand.warmupCommand().schedule(); // Warmup the Pathfinder
 
     DataLogManager.start();
     Logger.recordMetadata("Team", "3756");

@@ -5,14 +5,14 @@
 package frc.robot.io;
 
 import edu.wpi.first.wpilibj.PowerDistribution;
-import frc.robot.constants.CANConstants;
+import frc.robot.constants.connection.PortConstants;
 
-public class PowerDistributionHub {
+public class PowerDistributionIO {
 
     public final PowerDistribution powerDistributionHub;
 
-    public PowerDistributionHub() {
-        powerDistributionHub = new PowerDistribution(CANConstants.REV_PDH_ID, PowerDistribution.ModuleType.kRev);
+    public PowerDistributionIO() {
+        powerDistributionHub = new PowerDistribution(PortConstants.REV_PDH_ID, PowerDistribution.ModuleType.kRev);
     }
 
     public void setSwitchableChannel(boolean enable) {
