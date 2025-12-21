@@ -1,7 +1,7 @@
 // Copyright (c) FRC Team 3756 RamFerno.
 // Open Source Software; you can modify and/or share it under the terms of
 // the license viewable in the root directory of this project.
-package frc.robot.subsystems;
+package frc.robot.subsystems.software;
 
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
@@ -12,13 +12,14 @@ import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.subsystems.VisionConstants;
 import frc.robot.generated.LimelightHelpers;
+import frc.robot.subsystems.mechanical.DrivetrainSubsystem;
 
 public class OdometrySubsystem extends SubsystemBase {
 
-    private final CommandSwerveDrivetrain drivetrain;
+    private final DrivetrainSubsystem drivetrain;
     private String activeLimelight = null;
 
-    public OdometrySubsystem(CommandSwerveDrivetrain drivetrain) {
+    public OdometrySubsystem(DrivetrainSubsystem drivetrain) {
         this.drivetrain = drivetrain;
     }
 

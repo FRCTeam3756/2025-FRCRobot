@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+package frc.robot.subsystems.software;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,12 +17,16 @@ import frc.robot.constants.RobotConstants;
 import frc.robot.constants.RulebookConstants;
 import frc.robot.constants.connection.NetworkConstants.JetsonToRio;
 import frc.robot.io.JetsonIO;
+import frc.robot.subsystems.mechanical.ClawSubsystem;
+import frc.robot.subsystems.mechanical.ClimbingSubsystem;
+import frc.robot.subsystems.mechanical.DrivetrainSubsystem;
+import frc.robot.subsystems.mechanical.ElevatorSubsystem;
 
 public class VisionSubsystem extends SubsystemBase {
 
     private final JetsonIO jetson;
 
-    private final CommandSwerveDrivetrain drivetrain;
+    private final DrivetrainSubsystem drivetrain;
     private final ClawSubsystem clawSubsystem;
     private final ClimbingSubsystem climbingSubsystem;
     private final ElevatorSubsystem elevatorSubsystem;
@@ -32,7 +36,7 @@ public class VisionSubsystem extends SubsystemBase {
 
     private Command activePathCommand;
 
-    public VisionSubsystem(CommandSwerveDrivetrain drivetrain, OdometrySubsystem odometrySubsystem, ClawSubsystem clawSubsystem, ClimbingSubsystem climbingSubsystem, ElevatorSubsystem elevatorSubsystem) {
+    public VisionSubsystem(DrivetrainSubsystem drivetrain, OdometrySubsystem odometrySubsystem, ClawSubsystem clawSubsystem, ClimbingSubsystem climbingSubsystem, ElevatorSubsystem elevatorSubsystem) {
         this.drivetrain = drivetrain;
         this.clawSubsystem = clawSubsystem;
         this.climbingSubsystem = climbingSubsystem;
@@ -62,32 +66,6 @@ public class VisionSubsystem extends SubsystemBase {
         applyClimbCommands(
                 jetson.getBoolean(JetsonToRio.DESIRED_CLIMB)
         );
-    }
-
-    public List<Pair<Translation2d, Translation2d>> getDynamicObstacles() {
-        List<Pair<Translation2d, Translation2d>> obstacles = new ArrayList<>();
-
-        double[] xPositions = jetson.getDoubleArray(JetsonToRio.OTHER_ROBOT_XS);
-        double[] yPositions = jetson.getDoubleArray(JetsonToRio.OTHER_ROBOT_YS);
-
-        for (int i = 0; i < xPositions.length; i++) {
-            double centerX = xPositions[i];
-            double centerY = yPositions[i];
-
-            Translation2d minCorner = new Translation2d(
-                centerX - RulebookConstants.MAX_ROBOT_WIDTH / 2.0,
-                centerY - RulebookConstants.MAX_ROBOT_LENGTH / 2.0
-            );
-
-            Translation2d maxCorner = new Translation2d(
-                centerX + RulebookConstants.MAX_ROBOT_WIDTH / 2.0,
-                centerY + RulebookConstants.MAX_ROBOT_LENGTH / 2.0
-            );
-
-            obstacles.add(new Pair<>(minCorner, maxCorner));
-        }
-
-        return obstacles;
     }
 
     private void applyDriveCommands(double x, double y, double theta) {
@@ -152,5 +130,55 @@ public class VisionSubsystem extends SubsystemBase {
 
     public void forceOperatorControl(boolean control) {
         humanOperatorControl = control;
+    }
+
+    public boolean isHumanDriverControl() {
+        return humanDriverControl;
+    }
+
+    public boolean isHumanOperatorControl() {
+        return humanOperatorControl;
+    }
+
+    public List<Pair<Translation2d, Translation2d>> getDynamicObstacles() {
+        List<Pair<Translation2d, Translation2d>> obstacles = new ArrayList<>();
+
+        double[] xPositions = jetson.getDoubleArray(JetsonToRio.OTHER_ROBOT_XS);
+        double[] yPositions = jetson.getDoubleArray(JetsonToRio.OTHER_ROBOT_YS);
+
+        for (int i = 0; i < xPositions.length; i++) {
+            double centerX = xPositions[i];
+            double centerY = yPositions[i];
+
+            Translation2d minCorner = new Translation2d(
+                centerX - RulebookConstants.MAX_ROBOT_WIDTH / 2.0,
+                centerY - RulebookConstants.MAX_ROBOT_LENGTH / 2.0
+            );
+
+            Translation2d maxCorner = new Translation2d(
+                centerX + RulebookConstants.MAX_ROBOT_WIDTH / 2.0,
+                centerY + RulebookConstants.MAX_ROBOT_LENGTH / 2.0
+            );
+
+            obstacles.add(new Pair<>(minCorner, maxCorner));
+        }
+
+        return obstacles;
+    }
+
+    public List<Translation2d> getOpponentRobotLocations() {
+        List<Translation2d> obstacles = new ArrayList<>();
+
+        double[] xPositions = jetson.getDoubleArray(JetsonToRio.OTHER_ROBOT_XS);
+        double[] yPositions = jetson.getDoubleArray(JetsonToRio.OTHER_ROBOT_YS);
+
+        for (int i = 0; i < xPositions.length; i++) {
+            double centerX = xPositions[i];
+            double centerY = yPositions[i];
+
+            obstacles.add(new Translation2d(centerX, centerY));
+        }
+
+        return obstacles;
     }
 }

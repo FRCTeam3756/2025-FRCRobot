@@ -3,10 +3,6 @@
 // the license viewable in the root directory of this project.
 package frc.robot;
 
-import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
-import com.ctre.phoenix6.swerve.SwerveRequest;
-
-import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.constants.subsystems.DriveConstants;
@@ -14,27 +10,21 @@ import frc.robot.generated.TunerConstants;
 import frc.robot.io.ControllerIO;
 import frc.robot.io.JetsonIO;
 import frc.robot.io.PowerDistributionIO;
-import frc.robot.subsystems.ClawSubsystem;
-import frc.robot.subsystems.ClimbingSubsystem;
-import frc.robot.subsystems.CommandSwerveDrivetrain;
-import frc.robot.subsystems.ElevatorSubsystem;
-import frc.robot.subsystems.OdometrySubsystem;
+import frc.robot.subsystems.mechanical.ClawSubsystem;
+import frc.robot.subsystems.mechanical.ClimbingSubsystem;
+import frc.robot.subsystems.mechanical.DrivetrainSubsystem;
+import frc.robot.subsystems.mechanical.ElevatorSubsystem;
+import frc.robot.subsystems.software.OdometrySubsystem;
 
 public class RobotContainer {
-
-    private final double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(Units.MetersPerSecond);
-    private final double MaxAngularRate = Units.RotationsPerSecond.of(1.0).in(Units.RadiansPerSecond);
 
     private final ClawSubsystem clawSubsystem = new ClawSubsystem();
     private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
     private final ClimbingSubsystem climbSubsystem = new ClimbingSubsystem();
 
-    public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
-    private final OdometrySubsystem odometry = new OdometrySubsystem(drivetrain);
-    public final JetsonIO jetson = new JetsonIO(odometry);
-    private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
-            .withDeadband(MaxSpeed * ControllerIO.DEADZONE).withRotationalDeadband(MaxAngularRate * ControllerIO.DEADZONE)
-            .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+    public final DrivetrainSubsystem drivetrainSubsystem = TunerConstants.createDrivetrain();
+    private final OdometrySubsystem odometrySubsystem = new OdometrySubsystem(drivetrainSubsystem);
+    public final JetsonIO jetson = new JetsonIO(odometrySubsystem);
 
     private enum DriveSpeed {
         SLUG,
@@ -53,11 +43,11 @@ public class RobotContainer {
     }
 
     private void configureButtonBindings() {
-        drivetrain.setDefaultCommand(
-                drivetrain.applyRequest(()
-                        -> drive.withVelocityX(-ControllerIO.controller.getLeftY() * getCurrentSpeedMultiplier() * MaxSpeed)
-                        .withVelocityY(-ControllerIO.controller.getLeftX() * getCurrentSpeedMultiplier() * MaxSpeed)
-                        .withRotationalRate(-ControllerIO.controller.getRightX() * getCurrentSpeedMultiplier() * MaxAngularRate)));
+        drivetrainSubsystem.setDefaultCommand(
+                drivetrainSubsystem.applyRequest(()
+                        -> drivetrainSubsystem.driveRequest.withVelocityX(-ControllerIO.controller.getLeftY() * getCurrentSpeedMultiplier() * drivetrainSubsystem.maxSpeed)
+                        .withVelocityY(-ControllerIO.controller.getLeftX() * getCurrentSpeedMultiplier() * drivetrainSubsystem.maxSpeed)
+                        .withRotationalRate(-ControllerIO.controller.getRightX() * getCurrentSpeedMultiplier() * drivetrainSubsystem.maxAngularRate)));
 
         ControllerIO.driveTurboButton
                 .whileTrue(new InstantCommand(() -> setTurboSpeed()))
@@ -90,7 +80,7 @@ public class RobotContainer {
                 .whileTrue(new InstantCommand(() -> clawSubsystem.outtakeRollers()))
                 .onFalse(new InstantCommand(() -> clawSubsystem.stopRollers()));
         ControllerIO.resetGyroScope
-                .onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
+                .onTrue(drivetrainSubsystem.runOnce(() -> drivetrainSubsystem.seedFieldCentric()));
     }
 
     private double getCurrentSpeedMultiplier() {

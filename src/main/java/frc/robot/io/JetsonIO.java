@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.constants.connection.NetworkConstants;
 import frc.robot.constants.connection.NetworkConstants.JetsonToRio;
 import frc.robot.constants.connection.NetworkConstants.RioToJetson;
-import frc.robot.subsystems.OdometrySubsystem;
+import frc.robot.subsystems.software.OdometrySubsystem;
 
 public class JetsonIO {
 

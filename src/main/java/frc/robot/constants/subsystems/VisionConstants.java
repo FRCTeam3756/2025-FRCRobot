@@ -18,6 +18,9 @@ public class VisionConstants {
     public static final double MAX_VISION_STD_DEV = 2.5;
 	public static final double MIN_VISION_STD_DEV = 0.15;
 
+    public static final double LINE_DEFENSE_PUSH_RESPONSE_DISTANCE = 0.6;
+    public static final double LINE_DEFENSE_AGGRESSION_GAIN = 2.0;
+
 	public static final String LIMELIGHT_3G_NAME = "limelight3g";
 	public static final String LIMELIGHT_3_NAME = "limelight3";
 }

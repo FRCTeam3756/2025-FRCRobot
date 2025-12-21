@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the license viewable in the root directory of this project.
 
-package frc.robot.subsystems;
+package frc.robot.subsystems.mechanical;
 
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkBase.ControlType;
