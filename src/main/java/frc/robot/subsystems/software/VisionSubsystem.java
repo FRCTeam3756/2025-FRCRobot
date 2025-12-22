@@ -2,6 +2,7 @@ package frc.robot.subsystems.software;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathConstraints;
@@ -15,6 +16,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.RobotConstants;
 import frc.robot.constants.RulebookConstants;
+import frc.robot.constants.connection.FieldObjectConstants.FieldObject;
+import frc.robot.constants.connection.FieldObjectConstants.OpponentRobot;
 import frc.robot.constants.connection.NetworkConstants.JetsonToRio;
 import frc.robot.io.JetsonIO;
 import frc.robot.subsystems.mechanical.ClawSubsystem;
@@ -59,7 +62,7 @@ public class VisionSubsystem extends SubsystemBase {
         );
 
         applyClawCommands(
-                jetson.getBoolean(JetsonToRio.DESIRED_INTAKE), 
+                jetson.getBoolean(JetsonToRio.DESIRED_INTAKE),
                 jetson.getBoolean(JetsonToRio.DESIRED_OUTTAKE)
         );
 
@@ -141,44 +144,51 @@ public class VisionSubsystem extends SubsystemBase {
     }
 
     public List<Pair<Translation2d, Translation2d>> getDynamicObstacles() {
-        List<Pair<Translation2d, Translation2d>> obstacles = new ArrayList<>();
+        List<Pair<Translation2d, Translation2d>> obstacleLocations = new ArrayList<>();
 
-        double[] xPositions = jetson.getDoubleArray(JetsonToRio.OTHER_ROBOT_XS);
-        double[] yPositions = jetson.getDoubleArray(JetsonToRio.OTHER_ROBOT_YS);
+        List<FieldObject> obstacles = Stream.concat(
+                jetson.getOpponentRobots().stream(),
+                jetson.getTeammateRobots().stream()
+        ).toList();
 
-        for (int i = 0; i < xPositions.length; i++) {
-            double centerX = xPositions[i];
-            double centerY = yPositions[i];
+        for (int i = 0; i < obstacles.size(); i++) {
+            double centerX = obstacles.get(i).x;
+            double centerY = obstacles.get(i).y;
 
             Translation2d minCorner = new Translation2d(
-                centerX - RulebookConstants.MAX_ROBOT_WIDTH / 2.0,
-                centerY - RulebookConstants.MAX_ROBOT_LENGTH / 2.0
+                    centerX - RulebookConstants.MAX_ROBOT_WIDTH / 2.0,
+                    centerY - RulebookConstants.MAX_ROBOT_LENGTH / 2.0
             );
 
             Translation2d maxCorner = new Translation2d(
-                centerX + RulebookConstants.MAX_ROBOT_WIDTH / 2.0,
-                centerY + RulebookConstants.MAX_ROBOT_LENGTH / 2.0
+                    centerX + RulebookConstants.MAX_ROBOT_WIDTH / 2.0,
+                    centerY + RulebookConstants.MAX_ROBOT_LENGTH / 2.0
             );
 
-            obstacles.add(new Pair<>(minCorner, maxCorner));
+            obstacleLocations.add(new Pair<>(minCorner, maxCorner));
         }
 
-        return obstacles;
+        return obstacleLocations;
     }
 
     public List<Translation2d> getOpponentRobotLocations() {
-        List<Translation2d> obstacles = new ArrayList<>();
+        List<Translation2d> opponentRobotLocations = new ArrayList<>();
 
-        double[] xPositions = jetson.getDoubleArray(JetsonToRio.OTHER_ROBOT_XS);
-        double[] yPositions = jetson.getDoubleArray(JetsonToRio.OTHER_ROBOT_YS);
+        List<OpponentRobot> opponentRobots = jetson.getOpponentRobots();
 
-        for (int i = 0; i < xPositions.length; i++) {
-            double centerX = xPositions[i];
-            double centerY = yPositions[i];
+        for (int i = 0; i < opponentRobots.size(); i++) {
+            double centerX = opponentRobots.get(i).x;
+            double centerY = opponentRobots.get(i).y;
 
-            obstacles.add(new Translation2d(centerX, centerY));
+            opponentRobotLocations.add(new Translation2d(centerX, centerY));
         }
 
-        return obstacles;
+        return opponentRobotLocations;
+    }
+
+    public List<Translation2d> getAlgaeLocations() {
+        List<Translation2d> algaeLocations = new ArrayList<>();
+
+        return algaeLocations;
     }
 }

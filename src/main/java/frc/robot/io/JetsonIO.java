@@ -4,11 +4,17 @@
 
 package frc.robot.io;
 
+import java.util.ArrayList;
 import java.util.EnumMap;
+import java.util.List;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
+import frc.robot.constants.connection.FieldObjectConstants.Algae;
+import frc.robot.constants.connection.FieldObjectConstants.Coral;
+import frc.robot.constants.connection.FieldObjectConstants.OpponentRobot;
+import frc.robot.constants.connection.FieldObjectConstants.TeammateRobot;
 import frc.robot.constants.connection.NetworkConstants;
 import frc.robot.constants.connection.NetworkConstants.JetsonToRio;
 import frc.robot.constants.connection.NetworkConstants.RioToJetson;
@@ -124,6 +130,62 @@ public class JetsonIO {
         }
     }
 
+    public List<OpponentRobot> getOpponentRobots() {
+        String[] cameras = getStringArray(JetsonToRio.OPPONENT_CAMERA);
+        double[] xs = getDoubleArray(JetsonToRio.OPPONENT_X);
+        double[] ys = getDoubleArray(JetsonToRio.OPPONENT_Y);
+        double[] ts = getDoubleArray(JetsonToRio.OPPONENT_TIMESTAMP);
+
+        List<OpponentRobot> list = new ArrayList<>();
+        int n = xs.length;
+        for (int i = 0; i < n; i++) {
+            list.add(new OpponentRobot(cameras[i], xs[i], ys[i], ts[i]));
+        }
+        return list;
+    }
+
+    public List<TeammateRobot> getTeammateRobots() {
+        String[] cameras = getStringArray(JetsonToRio.TEAMMATE_CAMERA);
+        double[] xs = getDoubleArray(JetsonToRio.TEAMMATE_X);
+        double[] ys = getDoubleArray(JetsonToRio.TEAMMATE_Y);
+        double[] ts = getDoubleArray(JetsonToRio.TEAMMATE_TIMESTAMP);
+
+        List<TeammateRobot> list = new ArrayList<>();
+        int n = xs.length;
+        for (int i = 0; i < n; i++) {
+            list.add(new TeammateRobot(cameras[i], xs[i], ys[i], ts[i]));
+        }
+        return list;
+    }
+
+    public List<Algae> getAlgae() {
+        String[] cameras = getStringArray(JetsonToRio.ALGAE_CAMERA);
+        double[] xs = getDoubleArray(JetsonToRio.ALGAE_X);
+        double[] ys = getDoubleArray(JetsonToRio.ALGAE_Y);
+        double[] ts = getDoubleArray(JetsonToRio.ALGAE_TIMESTAMP);
+
+        List<Algae> list = new ArrayList<>();
+        int n = xs.length;
+        for (int i = 0; i < n; i++) {
+            list.add(new Algae(cameras[i], xs[i], ys[i], ts[i]));
+        }
+        return list;
+    }
+
+    public List<Coral> getCorals() {
+        String[] cameras = getStringArray(JetsonToRio.CORAL_CAMERA);
+        double[] xs = getDoubleArray(JetsonToRio.CORAL_X);
+        double[] ys = getDoubleArray(JetsonToRio.CORAL_Y);
+        double[] ts = getDoubleArray(JetsonToRio.CORAL_TIMESTAMP);
+
+        List<Coral> list = new ArrayList<>();
+        int n = xs.length;
+        for (int i = 0; i < n; i++) {
+            list.add(new Coral(cameras[i], xs[i], ys[i], ts[i]));
+        }
+        return list;
+    }
+
     public int getInteger(JetsonToRio key) {
         return (int) commands.get(key);
     }
@@ -138,6 +200,10 @@ public class JetsonIO {
 
     public String getString(JetsonToRio key) {
         return (String) commands.get(key);
+    }
+
+    private String[] getStringArray(JetsonToRio key) {
+        return (String[]) commands.get(key);
     }
 
     public double[] getDoubleArray(JetsonToRio key) {
