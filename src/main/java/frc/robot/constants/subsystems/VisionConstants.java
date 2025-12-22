@@ -23,4 +23,18 @@ public class VisionConstants {
 
 	public static final String LIMELIGHT_3G_NAME = "limelight3g";
 	public static final String LIMELIGHT_3_NAME = "limelight3";
+
+    public static final double LIMELIGHT_3G_FORWARD = 0.0;
+    public static final double LIMELIGHT_3G_RIGHT = 0.0;
+    public static final double LIMELIGHT_3G_UP = 0.0;
+    public static final double LIMELIGHT_3G_ROLL = 0.0;
+    public static final double LIMELIGHT_3G_PITCH = 0.0;
+    public static final double LIMELIGHT_3G_YAW = 0.0;
+
+    public static final double LIMELIGHT_3_FORWARD = 0.0;
+    public static final double LIMELIGHT_3_RIGHT = 0.0;
+    public static final double LIMELIGHT_3_UP = 0.0;
+    public static final double LIMELIGHT_3_ROLL = 0.0;
+    public static final double LIMELIGHT_3_PITCH = 0.0;
+    public static final double LIMELIGHT_3_YAW = 0.0;
 }

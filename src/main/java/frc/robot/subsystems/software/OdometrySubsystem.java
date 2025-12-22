@@ -21,6 +21,9 @@ public class OdometrySubsystem extends SubsystemBase {
 
     public OdometrySubsystem(DrivetrainSubsystem drivetrain) {
         this.drivetrain = drivetrain;
+
+        LimelightHelpers.setCameraPose_RobotSpace(VisionConstants.LIMELIGHT_3G_NAME, VisionConstants.LIMELIGHT_3G_FORWARD, VisionConstants.LIMELIGHT_3G_RIGHT, VisionConstants.LIMELIGHT_3G_UP, VisionConstants.LIMELIGHT_3G_ROLL, VisionConstants.LIMELIGHT_3G_PITCH, VisionConstants.LIMELIGHT_3G_YAW);
+        LimelightHelpers.setCameraPose_RobotSpace(VisionConstants.LIMELIGHT_3_NAME, VisionConstants.LIMELIGHT_3_FORWARD, VisionConstants.LIMELIGHT_3_RIGHT, VisionConstants.LIMELIGHT_3_UP, VisionConstants.LIMELIGHT_3_ROLL, VisionConstants.LIMELIGHT_3_PITCH, VisionConstants.LIMELIGHT_3_YAW);
     }
 
     @Override
@@ -64,10 +67,18 @@ public class OdometrySubsystem extends SubsystemBase {
                 = selectMoreConfidentEstimate(pose3G, pose3);
 
         if (bestEstimate == null) {
+            LimelightHelpers.setLEDMode_ForceOff(VisionConstants.LIMELIGHT_3G_NAME);
+            LimelightHelpers.setLEDMode_ForceOff(VisionConstants.LIMELIGHT_3_NAME);
             return;
+        } else if (bestEstimate == pose3G) {
+            LimelightHelpers.setLEDMode_ForceOn(VisionConstants.LIMELIGHT_3G_NAME);
+            LimelightHelpers.setLEDMode_ForceOff(VisionConstants.LIMELIGHT_3_NAME);
+        } else {
+            LimelightHelpers.setLEDMode_ForceOff(VisionConstants.LIMELIGHT_3G_NAME);
+            LimelightHelpers.setLEDMode_ForceOn(VisionConstants.LIMELIGHT_3_NAME);
         }
 
-        var visionStdDevs = calculateDistanceBasedStdDevs(bestEstimate);
+        Matrix<N3, N1> visionStdDevs = calculateDistanceBasedStdDevs(bestEstimate);
 
         drivetrain.addVisionMeasurement(
                 bestEstimate.pose,
@@ -78,36 +89,36 @@ public class OdometrySubsystem extends SubsystemBase {
         drivetrain.registerTelemetry(null);
     }
 
-    private LimelightHelpers.PoseEstimate selectMoreConfidentEstimate(LimelightHelpers.PoseEstimate limelight3, LimelightHelpers.PoseEstimate limelight3g) {
+    private LimelightHelpers.PoseEstimate selectMoreConfidentEstimate(LimelightHelpers.PoseEstimate pose3, LimelightHelpers.PoseEstimate pose3g) {
 
-        if (limelight3 == null && limelight3g == null) {
+        if (pose3 == null && pose3g == null) {
             return null;
         }
-        if (limelight3 == null) {
-            return (limelight3g.tagCount > 0) ? limelight3g : null;
+        if (pose3 == null) {
+            return (pose3g.tagCount > 0) ? pose3g : null;
         }
-        if (limelight3g == null) {
-            return (limelight3.tagCount > 0) ? limelight3 : null;
+        if (pose3g == null) {
+            return (pose3.tagCount > 0) ? pose3 : null;
         }
 
-        boolean limelight3Valid = limelight3.tagCount > 0;
-        boolean limelight3gValid = limelight3g.tagCount > 0;
+        boolean pose3Valid = pose3.tagCount > 0;
+        boolean pose3gValid = pose3g.tagCount > 0;
 
-        if (!limelight3Valid && !limelight3gValid) {
+        if (!pose3Valid && !pose3gValid) {
             return null;
         }
-        if (limelight3Valid && !limelight3gValid) {
-            return limelight3;
+        if (pose3Valid && !pose3gValid) {
+            return pose3;
         }
-        if (!limelight3Valid && limelight3gValid) {
-            return limelight3g;
-        }
-
-        if (limelight3.tagCount != limelight3g.tagCount) {
-            return (limelight3.tagCount > limelight3g.tagCount) ? limelight3 : limelight3g;
+        if (!pose3Valid && pose3gValid) {
+            return pose3g;
         }
 
-        return (limelight3.timestampSeconds > limelight3g.timestampSeconds) ? limelight3 : limelight3g;
+        if (pose3.tagCount != pose3g.tagCount) {
+            return (pose3.tagCount > pose3g.tagCount) ? pose3 : pose3g;
+        }
+
+        return (pose3.timestampSeconds > pose3g.timestampSeconds) ? pose3 : pose3g;
     }
 
     private static Matrix<N3, N1> calculateDistanceBasedStdDevs(
