@@ -12,12 +12,12 @@ import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.subsystems.VisionConstants;
 import frc.robot.generated.LimelightHelpers;
+import frc.robot.generated.LimelightHelpers.PoseEstimate;
 import frc.robot.subsystems.mechanical.DrivetrainSubsystem;
 
 public class OdometrySubsystem extends SubsystemBase {
 
     private final DrivetrainSubsystem drivetrain;
-    private String activeLimelight = null;
 
     public OdometrySubsystem(DrivetrainSubsystem drivetrain) {
         this.drivetrain = drivetrain;
@@ -53,29 +53,21 @@ public class OdometrySubsystem extends SubsystemBase {
                 headingDeg, 0, 0, 0, 0, 0
         );
 
-        LimelightHelpers.PoseEstimate pose3G
+        PoseEstimate pose3G
                 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(
                         VisionConstants.LIMELIGHT_3G_NAME
                 );
 
-        LimelightHelpers.PoseEstimate pose3
+        PoseEstimate pose3
                 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(
                         VisionConstants.LIMELIGHT_3_NAME
                 );
 
-        LimelightHelpers.PoseEstimate bestEstimate
+        PoseEstimate bestEstimate
                 = selectMoreConfidentEstimate(pose3G, pose3);
 
         if (bestEstimate == null) {
-            LimelightHelpers.setLEDMode_ForceOff(VisionConstants.LIMELIGHT_3G_NAME);
-            LimelightHelpers.setLEDMode_ForceOff(VisionConstants.LIMELIGHT_3_NAME);
             return;
-        } else if (bestEstimate == pose3G) {
-            LimelightHelpers.setLEDMode_ForceOn(VisionConstants.LIMELIGHT_3G_NAME);
-            LimelightHelpers.setLEDMode_ForceOff(VisionConstants.LIMELIGHT_3_NAME);
-        } else {
-            LimelightHelpers.setLEDMode_ForceOff(VisionConstants.LIMELIGHT_3G_NAME);
-            LimelightHelpers.setLEDMode_ForceOn(VisionConstants.LIMELIGHT_3_NAME);
         }
 
         Matrix<N3, N1> visionStdDevs = calculateDistanceBasedStdDevs(bestEstimate);
@@ -85,11 +77,9 @@ public class OdometrySubsystem extends SubsystemBase {
                 bestEstimate.timestampSeconds,
                 visionStdDevs
         );
-
-        drivetrain.registerTelemetry(null);
     }
 
-    private LimelightHelpers.PoseEstimate selectMoreConfidentEstimate(LimelightHelpers.PoseEstimate pose3, LimelightHelpers.PoseEstimate pose3g) {
+    private PoseEstimate selectMoreConfidentEstimate(PoseEstimate pose3, PoseEstimate pose3g) {
 
         if (pose3 == null && pose3g == null) {
             return null;
@@ -116,13 +106,13 @@ public class OdometrySubsystem extends SubsystemBase {
 
         if (pose3.tagCount != pose3g.tagCount) {
             return (pose3.tagCount > pose3g.tagCount) ? pose3 : pose3g;
+        } else {
+            return pose3g;
         }
-
-        return (pose3.timestampSeconds > pose3g.timestampSeconds) ? pose3 : pose3g;
     }
 
     private static Matrix<N3, N1> calculateDistanceBasedStdDevs(
-            LimelightHelpers.PoseEstimate estimate
+            PoseEstimate estimate
     ) {
         double avgDistanceMeters = 0.0;
         double avgAmbiguity = 0.0;
@@ -134,11 +124,19 @@ public class OdometrySubsystem extends SubsystemBase {
 
         int tagCount = estimate.rawFiducials.length;
 
+        if (tagCount == 0) {
+            return VecBuilder.fill(
+                    VisionConstants.MAX_XY_STD_DEV,
+                    VisionConstants.MAX_XY_STD_DEV,
+                    VisionConstants.MAX_THETA_STD_DEV
+            );
+        }
+
         avgDistanceMeters /= tagCount;
         avgAmbiguity /= tagCount;
 
         double distanceFactor
-                = 1.0 + (avgDistanceMeters * VisionConstants.VISION_DISTANCE_SCALING_FACTOR);
+                = 1.0 + (avgDistanceMeters * VisionConstants.DISTANCE_SCALING_FACTOR);
 
         double tagCountFactor
                 = 1.0 / Math.sqrt(tagCount);
@@ -146,26 +144,22 @@ public class OdometrySubsystem extends SubsystemBase {
         double ambiguityFactor
                 = 1.0 + avgAmbiguity;
 
-        double xyStdDev
-                = distanceFactor * tagCountFactor * ambiguityFactor;
+        double xyStdDev = Math.max(
+                VisionConstants.MIN_XY_STD_DEV,
+                Math.min((distanceFactor * tagCountFactor * ambiguityFactor), VisionConstants.MAX_XY_STD_DEV)
+        );
 
-        xyStdDev = Math.max(
-                VisionConstants.MIN_VISION_STD_DEV,
-                Math.min(xyStdDev, VisionConstants.MAX_VISION_STD_DEV)
+        double thetaStdDev = Math.toRadians(
+                Math.min(
+                        VisionConstants.MAX_THETA_STD_DEV,
+                        VisionConstants.ANGULAR_TRUST_FACTOR * ambiguityFactor * distanceFactor
+                )
         );
 
         return VecBuilder.fill(
                 xyStdDev,
                 xyStdDev,
-                999999.0
+                thetaStdDev
         );
-    }
-
-    public void setActiveLimelight(String limelight) {
-        activeLimelight = limelight;
-    }
-
-    public String getActiveLimelight() {
-        return activeLimelight;
     }
 }
