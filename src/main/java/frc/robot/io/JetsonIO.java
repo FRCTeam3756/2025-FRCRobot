@@ -1,16 +1,19 @@
 // Copyright (c) FRC Team 3756 RamFerno.
 // Open Source Software; you can modify and/or share it under the terms of
 // the license viewable in the root directory of this project.
-
 package frc.robot.io;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
+import frc.robot.constants.RobotConstants;
 import frc.robot.constants.connection.FieldObjectConstants.Algae;
 import frc.robot.constants.connection.FieldObjectConstants.Coral;
 import frc.robot.constants.connection.FieldObjectConstants.OpponentRobot;
@@ -28,8 +31,8 @@ public class JetsonIO {
     private final NetworkTable rioToJetsonTable;
     private final NetworkTable jetsonToRioTable;
 
-    private final EnumMap<JetsonToRio, Object> commands =
-            new EnumMap<>(JetsonToRio.class);
+    private final EnumMap<JetsonToRio, Object> commands
+            = new EnumMap<>(JetsonToRio.class);
 
     public JetsonIO(OdometrySubsystem odometry) {
         NetworkTableInstance inst = NetworkTableInstance.getDefault();
@@ -124,64 +127,112 @@ public class JetsonIO {
                 case STRING ->
                     commands.put(command, entry.getString(""));
 
-                case DOUBLE_ARRAY -> 
-                        commands.put(command, entry.getDoubleArray(new double[0]));
+                case DOUBLE_ARRAY ->
+                    commands.put(command, entry.getDoubleArray(new double[0]));
             }
         }
     }
 
-    public List<OpponentRobot> getOpponentRobots() {
+    public List<OpponentRobot> getOpponentRobots(Pose2d robotPose) {
         String[] cameras = getStringArray(JetsonToRio.OPPONENT_CAMERA);
-        double[] xs = getDoubleArray(JetsonToRio.OPPONENT_X);
-        double[] ys = getDoubleArray(JetsonToRio.OPPONENT_Y);
-        double[] ts = getDoubleArray(JetsonToRio.OPPONENT_TIMESTAMP);
+        double[] distances = getDoubleArray(JetsonToRio.OPPONENT_DISTANCE);
+        double[] angles = getDoubleArray(JetsonToRio.OPPONENT_ANGLE);
+        double[] timestamps = getDoubleArray(JetsonToRio.OPPONENT_TIMESTAMP);
 
         List<OpponentRobot> list = new ArrayList<>();
-        int n = xs.length;
-        for (int i = 0; i < n; i++) {
-            list.add(new OpponentRobot(cameras[i], xs[i], ys[i], ts[i]));
+
+        for (int i = 0; i < distances.length; i++) {
+            Transform2d camTransform = RobotConstants.CAMERA_TRANSFORMS.get(cameras[i]);
+            if (camTransform == null) {
+                continue;
+            }
+
+            Translation2d fieldPos = cameraDetectionToField(
+                    robotPose,
+                    camTransform,
+                    distances[i],
+                    angles[i]
+            );
+
+            list.add(new OpponentRobot(cameras[i], fieldPos.getX(), fieldPos.getY(), distances[i], angles[i], timestamps[i]));
         }
         return list;
     }
 
-    public List<TeammateRobot> getTeammateRobots() {
+    public List<TeammateRobot> getTeammateRobots(Pose2d robotPose) {
         String[] cameras = getStringArray(JetsonToRio.TEAMMATE_CAMERA);
-        double[] xs = getDoubleArray(JetsonToRio.TEAMMATE_X);
-        double[] ys = getDoubleArray(JetsonToRio.TEAMMATE_Y);
-        double[] ts = getDoubleArray(JetsonToRio.TEAMMATE_TIMESTAMP);
+        double[] distances = getDoubleArray(JetsonToRio.TEAMMATE_DISTANCE);
+        double[] angles = getDoubleArray(JetsonToRio.TEAMMATE_ANGLE);
+        double[] timestamps = getDoubleArray(JetsonToRio.TEAMMATE_TIMESTAMP);
 
         List<TeammateRobot> list = new ArrayList<>();
-        int n = xs.length;
-        for (int i = 0; i < n; i++) {
-            list.add(new TeammateRobot(cameras[i], xs[i], ys[i], ts[i]));
+
+        for (int i = 0; i < distances.length; i++) {
+            Transform2d camTransform = RobotConstants.CAMERA_TRANSFORMS.get(cameras[i]);
+            if (camTransform == null) {
+                continue;
+            }
+
+            Translation2d fieldPos = cameraDetectionToField(
+                    robotPose,
+                    camTransform,
+                    distances[i],
+                    angles[i]
+            );
+
+            list.add(new TeammateRobot(cameras[i], fieldPos.getX(), fieldPos.getY(), distances[i], angles[i], timestamps[i]));
         }
         return list;
     }
 
-    public List<Algae> getAlgae() {
+    public List<Algae> getAlgae(Pose2d robotPose) {
         String[] cameras = getStringArray(JetsonToRio.ALGAE_CAMERA);
-        double[] xs = getDoubleArray(JetsonToRio.ALGAE_X);
-        double[] ys = getDoubleArray(JetsonToRio.ALGAE_Y);
-        double[] ts = getDoubleArray(JetsonToRio.ALGAE_TIMESTAMP);
+        double[] distances = getDoubleArray(JetsonToRio.ALGAE_DISTANCE);
+        double[] angles = getDoubleArray(JetsonToRio.ALGAE_ANGLE);
+        double[] timestamps = getDoubleArray(JetsonToRio.ALGAE_TIMESTAMP);
 
         List<Algae> list = new ArrayList<>();
-        int n = xs.length;
-        for (int i = 0; i < n; i++) {
-            list.add(new Algae(cameras[i], xs[i], ys[i], ts[i]));
+
+        for (int i = 0; i < distances.length; i++) {
+            Transform2d camTransform = RobotConstants.CAMERA_TRANSFORMS.get(cameras[i]);
+            if (camTransform == null) {
+                continue;
+            }
+
+            Translation2d fieldPos = cameraDetectionToField(
+                    robotPose,
+                    camTransform,
+                    distances[i],
+                    angles[i]
+            );
+
+            list.add(new Algae(cameras[i], fieldPos.getX(), fieldPos.getY(), distances[i], angles[i], timestamps[i]));
         }
         return list;
     }
 
-    public List<Coral> getCorals() {
+    public List<Coral> getCorals(Pose2d robotPose) {
         String[] cameras = getStringArray(JetsonToRio.CORAL_CAMERA);
-        double[] xs = getDoubleArray(JetsonToRio.CORAL_X);
-        double[] ys = getDoubleArray(JetsonToRio.CORAL_Y);
-        double[] ts = getDoubleArray(JetsonToRio.CORAL_TIMESTAMP);
+        double[] distances = getDoubleArray(JetsonToRio.CORAL_DISTANCE);
+        double[] angles = getDoubleArray(JetsonToRio.CORAL_ANGLE);
+        double[] timestamps = getDoubleArray(JetsonToRio.CORAL_TIMESTAMP);
 
         List<Coral> list = new ArrayList<>();
-        int n = xs.length;
-        for (int i = 0; i < n; i++) {
-            list.add(new Coral(cameras[i], xs[i], ys[i], ts[i]));
+
+        for (int i = 0; i < distances.length; i++) {
+            Transform2d camTransform = RobotConstants.CAMERA_TRANSFORMS.get(cameras[i]);
+            if (camTransform == null) {
+                continue;
+            }
+
+            Translation2d fieldPos = cameraDetectionToField(
+                    robotPose,
+                    camTransform,
+                    distances[i],
+                    angles[i]
+            );
+            
+            list.add(new Coral(cameras[i], fieldPos.getX(), fieldPos.getY(), distances[i], angles[i], timestamps[i]));
         }
         return list;
     }
@@ -212,5 +263,24 @@ public class JetsonIO {
 
     public void setSelectedAuto(String selectedAuto) {
         this.selectedAuto = selectedAuto;
+    }
+
+    private Translation2d cameraDetectionToField(
+            Pose2d robotPose,
+            Transform2d cameraToRobot,
+            double distanceMeters,
+            double angleRadians
+    ) {
+        Translation2d cameraRelative = new Translation2d(
+                distanceMeters * Math.cos(angleRadians),
+                distanceMeters * Math.sin(angleRadians)
+        );
+
+        Translation2d robotRelative
+                = cameraRelative.rotateBy(cameraToRobot.getRotation())
+                        .plus(cameraToRobot.getTranslation());
+
+        return robotRelative.rotateBy(robotPose.getRotation())
+                .plus(robotPose.getTranslation());
     }
 }

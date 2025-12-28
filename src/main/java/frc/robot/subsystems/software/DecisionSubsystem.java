@@ -24,8 +24,8 @@ public class DecisionSubsystem extends SubsystemBase {
     private GoalHandler currentHandler;
     private GoalHandler previousHandler;
 
-    DrivetrainSubsystem drivetrainSubsystem;
-    VisionSubsystem visionSubsystem;
+    private final DrivetrainSubsystem drivetrainSubsystem;
+    private final VisionSubsystem visionSubsystem;
 
     public DecisionSubsystem(DrivetrainSubsystem drivetrainSubsystem, VisionSubsystem visionSubsystem) {
         this.drivetrainSubsystem = drivetrainSubsystem;

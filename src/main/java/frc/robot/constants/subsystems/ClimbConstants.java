@@ -15,8 +15,8 @@ public class ClimbConstants {
     public static final FeedbackSensor FEEDBACK_SENSOR = FeedbackSensor.kPrimaryEncoder;
     public static final IdleMode IDLE_MODE = IdleMode.kBrake;
 
-    public static ResetMode RESET_MODE = ResetMode.kNoResetSafeParameters;
-    public static PersistMode PERSIST_MODE = PersistMode.kPersistParameters;
+    public static final ResetMode RESET_MODE = ResetMode.kNoResetSafeParameters;
+    public static final PersistMode PERSIST_MODE = PersistMode.kPersistParameters;
 
     public static final int ERROR_CHECK_TIMEOUT = 20; // ms
     public static final double RAMP_RATE = 0.0;

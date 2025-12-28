@@ -16,9 +16,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.RobotConstants;
 import frc.robot.constants.RulebookConstants;
+import frc.robot.constants.connection.FieldObjectConstants.Algae;
 import frc.robot.constants.connection.FieldObjectConstants.FieldObject;
 import frc.robot.constants.connection.FieldObjectConstants.OpponentRobot;
-import frc.robot.constants.connection.NetworkConstants.JetsonToRio;
 import frc.robot.io.JetsonIO;
 import frc.robot.subsystems.mechanical.ClawSubsystem;
 import frc.robot.subsystems.mechanical.ClimbingSubsystem;
@@ -28,8 +28,9 @@ import frc.robot.subsystems.mechanical.ElevatorSubsystem;
 public class VisionSubsystem extends SubsystemBase {
 
     private final JetsonIO jetson;
+    // private final DecisionSubsystem decisionSubsystem;
 
-    private final DrivetrainSubsystem drivetrain;
+    private final DrivetrainSubsystem drivetrainSubsystem;
     private final ClawSubsystem clawSubsystem;
     private final ClimbingSubsystem climbingSubsystem;
     private final ElevatorSubsystem elevatorSubsystem;
@@ -39,44 +40,26 @@ public class VisionSubsystem extends SubsystemBase {
 
     private Command activePathCommand;
 
-    public VisionSubsystem(DrivetrainSubsystem drivetrain, OdometrySubsystem odometrySubsystem, ClawSubsystem clawSubsystem, ClimbingSubsystem climbingSubsystem, ElevatorSubsystem elevatorSubsystem) {
-        this.drivetrain = drivetrain;
+    public VisionSubsystem(DrivetrainSubsystem drivetrainSubsystem, OdometrySubsystem odometrySubsystem, ClawSubsystem clawSubsystem, ClimbingSubsystem climbingSubsystem, ElevatorSubsystem elevatorSubsystem) {
+        this.drivetrainSubsystem = drivetrainSubsystem;
         this.clawSubsystem = clawSubsystem;
         this.climbingSubsystem = climbingSubsystem;
         this.elevatorSubsystem = elevatorSubsystem;
         this.jetson = new JetsonIO(odometrySubsystem);
+        // this.decisionSubsystem = new DecisionSubsystem(drivetrainSubsystem, this);
     }
 
     @Override
     public void periodic() {
         jetson.publishRobotState();
-
-        applyDriveCommands(
-                jetson.getDouble(JetsonToRio.DESIRED_X),
-                jetson.getDouble(JetsonToRio.DESIRED_Y),
-                jetson.getDouble(JetsonToRio.DESIRED_THETA)
-        );
-
-        applyElevatorCommands(
-                jetson.getInteger(JetsonToRio.DESIRED_ELEVATOR_SETPOINT)
-        );
-
-        applyClawCommands(
-                jetson.getBoolean(JetsonToRio.DESIRED_INTAKE),
-                jetson.getBoolean(JetsonToRio.DESIRED_OUTTAKE)
-        );
-
-        applyClimbCommands(
-                jetson.getBoolean(JetsonToRio.DESIRED_CLIMB)
-        );
     }
 
-    private void applyDriveCommands(double x, double y, double theta) {
+    public void applyDriveCommands(double goalX, double goalY, double goalTheta, double endVelocity) {
         if (humanDriverControl) {
             return;
         }
 
-        Pose2d targetPose = new Pose2d(x, y, new Rotation2d(theta));
+        Pose2d targetPose = new Pose2d(goalX, goalY, new Rotation2d(goalTheta));
 
         PathConstraints constraints = new PathConstraints(
                 RobotConstants.MAX_AUTONOMOUS_VELOCITY,
@@ -88,16 +71,16 @@ public class VisionSubsystem extends SubsystemBase {
         activePathCommand = AutoBuilder.pathfindToPose(
                 targetPose,
                 constraints,
-                0.0 // end velocity
+                endVelocity
         );
 
         Pathfinding.setGoalPosition(targetPose.getTranslation());
-        Pathfinding.setDynamicObstacles(getDynamicObstacles(), drivetrain.getState().Pose.getTranslation());
+        Pathfinding.setDynamicObstacles(getDynamicObstacles(), drivetrainSubsystem.getState().Pose.getTranslation());
 
         activePathCommand.schedule();
     }
 
-    private void applyElevatorCommands(int setpoint) {
+    public void applyElevatorCommands(int setpoint) {
         if (humanOperatorControl) {
             return;
         }
@@ -105,7 +88,7 @@ public class VisionSubsystem extends SubsystemBase {
         elevatorSubsystem.elevatorToSetpoint(setpoint);
     }
 
-    private void applyClawCommands(boolean intake, boolean outtake) {
+    public void applyClawCommands(boolean intake, boolean outtake) {
         if (humanOperatorControl) {
             return;
         }
@@ -117,7 +100,7 @@ public class VisionSubsystem extends SubsystemBase {
         }
     }
 
-    private void applyClimbCommands(boolean climb) {
+    public void applyClimbCommands(boolean climb) {
         if (humanOperatorControl) {
             return;
         }
@@ -147,8 +130,8 @@ public class VisionSubsystem extends SubsystemBase {
         List<Pair<Translation2d, Translation2d>> obstacleLocations = new ArrayList<>();
 
         List<FieldObject> obstacles = Stream.concat(
-                jetson.getOpponentRobots().stream(),
-                jetson.getTeammateRobots().stream()
+                jetson.getOpponentRobots(drivetrainSubsystem.getState().Pose).stream(),
+                jetson.getTeammateRobots(drivetrainSubsystem.getState().Pose).stream()
         ).toList();
 
         for (int i = 0; i < obstacles.size(); i++) {
@@ -173,8 +156,7 @@ public class VisionSubsystem extends SubsystemBase {
 
     public List<Translation2d> getOpponentRobotLocations() {
         List<Translation2d> opponentRobotLocations = new ArrayList<>();
-
-        List<OpponentRobot> opponentRobots = jetson.getOpponentRobots();
+        List<OpponentRobot> opponentRobots = jetson.getOpponentRobots(drivetrainSubsystem.getState().Pose);
 
         for (int i = 0; i < opponentRobots.size(); i++) {
             double centerX = opponentRobots.get(i).x;
@@ -186,9 +168,7 @@ public class VisionSubsystem extends SubsystemBase {
         return opponentRobotLocations;
     }
 
-    public List<Translation2d> getAlgaeLocations() {
-        List<Translation2d> algaeLocations = new ArrayList<>();
-
-        return algaeLocations;
+    public List<Algae> getAlgae(Pose2d robotPose) {
+        return jetson.getAlgae(robotPose);
     }
 }

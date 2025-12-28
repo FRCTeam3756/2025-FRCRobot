@@ -58,25 +58,25 @@ public class NetworkConstants {
         TIMESTAMP("jetson/debug/timestamp", EntryType.DOUBLE),
 
         OPPONENT_CAMERA("jetson/opponent_robot/camera", EntryType.STRING),
-        OPPONENT_X("jetson/opponent_robot/x", EntryType.DOUBLE_ARRAY),
-        OPPONENT_Y("jetson/opponent_robot/y", EntryType.DOUBLE_ARRAY),
+        OPPONENT_DISTANCE("jetson/opponent_robot/distance", EntryType.DOUBLE_ARRAY),
+        OPPONENT_ANGLE("jetson/opponent_robot/angle", EntryType.DOUBLE_ARRAY),
         OPPONENT_TIMESTAMP("jetson/opponent_robot/timestamp", EntryType.DOUBLE_ARRAY),
 
         TEAMMATE_CAMERA("jetson/teammate_robot/camera", EntryType.STRING),
-        TEAMMATE_X("jetson/teammate_robot/x", EntryType.DOUBLE_ARRAY),
-        TEAMMATE_Y("jetson/teammate_robot/y", EntryType.DOUBLE_ARRAY),
+        TEAMMATE_DISTANCE("jetson/teammate_robot/distance", EntryType.DOUBLE_ARRAY),
+        TEAMMATE_ANGLE("jetson/teammate_robot/angle", EntryType.DOUBLE_ARRAY),
         TEAMMATE_TIMESTAMP("jetson/teammate_robot/timestamp", EntryType.DOUBLE_ARRAY),
 
         // Algae
         ALGAE_CAMERA("jetson/algae/camera", EntryType.STRING),
-        ALGAE_X("jetson/algae/x", EntryType.DOUBLE_ARRAY),
-        ALGAE_Y("jetson/algae/y", EntryType.DOUBLE_ARRAY),
+        ALGAE_DISTANCE("jetson/algae/x", EntryType.DOUBLE_ARRAY),
+        ALGAE_ANGLE("jetson/algae/angle", EntryType.DOUBLE_ARRAY),
         ALGAE_TIMESTAMP("jetson/algae/timestamp", EntryType.DOUBLE_ARRAY),
 
         // Coral
         CORAL_CAMERA("jetson/coral/camera", EntryType.STRING),
-        CORAL_X("jetson/coral/x", EntryType.DOUBLE_ARRAY),
-        CORAL_Y("jetson/coral/y", EntryType.DOUBLE_ARRAY),
+        CORAL_DISTANCE("jetson/coral/distace", EntryType.DOUBLE_ARRAY),
+        CORAL_ANGLE("jetson/coral/angle", EntryType.DOUBLE_ARRAY),
         CORAL_TIMESTAMP("jetson/coral/timestamp", EntryType.DOUBLE_ARRAY);
 
         public enum EntryType {
