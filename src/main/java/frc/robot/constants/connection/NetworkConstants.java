@@ -5,35 +5,6 @@ public class NetworkConstants {
     public static final String NETWORK_TABLE_NAME = "AIPipeline";
     public static final String DATA_ENTRY_NAME = "data";
 
-    public enum RioToJetson {
-        ROBOT_ENABLED("robot/mode/enabled"),
-        ROBOT_DISABLED("robot/mode/disabled"),
-        ROBOT_ESTOP("robot/mode/estop"),
-        ROBOT_AUTO("robot/mode/auto"),
-        ROBOT_TELEOP("robot/mode/teleop"),
-        ROBOT_TEST("robot/mode/test"),
-        ROBOT_ALLIANCE("robot/alliance"),
-        ROBOT_MATCH_TIME("robot/match_time"),
-        ROBOT_START_LOCATION("robot/start_location"),
-        ROBOT_POSE_X("robot/pose/x"),
-        ROBOT_POSE_Y("robot/pose/y"),
-        ROBOT_POSE_ROT("robot/pose/theta"),
-        ROBOT_VELOCITY_X("robot/velocity/vx"),
-        ROBOT_VELOCITY_Y("robot/velocity/vy"),
-        ROBOT_VELOCITY_ROTATIONS("robot/velocity/vomega"),
-        USER_SELECTED_AUTO("ds/auto/selection");
-
-        private final String key;
-
-        RioToJetson(String key) {
-            this.key = key;
-        }
-
-        public String key() {
-            return key;
-        }
-    }
-
     public enum JetsonToRio {
         DESIRED_X("jetson/command/x", EntryType.DOUBLE),
         DESIRED_Y("jetson/command/y", EntryType.DOUBLE),

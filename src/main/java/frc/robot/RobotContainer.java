@@ -4,27 +4,40 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.constants.subsystems.DriveConstants;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.autonomous.DriveStraightAuto;
+import frc.robot.autonomous.RightDoubleAlgaeAuto;
+import frc.robot.constants.connection.ControllerConstants;
+import frc.robot.constants.hardware.DriveConstants;
 import frc.robot.generated.TunerConstants;
-import frc.robot.io.ControllerIO;
-import frc.robot.io.JetsonIO;
-import frc.robot.io.PowerDistributionIO;
-import frc.robot.subsystems.mechanical.ClawSubsystem;
-import frc.robot.subsystems.mechanical.ClimbingSubsystem;
-import frc.robot.subsystems.mechanical.DrivetrainSubsystem;
-import frc.robot.subsystems.mechanical.ElevatorSubsystem;
-import frc.robot.subsystems.software.OdometrySubsystem;
+import frc.robot.logic.ControlManager;
+import frc.robot.logic.GoalManager;
+import frc.robot.subsystems.ClawSubsystem;
+import frc.robot.subsystems.ClimbingSubsystem;
+import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.GamepieceSensorSubsystem;
+import frc.robot.subsystems.JetsonSubsystem;
+import frc.robot.subsystems.OdometrySubsystem;
+import frc.robot.subsystems.PowerDistributionSubsystem;
 
 public class RobotContainer {
+
+    public static final CommandXboxController controller = new CommandXboxController(ControllerConstants.CONTROLLER_PORT);
 
     private final ClawSubsystem clawSubsystem = new ClawSubsystem();
     private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
     private final ClimbingSubsystem climbSubsystem = new ClimbingSubsystem();
 
-    public final DrivetrainSubsystem drivetrainSubsystem = TunerConstants.createDrivetrain();
+    private final DrivetrainSubsystem drivetrainSubsystem = TunerConstants.createDrivetrain();
     private final OdometrySubsystem odometrySubsystem = new OdometrySubsystem(drivetrainSubsystem);
-    public final JetsonIO jetson = new JetsonIO(odometrySubsystem);
+    private final JetsonSubsystem jetsonSubsystem = new JetsonSubsystem(odometrySubsystem);
+
+    private final ControlManager controlManager = new ControlManager();
+    private final GamepieceSensorSubsystem gamepieceSensorSubsystem = new GamepieceSensorSubsystem();
+    private final GoalManager goalManager = new GoalManager(controlManager, clawSubsystem, drivetrainSubsystem, odometrySubsystem, jetsonSubsystem, gamepieceSensorSubsystem);
 
     private enum DriveSpeed {
         SLUG,
@@ -34,52 +47,52 @@ public class RobotContainer {
     }
 
     private DriveSpeed currentDriveSpeed = DriveSpeed.STANDARD;
-    private final PowerDistributionIO powerDistributionHub = new PowerDistributionIO();
+    private final PowerDistributionSubsystem powerDistributionSubsystem = new PowerDistributionSubsystem();
 
     public RobotContainer() {
-        powerDistributionHub.clearStickyFaults();
-        powerDistributionHub.setSwitchableChannel(false);
+        powerDistributionSubsystem.clearStickyFaults();
+        powerDistributionSubsystem.setSwitchableChannel(false);
         configureButtonBindings();
     }
 
     private void configureButtonBindings() {
         drivetrainSubsystem.setDefaultCommand(
                 drivetrainSubsystem.applyRequest(()
-                        -> drivetrainSubsystem.driveRequest.withVelocityX(-ControllerIO.controller.getLeftY() * getCurrentSpeedMultiplier() * drivetrainSubsystem.maxSpeed)
-                        .withVelocityY(-ControllerIO.controller.getLeftX() * getCurrentSpeedMultiplier() * drivetrainSubsystem.maxSpeed)
-                        .withRotationalRate(-ControllerIO.controller.getRightX() * getCurrentSpeedMultiplier() * drivetrainSubsystem.maxAngularRate)));
+                        -> drivetrainSubsystem.driveRequest.withVelocityX(-controller.getLeftY() * getCurrentSpeedMultiplier() * drivetrainSubsystem.maxSpeed)
+                        .withVelocityY(-controller.getLeftX() * getCurrentSpeedMultiplier() * drivetrainSubsystem.maxSpeed)
+                        .withRotationalRate(-controller.getRightX() * getCurrentSpeedMultiplier() * drivetrainSubsystem.maxAngularRate)));
 
-        ControllerIO.driveTurboButton
+        controller.leftStick()
                 .whileTrue(new InstantCommand(() -> setTurboSpeed()))
                 .onFalse(new InstantCommand(() -> setStandardSpeed()));
-        ControllerIO.driveSlowButton
+        controller.b()
                 .whileTrue(new InstantCommand(() -> setSlowSpeed()))
                 .onFalse(new InstantCommand(() -> setStandardSpeed()));
-        ControllerIO.driveSlugButton
+        controller.y()
                 .whileTrue(new InstantCommand(() -> setSlugSpeed()))
                 .onFalse(new InstantCommand(() -> setStandardSpeed()));
-        ControllerIO.climbButton
+        controller.start()
                 .whileTrue(new InstantCommand(() -> climbSubsystem.climbing(), climbSubsystem))
                 .onFalse(new InstantCommand(() -> climbSubsystem.stopClimbing(), climbSubsystem));
-        ControllerIO.elevatorUpButton
+        controller.povUp()
                 .whileTrue(new InstantCommand(() -> elevatorSubsystem.elevatorUp()))
                 .onFalse(new InstantCommand(() -> elevatorSubsystem.elevatorStop()));
-        ControllerIO.elevatorDownButton
+        controller.povDown()
                 .whileTrue(new InstantCommand(() -> elevatorSubsystem.elevatorDown()))
                 .onFalse(new InstantCommand(() -> elevatorSubsystem.elevatorStop()));
-        ControllerIO.clawTiltUp
+        controller.rightBumper()
                 .whileTrue(new InstantCommand(() -> clawSubsystem.tiltWristUp()))
                 .onFalse(new InstantCommand(() -> clawSubsystem.tiltWristStop()));
-        ControllerIO.clawTiltDown
+        controller.leftBumper()
                 .whileTrue(new InstantCommand(() -> clawSubsystem.tiltWristDown()))
                 .onFalse(new InstantCommand(() -> clawSubsystem.tiltWristStop()));
-        ControllerIO.clawIntakeButton
+        controller.a()
                 .whileTrue(new InstantCommand(() -> clawSubsystem.intakeRollers()))
                 .onFalse(new InstantCommand(() -> clawSubsystem.stopRollers()));
-        ControllerIO.clawOuttakeButton
+        controller.x()
                 .whileTrue(new InstantCommand(() -> clawSubsystem.outtakeRollers()))
                 .onFalse(new InstantCommand(() -> clawSubsystem.stopRollers()));
-        ControllerIO.resetGyroScope
+        controller.back()
                 .onTrue(drivetrainSubsystem.runOnce(() -> drivetrainSubsystem.seedFieldCentric()));
     }
 
@@ -116,20 +129,11 @@ public class RobotContainer {
         currentDriveSpeed = DriveSpeed.SLOW;
     }
 
-    public SendableChooser<String> buildAutoChooser() {
-        SendableChooser<String> autoChooser = new SendableChooser<>();
+    public SendableChooser<Command> buildAutoChooser() {
+        SendableChooser<Command> autoChooser = new SendableChooser<>();
 
-        autoChooser.setDefaultOption("Anywhere - Drive Forwards", "DriveStraightAuto");
-        autoChooser.addOption("Middle Align - Grab Algae", "MiddleReefAlgaeAuto");
-        autoChooser.addOption("Middle Align - Score Coral", "MiddleScoreCoralAuto");
-        autoChooser.addOption("Left Align - Score Coral", "LeftScoreCoralAuto");
-        autoChooser.addOption("Left Align - Score Coral and To Reef", "LeftScoreCoralAndToReefAuto");
-        autoChooser.addOption("Left Align - Score 2 Algae", "LeftDoubleAlgaeAuto");
-        autoChooser.addOption("Left Align - Push Teammate", "LeftPushTeammateAuto");
-        autoChooser.addOption("Right Align - Score Coral", "RightScoreCoralAuto");
-        autoChooser.addOption("Right Align - Score 2 Algae", "RightDoubleAlgaeAuto");
-        autoChooser.addOption("Right Align - Push Teammate", "RightPushTeammateAuto");
-        autoChooser.addOption("Right Align - Score Coral and To Reef", "RightScoreCoralAndToReefAuto");
+        autoChooser.setDefaultOption("Anywhere - Drive Forwards", new DriveStraightAuto(controlManager, drivetrainSubsystem, goalManager));
+        autoChooser.addOption("Left Align - Score 2 Algae", new RightDoubleAlgaeAuto(drivetrainSubsystem, goalManager));
 
         return autoChooser;
     }

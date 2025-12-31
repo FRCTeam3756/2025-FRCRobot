@@ -1,7 +1,6 @@
 // Copyright (c) FRC Team 3756 RamFerno.
 // Open Source Software; you can modify and/or share it under the terms of
 // the license viewable in the root directory of this project.
-
 package frc.robot;
 
 import org.littletonrobotics.junction.LogFileUtil;
@@ -24,78 +23,86 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.generated.LocalADStarAK;
 
 public class Robot extends TimedRobot {
-  private final RobotContainer robotContainer;
-  private SendableChooser<String> autoChooser = new SendableChooser<>();
-  private Command autonomousCommand;
 
-  public Robot() {
-    robotContainer = new RobotContainer();
+    private final RobotContainer robotContainer;
+    private SendableChooser<Command> autoChooser = new SendableChooser<>();
+    private Command autonomousCommand;
 
-    autoChooser = robotContainer.buildAutoChooser(); // Create auto selector
-    SmartDashboard.putData("Auto List", autoChooser); // Display it to SmartDashboard
+    public Robot() {
+        robotContainer = new RobotContainer();
 
-    Pathfinding.setPathfinder(new LocalADStarAK()); // Set the Pathfinder to be compatible with AdvantageKit
-    PathfindingCommand.warmupCommand().schedule(); // Warmup the Pathfinder
+        autoChooser = robotContainer.buildAutoChooser(); // Create auto selector
+        SmartDashboard.putData("Auto List", autoChooser); // Display it to SmartDashboard
 
-    DataLogManager.start();
-    Logger.recordMetadata("Team", "3756");
-    Logger.recordMetadata("Robot", "RamFerno Swerve");
+        Pathfinding.setPathfinder(new LocalADStarAK()); // Set the Pathfinder to be compatible with AdvantageKit
+        PathfindingCommand.warmupCommand().schedule(); // Warmup the Pathfinder
 
-    if (RobotBase.isReal()) {
-        Logger.addDataReceiver(new WPILOGWriter(
-                LogFileUtil.findReplayLog()));
-    } else {
-        Logger.addDataReceiver(new NT4Publisher());
+        DataLogManager.start();
+        Logger.recordMetadata("Team", "3756");
+        Logger.recordMetadata("Robot", "RamFerno Swerve");
+
+        if (RobotBase.isReal()) {
+            Logger.addDataReceiver(new WPILOGWriter(
+                    LogFileUtil.findReplayLog()));
+        } else {
+            Logger.addDataReceiver(new NT4Publisher());
+        }
+
+        SignalLogger.start();
     }
 
-    SignalLogger.start();
-  }
-
-  @Override
-  public void robotInit() {}
-
-  @Override
-  public void robotPeriodic() {
-    Threads.setCurrentThreadPriority(true, 99);
-    CommandScheduler.getInstance().run();
-    Threads.setCurrentThreadPriority(false, 10);
-  }
-
-
-  @Override
-  public void disabledInit() {}
-
-  @Override
-  public void disabledPeriodic() {}
-
-  @Override
-  public void disabledExit() {}
-
-  @Override
-  public void autonomousInit() {}
-
-  @Override
-  public void autonomousPeriodic() {
-    String selectedAuto = autoChooser.getSelected();
-
-    if (selectedAuto != null) {
-      robotContainer.jetson.setSelectedAuto(selectedAuto);
+    @Override
+    public void robotInit() {
     }
-  }
 
-  @Override
-  public void autonomousExit() {
-    if (autonomousCommand != null) {
-      autonomousCommand.cancel();
+    @Override
+    public void robotPeriodic() {
+        Threads.setCurrentThreadPriority(true, 99);
+        CommandScheduler.getInstance().run();
+        Threads.setCurrentThreadPriority(false, 10);
     }
-  }
 
-  @Override
-  public void teleopInit() {}
+    @Override
+    public void disabledInit() {
+    }
 
-  @Override
-  public void teleopPeriodic() {}
+    @Override
+    public void disabledPeriodic() {
+    }
 
-  @Override
-  public void teleopExit() {}
+    @Override
+    public void disabledExit() {
+    }
+
+    @Override
+    public void autonomousInit() {
+        autonomousCommand = autoChooser.getSelected();
+
+        if (autonomousCommand != null) {
+            autonomousCommand.schedule();
+        }
+    }
+
+    @Override
+    public void autonomousPeriodic() {
+    }
+
+    @Override
+    public void autonomousExit() {
+        if (autonomousCommand != null) {
+            autonomousCommand.cancel();
+        }
+    }
+
+    @Override
+    public void teleopInit() {
+    }
+
+    @Override
+    public void teleopPeriodic() {
+    }
+
+    @Override
+    public void teleopExit() {
+    }
 }
