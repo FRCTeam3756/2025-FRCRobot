@@ -45,7 +45,7 @@ public class GoalManager extends SubsystemBase {
         this.gamepieceSensorSubsystem = gamepieceSensorSubsystem;
     }
 
-    public void getGoal(Goal goal) {
+    public void runGoal(Goal goal) {
         previousGoal = currentGoal;
         currentGoal = goal;
 

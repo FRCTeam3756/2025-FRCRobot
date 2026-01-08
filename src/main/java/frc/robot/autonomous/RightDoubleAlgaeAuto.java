@@ -34,7 +34,7 @@ public class RightDoubleAlgaeAuto extends SequentialCommandGroup implements RamF
         addCommands(
                 followPath("RightDoubleAlgaePath1"),
                 new InstantCommand(()
-                        -> goalManager.getGoal(Goal.FIND_ALGAE)
+                        -> goalManager.runGoal(Goal.FIND_ALGAE)
                 ),
                 new FollowWaypointPathCommand(
                         drivetrainSubsystem,
